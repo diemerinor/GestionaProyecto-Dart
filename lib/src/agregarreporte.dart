@@ -124,11 +124,12 @@ class _AgregarreporteState extends State<Agregarreporte> {
       child: Text("Continuar"),
       onPressed: () {
         Navigator.pop(context);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    GestionAvance(idproyecto: widget.idproyecto)));
+        Navigator.pop(context);
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) =>
+        //             GestionAvance(idproyecto: widget.idproyecto)));
       },
     );
 

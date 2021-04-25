@@ -87,6 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Text(
             'Gestiona proyecto ',
             textAlign: TextAlign.center,
+            style: TextStyle(fontFamily: 'Elegante', fontSize: 40),
           ),
         ),
         //
@@ -94,27 +95,27 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color.fromRGBO(46, 12, 21, 20),
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people_alt_rounded),
-            label: 'Contactos',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Mi perfil',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        unselectedItemColor: Colors.white70,
-        selectedItemColor: Color.fromRGBO(219, 10, 20, 100),
-        onTap: _onItemTapped,
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   backgroundColor: Color.fromRGBO(46, 12, 21, 20),
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.people_alt_rounded),
+      //       label: 'Contactos',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.account_circle),
+      //       label: 'Mi perfil',
+      //     ),
+      //   ],
+      //   currentIndex: _selectedIndex,
+      //   unselectedItemColor: Colors.white70,
+      //   selectedItemColor: Color.fromRGBO(219, 10, 20, 100),
+      //   onTap: _onItemTapped,
+      // ),
     );
   }
 }

@@ -27,33 +27,37 @@ class _ContactosState extends State<Contactos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: colorappbar,
+          title: Text("Contactos"),
+        ),
         body: Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Text(
-            "Mis contactos",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-          ),
-        ),
-        Expanded(
-          child: new FutureBuilder<List>(
-              future: getContactos(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) print(snapshot.error);
-                return snapshot.hasData
-                    ? new listarcontactos(
-                        list: snapshot.data,
-                        idusuario: widget.idusuario,
-                      )
-                    : new Center(
-                        child: new CircularProgressIndicator(),
-                      );
-              }),
-        ),
-      ],
-    ));
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                "Mis contactos",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Expanded(
+              child: new FutureBuilder<List>(
+                  future: getContactos(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) print(snapshot.error);
+                    return snapshot.hasData
+                        ? new listarcontactos(
+                            list: snapshot.data,
+                            idusuario: widget.idusuario,
+                          )
+                        : new Center(
+                            child: new CircularProgressIndicator(),
+                          );
+                  }),
+            ),
+          ],
+        ));
   }
 }
 

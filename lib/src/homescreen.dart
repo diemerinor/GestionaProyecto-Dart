@@ -2,11 +2,14 @@ import 'package:gestionaproyecto/src/Notificaciones.dart';
 import 'package:gestionaproyecto/src/misproyectos.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:gestionaproyecto/src/recomendados.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gestionaproyecto/main.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+
+import 'infoperfil.dart';
 
 class Homescreen extends StatefulWidget {
   final String idusuario;
@@ -68,456 +71,235 @@ class _listareventosState extends State<listareventos> {
     return Center(
       child: ListView(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Card(
-              color: Color.fromRGBO(46, 12, 21, 20),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    Text(
-                      "Bienvenid@",
-                      style: TextStyle(
-                        fontSize: 18,
+          Container(
+            height: MediaQuery.of(context).size.height * 0.25,
+            decoration: new BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [
+                      Color.fromRGBO(46, 12, 21, 20),
+                      Color.fromRGBO(46, 12, 21, 20),
+                    ],
+                    begin: FractionalOffset.topCenter,
+                    end: FractionalOffset.bottomCenter),
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: new AssetImage('assets/images/misproyectos.jpg'))),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    "HOME",
+                    style: TextStyle(
+                        fontSize: 25,
                         color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      lognombreus + " " + logapellidos,
-                      style: TextStyle(
-                          fontSize: 27,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: GestureDetector(
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MisProyectos(
-                              idusuario: identificadorusuario,
-                            ))),
-                child: Column(
-                  children: [
-                    Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        margin: EdgeInsets.only(top: 2, bottom: 10),
-                        elevation: 10,
-
-                        // Dentro de esta propiedad usamos ClipRRect
-                        child: ClipRRect(
-                          // Los bordes del contenido del card se cortan usando BorderRadius
-                          borderRadius: BorderRadius.circular(10),
-
-                          // EL widget hijo que será recortado segun la propiedad anterior
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.10,
-                            width: MediaQuery.of(context).size.width * 0.90,
-                            child: Stack(
-                              children: <Widget>[
-                                Container(
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: AssetImage(
-                                              "assets/images/misproyectos.jpg"))),
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.all(10),
-                                      child: Center(
-                                        child: Text(
-                                          'MIS PROYECTOS',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 36,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        )),
-                  ],
-                )),
-          ),
-          Center(
-            child: Text(
-              "- Actividad -",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 10, right: 10),
-            child: Row(
-              children: <Widget>[
-                GestureDetector(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Notificaciones(
-                                  idusuario: identificadorusuario,
-                                ))),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            margin: EdgeInsets.all(15),
-                            elevation: 10,
-
-                            // Dentro de esta propiedad usamos ClipRRect
-                            child: ClipRRect(
-                              // Los bordes del contenido del card se cortan usando BorderRadius
-                              borderRadius: BorderRadius.circular(10),
-
-                              // EL widget hijo que será recortado segun la propiedad anterior
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.15,
-                                width: MediaQuery.of(context).size.width * 0.40,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Container(color: Colors.redAccent),
-                                    ListView(
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.all(10),
-                                          child: Column(
-                                            children: [
-                                              // Icon(
-                                              //   Icons.alarm,
-                                              //   size: 30,
-                                              //   color: Colors.white,
-                                              // ),
-                                              new Container(
-                                                padding:
-                                                    EdgeInsets.only(top: 0),
-                                                child: new CircleAvatar(
-                                                  backgroundColor: Colors.white,
-                                                  child: Text(
-                                                    "0",
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.06,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.30,
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle),
-                                              ),
-                                              Text(
-                                                'Nuevas\nnotificaciones',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )),
-                      ],
-                    )),
-                GestureDetector(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Notificaciones(
-                                  idusuario: identificadorusuario,
-                                ))),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            margin: EdgeInsets.all(15),
-                            elevation: 10,
-
-                            // Dentro de esta propiedad usamos ClipRRect
-                            child: ClipRRect(
-                              // Los bordes del contenido del card se cortan usando BorderRadius
-                              borderRadius: BorderRadius.circular(10),
-
-                              // EL widget hijo que será recortado segun la propiedad anterior
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.15,
-                                width: MediaQuery.of(context).size.width * 0.40,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Container(
-                                      color: Colors.blue,
-                                    ),
-                                    ListView(
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.all(10),
-                                          child: Column(
-                                            children: [
-                                              // Icon(
-                                              //   Icons.alarm,
-                                              //   size: 30,
-                                              //   color: Colors.white,
-                                              // ),
-                                              new Container(
-                                                padding:
-                                                    EdgeInsets.only(top: 0),
-                                                child: new CircleAvatar(
-                                                  backgroundColor: Colors.white,
-                                                  child: Text(
-                                                    "0",
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.06,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.30,
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle),
-                                              ),
-                                              Text(
-                                                'Mensajes\nrecibidos',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )),
-                      ],
-                    )),
               ],
             ),
           ),
           Container(
-            padding: EdgeInsets.only(left: 10, right: 10),
-            child: Row(
+            child: Column(
               children: <Widget>[
                 GestureDetector(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Notificaciones(
-                                  idusuario: identificadorusuario,
-                                ))),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MisProyectos(
+                                idusuario: identificadorusuario,
+                              ))),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      children: <Widget>[
                         Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            margin: EdgeInsets.all(15),
-                            elevation: 10,
-
-                            // Dentro de esta propiedad usamos ClipRRect
-                            child: ClipRRect(
-                              // Los bordes del contenido del card se cortan usando BorderRadius
-                              borderRadius: BorderRadius.circular(10),
-
-                              // EL widget hijo que será recortado segun la propiedad anterior
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.15,
-                                width: MediaQuery.of(context).size.width * 0.40,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Container(
-                                      color: Colors.green,
-                                    ),
-                                    ListView(
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.all(10),
-                                          child: Column(
-                                            children: [
-                                              // Icon(
-                                              //   Icons.alarm,
-                                              //   size: 30,
-                                              //   color: Colors.white,
-                                              // ),
-                                              new Container(
-                                                padding:
-                                                    EdgeInsets.only(top: 0),
-                                                child: new CircleAvatar(
-                                                  backgroundColor: Colors.white,
-                                                  child: Text(
-                                                    "0",
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.06,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.30,
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle),
-                                              ),
-                                              Text(
-                                                'Eventos\nesta semana',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                            color: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Icon(
+                                Icons.location_city,
+                                size: 40,
+                                color: Colors.white,
                               ),
                             )),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 5.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Mis Proyectos",
+                                style: TextStyle(
+                                  fontSize: 27,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                child: Text(
+                                  "Crea y gestiona tus proyectos",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
-                    )),
+                    ),
+                  ),
+                ),
+                Divider(),
                 GestureDetector(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Notificaciones(
-                                  idusuario: identificadorusuario,
-                                ))),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Contactos(
+                                idusuario: identificadorusuario,
+                              ))),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      children: <Widget>[
                         Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            margin: EdgeInsets.all(15),
-                            elevation: 10,
-
-                            // Dentro de esta propiedad usamos ClipRRect
-                            child: ClipRRect(
-                              // Los bordes del contenido del card se cortan usando BorderRadius
-                              borderRadius: BorderRadius.circular(10),
-
-                              // EL widget hijo que será recortado segun la propiedad anterior
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.15,
-                                width: MediaQuery.of(context).size.width * 0.40,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Container(
-                                      color: Colors.deepOrange,
-                                    ),
-                                    ListView(
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.all(10),
-                                          child: Column(
-                                            children: [
-                                              // Icon(
-                                              //   Icons.alarm,
-                                              //   size: 30,
-                                              //   color: Colors.white,
-                                              // ),
-                                              new Container(
-                                                padding:
-                                                    EdgeInsets.only(top: 0),
-                                                child: new CircleAvatar(
-                                                  backgroundColor: Colors.white,
-                                                  child: Text(
-                                                    "0",
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.06,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.30,
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle),
-                                              ),
-                                              Text(
-                                                'Solicitudes\namistad',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                            color: Colors.blue,
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Icon(
+                                Icons.people_alt_rounded,
+                                size: 40,
+                                color: Colors.white,
                               ),
                             )),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 5.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Contactos",
+                                style: TextStyle(
+                                    fontSize: 27, fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.left,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                child: Text(
+                                  "Invita a tus contactos a participar en distintos proyectos",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
-                    )),
+                    ),
+                  ),
+                ),
+                Divider(),
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Notificaciones(
+                                idusuario: identificadorusuario,
+                              ))),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      children: <Widget>[
+                        Card(
+                            color: Colors.green,
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Icon(
+                                Icons.alarm,
+                                size: 40,
+                                color: Colors.white,
+                              ),
+                            )),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 5.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Notificaciones",
+                                style: TextStyle(
+                                    fontSize: 27, fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.left,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                child: Text(
+                                  "Ponte al tanto de todo lo que ha pasado en los proyectos que participas",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Divider(),
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => InfoPerfil(
+                                idusuario: identificadorusuario,
+                              ))),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      children: <Widget>[
+                        Card(
+                            color: Colors.purple,
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Icon(
+                                Icons.account_circle,
+                                size: 40,
+                                color: Colors.white,
+                              ),
+                            )),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 5.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Mi Perfil",
+                                style: TextStyle(
+                                    fontSize: 27, fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.left,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                child: Text(
+                                  "Visualiza y gestiona tu información personal",
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

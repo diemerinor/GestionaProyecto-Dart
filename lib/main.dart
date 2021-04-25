@@ -17,7 +17,11 @@ void main() {
 }
 
 Color colorappbar = Color.fromRGBO(46, 12, 21, 20);
-String identificadorusuario, rutafotoperfil, lognombreus, logapellidos;
+String identificadorusuario,
+    rutafotoperfil,
+    lognombreus,
+    logapellidos,
+    rolusuario;
 
 class LoginApp extends StatelessWidget {
   @override
@@ -59,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
       rutafotoperfil = datauser[0]['fotoperfil'];
       lognombreus = datauser[0]['nombreusuario'];
       logapellidos = datauser[0]['apellidos'];
+      rolusuario = datauser[0]['codigorol'];
 
       print("hay un usuario conectado y es " + idusuariofinal);
       Navigator.pop(context);
@@ -117,6 +122,7 @@ class _FormulariologinState extends State<Formulariologin> {
       var datauser = json.decode(response.body);
       identificadorusuario = idusuariofinal;
       rutafotoperfil = datauser[0]['fotoperfil'];
+      rolusuario = datauser[0]['codigorol'];
 
       print("hay un usuario conectado y es " + idusuariofinal);
       Navigator.pop(context);

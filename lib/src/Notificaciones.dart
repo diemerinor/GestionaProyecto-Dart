@@ -1,82 +1,4 @@
-// import 'dart:convert';
-// import 'dart:async';
-
-// import 'package:http/http.dart' as http;
-
-// import 'package:flutter/material.dart';
-
-// class Notificaciones extends StatefulWidget {
-//   final String idusuario;
-
-//   const Notificaciones({Key key, @required this.idusuario}) : super(key: key);
-//   @override
-//   _NotificacionesState createState() => _NotificacionesState();
-// }
-
-// class _NotificacionesState extends State<Notificaciones> {
-//   String url2 = 'http://gestionaproyecto.com/phpproyectotitulo/getData.php';
-//   Future<List> getTrabajadores() async {
-//     final response = await http.get(Uri.parse(url2));
-//     return json.decode(response.body);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         body: new FutureBuilder<List>(
-//             future: getTrabajadores(),
-//             builder: (context, snapshot) {
-//               if (snapshot.hasError) print(snapshot.error);
-//               return snapshot.hasData
-//                   ? new listatrabaja(
-//                       list: snapshot.data,
-//                     )
-//                   : new Center(
-//                       child: new CircularProgressIndicator(),
-//                     );
-//             }));
-//   }
-// }
-
-// class listatrabaja extends StatefulWidget {
-//   final List list;
-//   listatrabaja({this.list});
-
-//   @override
-//   _listatrabajaState createState() => _listatrabajaState();
-// }
-
-// class _listatrabajaState extends State<listatrabaja> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return new ListView.builder(
-//       itemCount: widget.list == null ? 0 : widget.list.length,
-//       itemBuilder: (context, i) {
-//         return new Container(
-//           padding: const EdgeInsets.all(10.0),
-//           width: 20,
-//           height: 20,
-//           child: new GestureDetector(
-//               // onTap: () => Navigator.of(context).push(
-//               //       new MaterialPageRoute(
-//               //           builder: (BuildContext context) => new Detalle(
-//               //                 list: list,
-//               //                 index: i,
-//               //               )),
-//               //     ),
-//               child: new Card(
-//                   child: new ListTile(
-//             title: new Text(
-//               widget.list[i]['nombreusuario'],
-//               style: TextStyle(fontSize: 25.0),
-//             ),
-//           ))),
-//         );
-//       },
-//     );
-//   }
-// }
-//
+import 'package:gestionaproyecto/main.dart';
 import 'package:gestionaproyecto/src/detalle.dart';
 import 'package:flutter/material.dart';
 import 'package:gestionaproyecto/src/homescreen.dart';
@@ -118,7 +40,7 @@ class _NotificacionesState extends State<Notificaciones> {
     return Scaffold(
       appBar: AppBar(
         title: new Text("Actividad"),
-        backgroundColor: Colors.black45,
+        backgroundColor: colorappbar,
       ),
       body: new FutureBuilder<List>(
           future: getNotificaciones(),
