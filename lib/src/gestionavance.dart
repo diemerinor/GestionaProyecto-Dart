@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestionaproyecto/main.dart';
 import 'package:gestionaproyecto/src/agregarreporte.dart';
 import 'package:gestionaproyecto/src/gestionarproyecto.dart';
 import 'package:gestionaproyecto/src/listartrabajadores.dart';
@@ -16,11 +17,11 @@ import 'dart:convert';
 import 'detalleproyecto.dart';
 
 double porcentaje;
-int largo;
+int largo = 0;
 double metrosavance;
 double metrostotales;
 int cantidadsecciones;
-double porcentajeavance;
+double porcentajeavance = 0;
 
 class GestionAvance extends StatefulWidget {
   final String idproyecto;
@@ -45,12 +46,13 @@ class _GestionAvanceState extends State<GestionAvance> {
     double nuevoaux = 0;
     metrosavance = 0;
     metrostotales = 0;
-    for (int auxseccion = 0;
-        datauser[auxseccion]['idseccion'] == null;
-        auxseccion++) {
-      cantidadsecciones++;
+    largo = datauser.length;
+    if (datauser.length != 0) {
+      print("wenawenamanito");
+      largo = datauser.length;
+      print("el largo es $largo");
     }
-    print("en total hay $cantidadsecciones secciones");
+
     double metrosseccion;
     if (datauser[0]['metrosavanzados'] != null) {
       for (aux = 0; aux < datauser.length; aux++) {
@@ -71,7 +73,6 @@ class _GestionAvanceState extends State<GestionAvance> {
       porcentajeavance = double.parse(auxiliarmetrostotales);
       listafinal = listaavance.cast<double>();
     }
-
     return datauser;
   }
 
@@ -93,27 +94,33 @@ class _GestionAvanceState extends State<GestionAvance> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(46, 12, 21, 20),
+          backgroundColor: colorappbar,
           title: Text("Gestión de avance"),
         ),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.18,
-              child: Expanded(
-                child: new FutureBuilder<List>(
-                    future: getSecciones(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) print(snapshot.error);
-                      return snapshot.hasData
-                          ? new Secciones(
-                              listasecciones: snapshot.data,
-                              idproyecto: widget.idproyecto,
-                            )
-                          : new Center(
-                              child: new CircularProgressIndicator(),
-                            );
-                    }),
+              height: MediaQuery.of(context).size.height * 0.09,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: new FutureBuilder<List>(
+                        future: getSecciones(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) print(snapshot.error);
+                          return snapshot.hasData
+                              ? new Secciones(
+                                  listasecciones: snapshot.data,
+                                  idproyecto: widget.idproyecto,
+                                )
+                              : new Center(
+                                  child: new CircularProgressIndicator(),
+                                );
+                        }),
+                  ),
+                ],
               ),
             ),
             Expanded(
@@ -121,15 +128,21 @@ class _GestionAvanceState extends State<GestionAvance> {
                   future: getAvance(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print(snapshot.error);
-                    return snapshot.hasData
-                        ? new DatosAvance(
-                            list: snapshot.data,
-                            datosavance: listafinal,
-                            idproyecto: widget.idproyecto,
-                          )
-                        : new Center(
-                            child: new CircularProgressIndicator(),
-                          );
+                    if (snapshot.hasData) {
+                      if (largo > 0) {
+                        return new DatosAvance(
+                          list: snapshot.data,
+                          datosavance: listafinal,
+                          idproyecto: widget.idproyecto,
+                        );
+                      } else {
+                        return Text("No existe nada");
+                      }
+                    } else {
+                      return new Center(
+                        child: new CircularProgressIndicator(),
+                      );
+                    }
                   }),
             ),
           ],
@@ -158,29 +171,25 @@ class _DatosAvanceState extends State<DatosAvance> {
   }
 
   List<charts.Series<DatosGrafico, String>> _DatosGr() {
-    largo = widget.list.length;
-    List<DatosGrafico> datos = [
-      DatosGrafico(widget.list[0]["fechareporte"],
-          double.parse(widget.list[0]["metrosavanzados"]), 3),
-      DatosGrafico(widget.list[1]["fechareporte"],
-          double.parse(widget.list[1]["metrosavanzados"]), 3),
-      DatosGrafico(widget.list[2]["fechareporte"],
-          double.parse(widget.list[2]["metrosavanzados"]), 3),
-      DatosGrafico(widget.list[3]["fechareporte"],
-          double.parse(widget.list[3]["metrosavanzados"]), 3),
-    ];
+    List<DatosGrafico> datos;
+    if (largo > 0) {
+      datos = [
+        DatosGrafico(widget.list[0]["fechareporte"],
+            double.parse(widget.list[0]["metrosavanzados"]), 3),
+      ];
 
-    porcentaje = porcentajeavance / 100;
-    print("el porcentaje es $porcentaje");
+      porcentaje = porcentajeavance / 100;
+      print("el porcentaje es $porcentaje");
 
-    return [
-      charts.Series<DatosGrafico, String>(
-        id: 'Datos',
-        domainFn: (DatosGrafico datosg, _) => datosg.fecha,
-        measureFn: (DatosGrafico datosg, _) => datosg.metros,
-        data: datos,
-      )
-    ];
+      return [
+        charts.Series<DatosGrafico, String>(
+          id: 'Datos',
+          domainFn: (DatosGrafico datosg, _) => datosg.fecha,
+          measureFn: (DatosGrafico datosg, _) => datosg.metros,
+          data: datos,
+        )
+      ];
+    }
   }
 
   barChart() {
@@ -193,20 +202,22 @@ class _DatosAvanceState extends State<DatosAvance> {
   @override
   void initState() {
     super.initState();
-
-    seriesList = _DatosGr();
+    if (widget.list[0]['idreporteavance'] != null) {
+      seriesList = _DatosGr();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List>(
-        future: encontrarlargo(),
-        builder: (context, snapshot) {
-          return ListView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                Column(
-                  children: [
+    print("la cantidad es ${widget.list.length}");
+    return FutureBuilder<List>(builder: (context, snapshot) {
+      return ListView.builder(
+          itemCount: widget.list == null ? 0 : 1,
+          itemBuilder: (context, i) {
+            if (widget.list[i]['idreporteavance'] != null) {
+              return Column(
+                children: [
+                  if (largo > 0)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
@@ -217,118 +228,128 @@ class _DatosAvanceState extends State<DatosAvance> {
                         child: Container(
                             margin:
                                 EdgeInsets.only(left: 60, right: 60, top: 20),
-                            height: MediaQuery.of(context).size.height * 0.18,
+                            height: MediaQuery.of(context).size.height * 0.3,
                             width: MediaQuery.of(context).size.width,
                             child: Column(
                               children: <Widget>[
-                                Text(
-                                  "Porcentaje de avance",
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                                Center(
-                                    child: Text(
-                                  "$porcentajeavance%",
-                                  style: TextStyle(
-                                      fontSize: 40,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                                Text(
-                                  "Se han avanzado $metrosavance metros de un total de $metrostotales metros",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                                Card(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  margin: EdgeInsets.all(10),
-                                  elevation: 4,
-                                  child: Stack(children: [
-                                    Container(
-                                      color: Colors.black,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.017,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.5,
-                                    ),
-                                    Container(
-                                      color: Colors.blue,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.017,
-                                      width: MediaQuery.of(context).size.width *
-                                          porcentaje *
-                                          0.5,
-                                    )
-                                  ]),
-                                ),
+                                if (porcentajeavance != 0)
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Porcentaje de avance",
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                      Center(
+                                          child: Text(
+                                        "$porcentajeavance%",
+                                        style: TextStyle(
+                                            fontSize: 40,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                      Text(
+                                        "Se han avanzado $metrosavance metros de un total de $metrostotales metros",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 17),
+                                      ),
+                                      Card(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        margin: EdgeInsets.all(10),
+                                        elevation: 4,
+                                        child: Stack(children: [
+                                          Container(
+                                            color: Colors.black,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.017,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                          ),
+                                          Container(
+                                            color: colorappbar,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.017,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                porcentaje *
+                                                0.5,
+                                          )
+                                        ]),
+                                      ),
+                                    ],
+                                  ),
                               ],
                             )),
                       ),
                     ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15),
-                  child: Center(
-                    child: Text(
-                      "Últimos días trabajados",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  new RaisedButton(
+                    child: new Text(
+                      "Agregar reporte de avance",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Colors.black,
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0)),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Agregarreporte(
+                                    idproyecto: widget.idproyecto,
+                                  )));
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15),
+                    child: Center(
+                      child: Text(
+                        "Últimos días trabajados",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                ),
-                Column(
-                  children: [
-                    if (widget.list[0]["metrosavanzados"].length >= 4)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              margin: EdgeInsets.all(10),
-                              elevation: 4,
-                              child: Container(
-                                  margin: EdgeInsets.only(
-                                      left: 30, right: 30, top: 20),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.22,
-                                  child: barChart()),
+                  Column(
+                    children: [
+                      if (largo > 0)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                margin: EdgeInsets.all(10),
+                                elevation: 4,
+                                child: Container(
+                                    margin: EdgeInsets.only(
+                                        left: 30, right: 30, top: 20),
+                                    height: MediaQuery.of(context).size.height *
+                                        0.22,
+                                    child: barChart()),
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                    else
-                      Text("No hay datos suficientes")
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    new RaisedButton(
-                      child: new Text(
-                        "Agregar reporte de avance",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      color: Colors.black,
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0)),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Agregarreporte(
-                                      idproyecto: widget.idproyecto,
-                                    )));
-                      },
-                    ),
-                  ],
-                )
-              ]);
-        });
+                        )
+                      else
+                        Text("No hay datos suficientes")
+                    ],
+                  ),
+                ],
+              );
+            } else {
+              return Text("Hola");
+            }
+          });
+    });
   }
 }
 
@@ -353,38 +374,57 @@ class Secciones extends StatefulWidget {
 class _SeccionesState extends State<Secciones> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List>(builder: (context, snapshot) {
-      return Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-                margin: EdgeInsets.only(left: 30, right: 30, top: 20),
-                child: Text(
-                  "Actualmente existen $cantidadsecciones secciones en tu proyecto",
-                  style: TextStyle(fontSize: 24),
-                  textAlign: TextAlign.center,
-                )),
-          ),
-          new RaisedButton(
-            child: new Text(
-              "Ver secciones",
-              style: TextStyle(color: Colors.white),
-            ),
-            color: Colors.black,
-            shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(30.0)),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Agregarreporte(
-                            idproyecto: widget.idproyecto,
-                          )));
-            },
-          ),
-        ],
-      );
-    });
+    if (largo > 0) {
+      return FutureBuilder<List>(builder: (context, snapshot) {
+        print("la cosita es ${widget.listasecciones.length}");
+        return ListView.builder(
+            itemCount: widget.listasecciones == null
+                ? 0
+                : widget.listasecciones.length,
+            itemBuilder: (context, i) {
+              if (widget.listasecciones[0]['idseccion'] != null) {
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Center(
+                      child: Row(
+                        children: [
+                          Text(
+                            "Gestiona por sección",
+                            style: TextStyle(fontSize: 20),
+                            textAlign: TextAlign.center,
+                          ),
+                          Padding(padding: EdgeInsets.only(right: 10)),
+                          new RaisedButton(
+                            child: new Text(
+                              "Ver más",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            color: Colors.black,
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(3.0)),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Agregarreporte(
+                                            idproyecto: widget.idproyecto,
+                                          )));
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                return Text("Hola");
+              }
+            });
+      });
+    }
+    ;
   }
 }

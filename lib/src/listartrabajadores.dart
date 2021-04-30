@@ -1,3 +1,4 @@
+import 'package:gestionaproyecto/main.dart';
 import 'package:gestionaproyecto/src/detalle.dart';
 import 'package:flutter/material.dart';
 import 'package:gestionaproyecto/src/homescreen.dart';
@@ -33,21 +34,36 @@ class _ListarTrabajadoresState extends State<ListarTrabajadores> {
     return Scaffold(
         appBar: AppBar(
           title: new Text("Participantes"),
-          backgroundColor: Colors.black,
+          backgroundColor: colorappbar,
         ),
-        body: new FutureBuilder<List>(
-            future: getTrabajadores(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) print(snapshot.error);
-              return snapshot.hasData
-                  ? new listatrabaj(
-                      list: snapshot.data,
-                      idusuario: widget.idusuario,
-                    )
-                  : new Center(
-                      child: new CircularProgressIndicator(),
-                    );
-            }));
+        body: Column(
+          children: [
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Text(
+            //     "Participantes del proyecto",
+            //     textAlign: TextAlign.center,
+            //     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            //   ),
+            // ),
+            Divider(),
+            Expanded(
+              child: new FutureBuilder<List>(
+                  future: getTrabajadores(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) print(snapshot.error);
+                    return snapshot.hasData
+                        ? new listatrabaj(
+                            list: snapshot.data,
+                            idusuario: widget.idusuario,
+                          )
+                        : new Center(
+                            child: new CircularProgressIndicator(),
+                          );
+                  }),
+            ),
+          ],
+        ));
   }
 }
 
@@ -66,7 +82,7 @@ class _listatrabajState extends State<listatrabaj> {
       itemCount: widget.list == null ? 0 : widget.list.length,
       itemBuilder: (context, i) {
         return new Container(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(4.0),
           child: new GestureDetector(
               onTap: () => Navigator.of(context).push(
                     new MaterialPageRoute(
@@ -80,28 +96,36 @@ class _listatrabajState extends State<listatrabaj> {
                   if (widget.list[i]['idusuario'] != widget.idusuario)
                     Column(
                       children: [
-                        Text(
-                          "Participantes de\n" +
-                              widget.list[0]['nombreproyecto'],
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20),
-                        ),
                         Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.all(10.0),
                             child: new Row(children: <Widget>[
-                              new Text(
-                                widget.list[i]['nombreusuario'],
-                                style: TextStyle(fontSize: 20.0),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.75,
+                                child: new Text(
+                                  widget.list[i]['nombreusuario'] +
+                                      " " +
+                                      widget.list[i]['apellidos'],
+                                  style: TextStyle(fontSize: 18.0),
+                                ),
                               ),
-                              Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.edit,
-                                    color: Colors.red,
-                                  ),
-                                ],
+                              Container(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.edit,
+                                      color: Colors.red,
+                                    ),
+                                    Icon(
+                                      Icons.verified_user_outlined,
+                                      color: Colors.red,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ])),
+                        Divider(),
                       ],
                     )
                   else if (widget.list.length == 1)

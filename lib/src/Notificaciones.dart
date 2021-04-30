@@ -21,13 +21,21 @@ class _NotificacionesState extends State<Notificaciones> {
   String url2 =
       'http://gestionaproyecto.com/phpproyectotitulo/getNotificaciones.php';
   String url3 = 'http://gestionaproyecto.com/phpproyectotitulo/getData.php';
+  String url4 = 'http://gestionaproyecto.com/phpproyectotitulo/getEventos.php';
 
   // ignore: missing_return
 
   Future<List> getNotificaciones() async {
     final response =
         await http.post(Uri.parse(url2), body: {'idusuario': widget.idusuario});
-    return json.decode(response.body);
+    final response2 =
+        await http.post(Uri.parse(url4), body: {'idusuario': widget.idusuario});
+    var datauser = jsonDecode(response.body);
+    datauser = datauser + jsonDecode(response2.body);
+    print("aqui va el ");
+    print(datauser[2]['idevento']);
+
+    return datauser;
   }
 
   // Future<List> getEventos() async {
@@ -74,25 +82,27 @@ class _listatrabajState extends State<listatrabaj> {
   String fechayhoranotificacion2;
   DateTime fechayhora2;
   int anos2;
+  Duration tiempodiferencia2;
 
   @override
   Widget build(BuildContext context) {
     return new ListView.builder(
       itemCount: widget.list == null ? 0 : widget.list.length,
       itemBuilder: (context, i) {
-        fechayhoranotificacion = widget.list[i]['fechayhora'];
+        fechayhoranotificacion = widget.list[i]['fechanotificacion'];
         fechayhora = DateTime.parse(fechayhoranotificacion);
         Duration tiempodiferencia = DateTime.now().difference(fechayhora);
-
         if (tiempodiferencia.inDays > 365) {
           anos = ((tiempodiferencia.inDays) / 365).toInt();
         }
 
-        fechayhoranotificacion2 = widget.list[i]['fechapublicacion'];
-        fechayhora2 = DateTime.parse(fechayhoranotificacion2);
-        Duration tiempodiferencia2 = DateTime.now().difference(fechayhora2);
-        if (tiempodiferencia2.inDays > 365) {
-          anos2 = ((tiempodiferencia2.inDays) / 365).toInt();
+        if (widget.list[i]['idevento'] != null) {
+          fechayhoranotificacion2 = widget.list[i]['fechanotificacion'];
+          fechayhora2 = DateTime.parse(fechayhoranotificacion2);
+          tiempodiferencia2 = DateTime.now().difference(fechayhora2);
+          if (tiempodiferencia2.inDays > 365) {
+            anos2 = ((tiempodiferencia2.inDays) / 365).toInt();
+          }
         }
 
         return new Container(
@@ -110,10 +120,54 @@ class _listatrabajState extends State<listatrabaj> {
                 Column(children: <Widget>[
                   if (widget.list[i]['idproyecto'] == null)
                     Text(
-                      "No existen datos asociados",
+                      "No existen notificaciones en tus proyectos",
                       style: TextStyle(fontSize: 20.0),
                     )
-                  else if (widget.list[i]['idtipomovimiento'] == '1')
+                  else if (widget.list[i]["ideventon"] != null)
+                    Column(children: <Widget>[
+                      Text(widget.list[i]['nombreevento'],
+                          style: TextStyle(
+                              fontSize: 20.0, fontWeight: FontWeight.bold)),
+                      Text(
+                        widget.list[i]["descripcion"],
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                      if (tiempodiferencia2.inDays == 0)
+                        Container(
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            'Se realizó hace ${tiempodiferencia2.inHours} horas',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontStyle: FontStyle.italic,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        )
+                      else if (tiempodiferencia2.inDays <= 365)
+                        Container(
+                          alignment: Alignment.topRight,
+                          child: Text(
+                              'Se realizó hace ${tiempodiferencia2.inDays} días',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontStyle: FontStyle.italic,
+                              )),
+                        )
+                      else if (tiempodiferencia2.inDays >= 365)
+                        Container(
+                          alignment: Alignment.topRight,
+                          child: Text('Se realizó hace más de $anos2 años',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontStyle: FontStyle.italic,
+                              )),
+                        ),
+                      Divider(
+                        color: Colors.black,
+                      ),
+                    ])
+                  else if (widget.list[i]['idmovimiento'] != null)
                     Column(children: <Widget>[
                       Text(widget.list[i]['nombreproyecto'],
                           style: TextStyle(
@@ -151,50 +205,6 @@ class _listatrabajState extends State<listatrabaj> {
                         Container(
                           alignment: Alignment.topRight,
                           child: Text('Se realizó hace más de $anos años',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontStyle: FontStyle.italic,
-                              )),
-                        ),
-                      Divider(
-                        color: Colors.black,
-                      ),
-                    ]),
-                  if (widget.list[i]["idevento"] != null)
-                    Column(children: <Widget>[
-                      Text(widget.list[i]['nombreevento'],
-                          style: TextStyle(
-                              fontSize: 20.0, fontWeight: FontWeight.bold)),
-                      Text(
-                        widget.list[i]["descripcion"],
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                      if (tiempodiferencia2.inDays == 0)
-                        Container(
-                          alignment: Alignment.topRight,
-                          child: Text(
-                            'Se realizó hace ${tiempodiferencia2.inHours} horas',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontStyle: FontStyle.italic,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                        )
-                      else if (tiempodiferencia2.inDays <= 365)
-                        Container(
-                          alignment: Alignment.topRight,
-                          child: Text(
-                              'Se realizó hace ${tiempodiferencia2.inDays} días',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontStyle: FontStyle.italic,
-                              )),
-                        )
-                      else if (tiempodiferencia2.inDays >= 365)
-                        Container(
-                          alignment: Alignment.topRight,
-                          child: Text('Se realizó hace más de $anos2 años',
                               style: TextStyle(
                                 fontSize: 16.0,
                                 fontStyle: FontStyle.italic,

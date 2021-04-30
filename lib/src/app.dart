@@ -75,21 +75,26 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorappbar,
-        // leading: Builder(
-        //   builder: (BuildContext context) {
-        //     return IconButton(
-        //       icon: const Icon(Icons.menu),
-        //       onPressed: () => print('hi on menu icon'),
-        //     );
-        //   },
-        // ),
-        title: Center(
-          child: Text(
-            'Gestiona proyecto ',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontFamily: 'Elegante', fontSize: 40),
-          ),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return Container(
+              width: MediaQuery.of(context).size.width * 0.5,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.menu),
+                    onPressed: () => print('hi on menu icon'),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
+        title: Text(
+          'ConstruPro',
+          style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+        ),
+
         //
       ),
       body: Center(

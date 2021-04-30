@@ -59,29 +59,56 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
       body: new ListView(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(13.0),
+            padding: const EdgeInsets.only(bottom: 4.0),
             child: Column(children: <Widget>[
-              new Card(
+              new Container(
                   color: colorappbar,
-                  child: new Center(
-                      child: new Column(
+                  child: new Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      new Padding(
-                        padding: const EdgeInsets.all(5),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            right: 10, left: 10, top: 5, bottom: 5),
+                        child: new Text(
+                          widget.list[widget.index]['nombreproyecto'],
+                          style: new TextStyle(
+                              fontSize: 25.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
-                      new Text(
-                        widget.list[widget.index]['nombreproyecto'],
-                        style:
-                            new TextStyle(fontSize: 25.0, color: Colors.white),
-                      ),
-                      new Text(
-                        widget.list[widget.index]['descripcionproyecto'],
-                        style:
-                            new TextStyle(fontSize: 15.0, color: Colors.white),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10, left: 10),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.location_city,
+                              color: Colors.white,
+                              size: 25,
+                            ),
+                            new Text(
+                              widget.list[widget.index]['nombrecomuna'],
+                              style: new TextStyle(
+                                  fontSize: 20.0, color: Colors.white),
+                            ),
+                            Padding(padding: EdgeInsets.only(right: 20)),
+                            Icon(
+                              Icons.admin_panel_settings_rounded,
+                              color: Colors.white,
+                              size: 25,
+                            ),
+                            Text(
+                              "Rol: " + widget.list[widget.index]['NombreRol'],
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),
+                          ],
+                        ),
                       ),
                       Divider(),
                     ],
-                  ))),
+                  )),
               Container(
                   height: MediaQuery.of(context).size.height * 0.17,
                   margin: EdgeInsets.all(6.0),
@@ -100,7 +127,7 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                                 width: 180,
                                 child: Card(
                                     child: Column(children: <Widget>[
-                                  Icon(Icons.addchart_rounded, size: 80),
+                                  Icon(Icons.addchart_rounded, size: 60),
                                   Text(
                                     'Gestión\nde Avance',
                                     style: TextStyle(fontSize: 20),
@@ -121,7 +148,7 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                                 child: Card(
                                     child: Column(children: <Widget>[
                                   Icon(Icons.supervised_user_circle_rounded,
-                                      size: 80),
+                                      size: 60),
                                   Text(
                                     'Gestión\nde RRHH',
                                     style: TextStyle(fontSize: 20),
@@ -140,7 +167,7 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                                 width: 180,
                                 child: Card(
                                     child: Column(children: <Widget>[
-                                  Icon(Icons.extension_rounded, size: 80),
+                                  Icon(Icons.extension_rounded, size: 60),
                                   Text(
                                     'Gestión\nde Materiales',
                                     style: TextStyle(fontSize: 20),
@@ -159,7 +186,7 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                                 width: 180,
                                 child: Card(
                                     child: Column(children: <Widget>[
-                                  Icon(Icons.monetization_on_rounded, size: 80),
+                                  Icon(Icons.monetization_on_rounded, size: 60),
                                   Text(
                                     'Gestión \n financiera',
                                     style: TextStyle(fontSize: 20),
@@ -178,7 +205,7 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                                 width: 180,
                                 child: Card(
                                     child: Column(children: <Widget>[
-                                  Icon(Icons.file_copy_rounded, size: 80),
+                                  Icon(Icons.file_copy_rounded, size: 60),
                                   Text(
                                     'Archivos\nproyecto',
                                     style: TextStyle(fontSize: 20),
@@ -190,7 +217,7 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                                 width: 180,
                                 child: Card(
                                     child: Column(children: <Widget>[
-                                  Icon(Icons.alarm_rounded, size: 80),
+                                  Icon(Icons.alarm_rounded, size: 60),
                                   Text(
                                     'Eventos\npróximos',
                                     style: TextStyle(fontSize: 20),
@@ -217,7 +244,7 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                                 width: 180,
                                 child: Card(
                                     child: Column(children: <Widget>[
-                                  Icon(Icons.people_alt_rounded, size: 80),
+                                  Icon(Icons.people_alt_rounded, size: 60),
                                   Text(
                                     'Participantes\nproyecto',
                                     style: TextStyle(fontSize: 20),
@@ -229,7 +256,7 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                                 width: 180,
                                 child: Card(
                                     child: Column(children: <Widget>[
-                                  Icon(Icons.info, size: 80),
+                                  Icon(Icons.info, size: 60),
                                   Text(
                                     'Información\nproyecto',
                                     style: TextStyle(fontSize: 20),

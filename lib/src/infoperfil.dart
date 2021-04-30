@@ -34,6 +34,12 @@ class _InfoPerfilState extends State<InfoPerfil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Mi perfil",
+        ),
+        backgroundColor: colorappbar,
+      ),
       body: new FutureBuilder<List>(
           future: getinfoperfil(),
           builder: (context, snapshot) {
@@ -107,10 +113,7 @@ class _listarinformacionState extends State<listarinformacion> {
                     height: MediaQuery.of(context).size.height * 0.35,
                     decoration: new BoxDecoration(
                       gradient: LinearGradient(
-                          colors: [
-                            Color.fromRGBO(46, 12, 21, 20),
-                            Color.fromRGBO(46, 12, 21, 10)
-                          ],
+                          colors: [colorappbar, colorappbar],
                           begin: FractionalOffset.topCenter,
                           end: FractionalOffset.bottomCenter),
                     ),
@@ -189,80 +192,90 @@ class _listarinformacionState extends State<listarinformacion> {
                           ),
                       ],
                     )),
-                Column(children: <Widget>[
-                  //
-                  Container(
-                      height: MediaQuery.of(context).size.height * 0.13,
-                      width: MediaQuery.of(context).size.width * 0.90,
-                      padding: EdgeInsets.only(top: 23, left: 16, right: 10),
-                      child: ListView(children: <Widget>[
-                        // Los bordes del contenido del card se cortan usando BorderRadius
 
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          color: Color.fromRGBO(46, 12, 21, 20),
-                          child: Text(
-                            'Acerca de mi:',
-                            style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                //
+                Container(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.90,
+                    padding: EdgeInsets.only(top: 23, left: 16, right: 10),
+                    child: ListView(
+                        physics: NeverScrollableScrollPhysics(),
+                        children: <Widget>[
+                          // Los bordes del contenido del card se cortan usando BorderRadius
+
+                          Container(
+                            padding: EdgeInsets.only(left: 10),
+                            color: colorappbar,
+                            child: Text(
+                              'Acerca de mi:',
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                          Padding(padding: EdgeInsets.only(bottom: 10)),
+                          Text(
+                            widget.list[i]['acercademi'],
+                            style: TextStyle(fontSize: 22),
                             textAlign: TextAlign.left,
                           ),
-                        ),
-                        Text(
-                          widget.list[i]['acercademi'],
-                          style: TextStyle(fontSize: 20),
-                          textAlign: TextAlign.left,
-                        ),
-                      ]))
-                ]),
+                        ])),
+
                 Column(children: <Widget>[
                   Container(
-                      height: MediaQuery.of(context).size.height * 0.13,
+                      height: MediaQuery.of(context).size.height * 0.20,
                       width: MediaQuery.of(context).size.width * 0.90,
                       padding: EdgeInsets.only(top: 23, left: 10, right: 10),
-                      child: ListView(children: <Widget>[
-                        // Los bordes del contenido del card se cortan usando BorderRadius
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          color: Color.fromRGBO(46, 12, 21, 20),
-                          child: Text(
-                            'Información de contacto:',
-                            style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
+                      child: ListView(
+                          physics: NeverScrollableScrollPhysics(),
+                          children: <Widget>[
+                            // Los bordes del contenido del card se cortan usando BorderRadius
+                            Container(
+                              padding: EdgeInsets.only(left: 10),
+                              color: colorappbar,
+                              child: Text(
+                                'Información de contacto:',
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            Padding(padding: EdgeInsets.only(bottom: 10)),
 
-                        Column(
-                          children: [
-                            Text(
-                              'Telefono: ' + widget.list[i]["telefono"],
-                              style: TextStyle(fontSize: 20),
-                              textAlign: TextAlign.left,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Telefono: ' + widget.list[i]["telefono"],
+                                  style: TextStyle(fontSize: 20),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Text(
+                                  'Correo: ' + widget.list[i]["correousuario"],
+                                  style: TextStyle(fontSize: 20),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ],
                             ),
-                            Text(
-                              'Correo: ' + widget.list[i]["correousuario"],
-                              style: TextStyle(fontSize: 20),
-                              textAlign: TextAlign.left,
-                            ),
-                          ],
-                        ),
-                        /*],
+                            /*],
                       ),
                     )*/
-                      ]))
+                          ]))
                 ]),
                 Container(
                   margin: const EdgeInsets.only(right: 50, left: 50, top: 20),
-                  width: 150,
+                  width: 200,
                   child: RaisedButton(
-                      child: Text("Cerrar sesión"),
+                      child: Text(
+                        "Cerrar sesión",
+                        style: TextStyle(fontSize: 20),
+                      ),
                       textColor: Colors.white,
-                      color: Color.fromRGBO(46, 12, 21, 20),
+                      color: colorappbar,
                       onPressed: () {
                         // sharedPreferences.clear();
                         // sharedPreferences.commit();

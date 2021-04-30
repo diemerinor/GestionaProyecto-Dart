@@ -82,8 +82,7 @@ class _listarcontactosState extends State<listarcontactos> {
             children: [
               Column(
                 children: [
-                  if (widget.list[i]['idusuario1'] == widget.idusuario &&
-                      widget.list[i]['idusuario'] != widget.idusuario)
+                  if ((widget.list[i]['idusuario'] != widget.idusuario))
                     GestureDetector(
                       onTap: () => Navigator.push(
                           context,

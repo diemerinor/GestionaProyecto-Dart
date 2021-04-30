@@ -44,16 +44,33 @@ class _DetallesContactoState extends State<DetallesContacto> {
                   top: 30.0,
                 ),
               ),
-              Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.red, width: 3),
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: new AssetImage(
-                            widget.list[widget.index]['fotoperfil']))),
+              Column(
+                children: [
+                  if (widget.list[widget.index]['fotoperfil'] != null)
+                    Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.red, width: 3),
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: new AssetImage(
+                                  widget.list[widget.index]['fotoperfil']))),
+                    )
+                  else
+                    Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.red, width: 3),
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: new AssetImage(
+                                  'assets/images/sinfotoperfil.jpg'))),
+                    ),
+                ],
               ),
               new Padding(
                 padding: const EdgeInsets.only(

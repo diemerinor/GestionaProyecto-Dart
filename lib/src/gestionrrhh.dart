@@ -31,8 +31,8 @@ class _GestionRRHHState extends State<GestionRRHH> {
       'http://gestionaproyecto.com/phpproyectotitulo/getParticipantes.php';
   int indiceproyecto;
   Future<List> getTrabajadores() async {
-    final response =
-        await http.post(Uri.parse(url2), body: {"idproyecto": "6"});
+    final response = await http
+        .post(Uri.parse(url2), body: {"idproyecto": widget.idproyecto});
     var datauser = json.decode(response.body);
     int auxseccion = 0;
     int largodatauser = datauser.length;
@@ -40,7 +40,8 @@ class _GestionRRHHState extends State<GestionRRHH> {
     for (auxseccion = 0; auxseccion < largodatauser; auxseccion++) {
       cantidadtrabajadores++;
     }
-    cantidadtrabajadores--;
+    cantidadtrabajadores = largodatauser - 1;
+    //cantidadtrabajadores--;
     print("la cantidad de trabajadores final es $cantidadtrabajadores");
     return datauser;
   }
