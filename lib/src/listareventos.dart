@@ -9,21 +9,18 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-class ListarTrabajadores extends StatefulWidget {
+class ListarEventos extends StatefulWidget {
   final String idproyecto;
-  final String idusuario;
 
-  ListarTrabajadores({Key key, this.idproyecto, this.idusuario})
-      : super(key: key);
+  ListarEventos({Key key, this.idproyecto}) : super(key: key);
   @override
-  _ListarTrabajadoresState createState() => _ListarTrabajadoresState();
+  _ListarEventosState createState() => _ListarEventosState();
 }
 
-class _ListarTrabajadoresState extends State<ListarTrabajadores> {
-  String url2 =
-      'http://gestionaproyecto.com/phpproyectotitulo/getParticipantes.php';
+class _ListarEventosState extends State<ListarEventos> {
+  String url2 = 'http://gestionaproyecto.com/phpproyectotitulo/getEventos.php';
 
-  Future<List> getTrabajadores() async {
+  Future<List> getEventos() async {
     final response = await http
         .post(Uri.parse(url2), body: {"idproyecto": widget.idproyecto});
     return json.decode(response.body);
@@ -33,20 +30,20 @@ class _ListarTrabajadoresState extends State<ListarTrabajadores> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: new Text("Participantes"),
+          title: new Text("Eventos próximos"),
           backgroundColor: colorappbar,
         ),
         body: Column(
           children: [
             Expanded(
               child: new FutureBuilder<List>(
-                  future: getTrabajadores(),
+                  future: getEventos(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print(snapshot.error);
                     return snapshot.hasData
-                        ? new listatrabaj(
+                        ? new listareventoss(
                             list: snapshot.data,
-                            idusuario: widget.idusuario,
+                            idproyecto: widget.idproyecto,
                           )
                         : new Center(
                             child: new CircularProgressIndicator(),
@@ -58,25 +55,25 @@ class _ListarTrabajadoresState extends State<ListarTrabajadores> {
   }
 }
 
-class listatrabaj extends StatefulWidget {
+class listareventoss extends StatefulWidget {
   final List list;
-  final String idusuario;
-  listatrabaj({this.list, this.idusuario});
+  final String idproyecto;
+
+  const listareventoss({Key key, this.list, this.idproyecto}) : super(key: key);
   @override
-  _listatrabajState createState() => _listatrabajState();
+  _listareventossState createState() => _listareventossState();
 }
 
-class _listatrabajState extends State<listatrabaj> {
+class _listareventossState extends State<listareventoss> {
   @override
   Widget build(BuildContext context) {
     return widget.list == null
         ? Center(child: CircularProgressIndicator())
-        : new ListView.builder(
+        : ListView.builder(
             itemCount: widget.list == null ? 0 : widget.list.length,
             itemBuilder: (context, i) {
               return new Container(
-                padding: const EdgeInsets.all(4.0),
-                child: new GestureDetector(
+                child: GestureDetector(
                     onTap: () => Navigator.of(context).push(
                           new MaterialPageRoute(
                               builder: (BuildContext context) => new Detalle(
@@ -86,7 +83,7 @@ class _listatrabajState extends State<listatrabaj> {
                         ),
                     child: Column(
                       children: [
-                        if (widget.list[i]['idusuario'] != widget.idusuario)
+                        if (widget.list != null)
                           Column(
                             children: [
                               Padding(
@@ -96,9 +93,9 @@ class _listatrabajState extends State<listatrabaj> {
                                       width: MediaQuery.of(context).size.width *
                                           0.75,
                                       child: new Text(
-                                        widget.list[i]['nombreusuario'] +
+                                        widget.list[i]['titulo'] +
                                             " " +
-                                            widget.list[i]['apellidos'],
+                                            widget.list[i]['descripcion'],
                                         style: TextStyle(fontSize: 18.0),
                                       ),
                                     ),
@@ -145,7 +142,22 @@ class _listatrabajState extends State<listatrabaj> {
                       ],
                     )),
               );
-            },
-          );
+            });
   }
 }
+
+// class listarev extends StatefulWidget {
+//   final List list;
+//   final String idproyecto;
+
+//   const listarev({Key key, this.list, this.idproyecto}) : super(key: key);
+//   @override
+//   _listarevState createState() => _listarevState();
+// }
+
+// class _listarevState extends State<listareventos> {
+//   @override
+//   Widget build(BuildContext context) {
+    
+//   }
+// }

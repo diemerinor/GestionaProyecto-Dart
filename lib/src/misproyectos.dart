@@ -76,6 +76,9 @@ class _MisProyectosState extends State<MisProyectos> {
 
     var datauser = json.decode(response2.body);
     cantidadproyectoscreados = datauser.length;
+    var auxi = respuesta1;
+    auxi = auxi + datauser;
+    //print("laa cosita essss $auxi[1]");
 
     //cantidadproyectoscreados = datauser.length;
     if (rolusuario == "1") {
@@ -179,7 +182,15 @@ class _listaproyectosState extends State<listaproyectos> {
         Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
           if (proyectosrestantes != 0)
             Container(
-              color: colorappbar,
+              decoration: new BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [
+                      colorappbar,
+                      Colors.lightGreen,
+                    ],
+                    begin: FractionalOffset.topCenter,
+                    end: FractionalOffset.bottomCenter),
+              ),
               width: MediaQuery.of(context).size.width,
               child: Column(
                 children: [
@@ -377,10 +388,16 @@ class _listaproyectosState extends State<listaproyectos> {
                                                     .height *
                                                 0.2,
                                             decoration: new BoxDecoration(
-                                                borderRadius:
-                                                    new BorderRadius.circular(
-                                                        5),
-                                                color: Colors.black87),
+                                              gradient: LinearGradient(
+                                                  colors: [
+                                                    Colors.black,
+                                                    Colors.black87,
+                                                  ],
+                                                  begin: FractionalOffset
+                                                      .topCenter,
+                                                  end: FractionalOffset
+                                                      .bottomCenter),
+                                            ),
                                             child: FittedBox(
                                               child: Column(
                                                 children: <Widget>[
@@ -506,10 +523,16 @@ class _listaproyectosState extends State<listaproyectos> {
                                                     .height *
                                                 0.2,
                                             decoration: new BoxDecoration(
-                                                borderRadius:
-                                                    new BorderRadius.circular(
-                                                        5),
-                                                color: Colors.black87),
+                                              gradient: LinearGradient(
+                                                  colors: [
+                                                    Colors.black,
+                                                    Colors.black87,
+                                                  ],
+                                                  begin: FractionalOffset
+                                                      .topCenter,
+                                                  end: FractionalOffset
+                                                      .bottomCenter),
+                                            ),
                                             child: FittedBox(
                                               child: Column(
                                                 children: <Widget>[
@@ -533,14 +556,22 @@ class _listaproyectosState extends State<listaproyectos> {
                                                         padding:
                                                             EdgeInsets.only(
                                                                 top: 5)),
-                                                    Text(
-                                                      widget.list[i][
-                                                          'descripcionproyecto'],
-                                                      style: TextStyle(
-                                                          fontSize: 18.0,
-                                                          color: Colors.white),
-                                                      textAlign:
-                                                          TextAlign.center,
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.7,
+                                                      child: Text(
+                                                        widget.list[i][
+                                                            'descripcionproyecto'],
+                                                        style: TextStyle(
+                                                            fontSize: 18.0,
+                                                            color:
+                                                                Colors.white),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
                                                     ),
                                                   ])),
                                                   Container(
@@ -627,10 +658,16 @@ class _listaproyectosState extends State<listaproyectos> {
                                                     .height *
                                                 0.2,
                                             decoration: new BoxDecoration(
-                                                borderRadius:
-                                                    new BorderRadius.circular(
-                                                        5),
-                                                color: Colors.black87),
+                                              gradient: LinearGradient(
+                                                  colors: [
+                                                    Colors.black,
+                                                    Colors.black87,
+                                                  ],
+                                                  begin: FractionalOffset
+                                                      .topCenter,
+                                                  end: FractionalOffset
+                                                      .bottomCenter),
+                                            ),
                                             child: FittedBox(
                                               child: Column(
                                                 children: <Widget>[

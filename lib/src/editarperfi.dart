@@ -75,6 +75,10 @@ class _EditarPerfilState extends State<EditarPerfil> {
       //   title: Text("Perfil"),
       //   backgroundColor: Colors.black87,
       // ),
+      appBar: AppBar(
+        title: new Text("Editar perfil"),
+        backgroundColor: colorappbar,
+      ),
       body: SingleChildScrollView(
         child: Form(
           child: Container(
@@ -92,10 +96,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                     height: MediaQuery.of(context).size.height * 0.40,
                     decoration: new BoxDecoration(
                       gradient: LinearGradient(
-                          colors: [
-                            Color.fromRGBO(255, 0, 0, 70),
-                            Color.fromRGBO(255, 0, 0, 20)
-                          ],
+                          colors: [Colors.grey, Colors.blueGrey],
                           begin: FractionalOffset.topCenter,
                           end: FractionalOffset.bottomCenter),
                     ),

@@ -113,7 +113,10 @@ class _listarinformacionState extends State<listarinformacion> {
                     height: MediaQuery.of(context).size.height * 0.35,
                     decoration: new BoxDecoration(
                       gradient: LinearGradient(
-                          colors: [colorappbar, colorappbar],
+                          colors: [
+                            colorappbar,
+                            Colors.lightGreen,
+                          ],
                           begin: FractionalOffset.topCenter,
                           end: FractionalOffset.bottomCenter),
                     ),

@@ -1,5 +1,6 @@
 import 'package:gestionaproyecto/src/gestionavance.dart';
 import 'package:gestionaproyecto/src/gestionrrhh.dart';
+import 'package:gestionaproyecto/src/importararchivos.dart';
 import 'package:gestionaproyecto/src/listartrabajadores.dart';
 import 'package:flutter/material.dart';
 import 'package:gestionaproyecto/main.dart';
@@ -9,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gestionaproyecto/src/gestionarproyecto.dart';
 
 import 'gestionfinanciera.dart';
+import 'listareventos.dart';
 
 class DetalleProyecto extends StatefulWidget {
   List list;
@@ -59,7 +61,7 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
       body: new ListView(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(bottom: 4.0),
+            padding: const EdgeInsets.only(bottom: 2.0),
             child: Column(children: <Widget>[
               new Container(
                   color: colorappbar,
@@ -79,7 +81,8 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 10, left: 10),
+                        padding: const EdgeInsets.only(
+                            right: 10, left: 10, bottom: 20),
                         child: Row(
                           children: [
                             Icon(
@@ -106,164 +109,251 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                           ],
                         ),
                       ),
-                      Divider(),
                     ],
                   )),
               Container(
-                  height: MediaQuery.of(context).size.height * 0.17,
-                  margin: EdgeInsets.all(6.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        GestureDetector(
-                            onTap: () => Navigator.of(context).push(
-                                  new MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          new GestionAvance(
-                                            idproyecto: widget.idproyecto,
+                child: Column(
+                  children: [
+                    Container(
+                        margin: EdgeInsets.all(6.0),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              GestureDetector(
+                                  onTap: () => Navigator.of(context).push(
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new GestionAvance(
+                                                  idproyecto: widget.idproyecto,
+                                                )),
+                                      ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                          width: 180,
+                                          child: Card(
+                                              child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(children: <Widget>[
+                                              Icon(Icons.addchart_rounded,
+                                                  size: 60),
+                                              Text(
+                                                'Gestión\nde Avance',
+                                                style: TextStyle(fontSize: 20),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ]),
+                                          ))),
+                                    ],
+                                  )),
+                              GestureDetector(
+                                  onTap: () => Navigator.of(context).push(
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new GestionRRHH(
+                                                  idproyecto: widget.idproyecto,
+                                                  idusuario: widget.idusuario,
+                                                )),
+                                      ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                          width: 180,
+                                          child: Card(
+                                              child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(children: <Widget>[
+                                              Icon(
+                                                  Icons
+                                                      .supervised_user_circle_rounded,
+                                                  size: 60),
+                                              Text(
+                                                'Gestión\nde RRHH',
+                                                style: TextStyle(fontSize: 20),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ]),
+                                          ))),
+                                    ],
+                                  ))
+                            ])),
+                    Container(
+                        margin: EdgeInsets.all(6.0),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              GestureDetector(
+                                  child: Column(
+                                children: [
+                                  Container(
+                                      width: 180,
+                                      child: Card(
+                                          child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(children: <Widget>[
+                                          Icon(Icons.extension_rounded,
+                                              size: 60),
+                                          Text(
+                                            'Gestión\nde Materiales',
+                                            style: TextStyle(fontSize: 20),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ]),
+                                      ))),
+                                ],
+                              )),
+                              GestureDetector(
+                                  onTap: () => Navigator.of(context).push(
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new GestionFinanciera(
+                                                  idproyecto: widget.idproyecto,
+                                                )),
+                                      ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                          width: 180,
+                                          child: Card(
+                                              child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(children: <Widget>[
+                                              Icon(
+                                                  Icons.monetization_on_rounded,
+                                                  size: 60),
+                                              Text(
+                                                'Gestión \n financiera',
+                                                style: TextStyle(fontSize: 20),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ]),
+                                          ))),
+                                    ],
+                                  ))
+                            ])),
+                    Container(
+                        margin: EdgeInsets.all(6.0),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              GestureDetector(
+                                  onTap: () => Navigator.of(context).push(
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new ImportarArchivo(
+                                                    idproyecto:
+                                                        widget.idproyecto,
+                                                    nombreproyecto: widget
+                                                            .list[widget.index]
+                                                        ['nombreproyecto'])),
+                                      ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                          width: 180,
+                                          child: Card(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Column(children: <Widget>[
+                                                Icon(Icons.file_copy_rounded,
+                                                    size: 60),
+                                                Text(
+                                                  'Archivos\nproyecto',
+                                                  style:
+                                                      TextStyle(fontSize: 20),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ]),
+                                            ),
                                           )),
-                                ),
-                            child: Container(
-                                width: 180,
-                                child: Card(
-                                    child: Column(children: <Widget>[
-                                  Icon(Icons.addchart_rounded, size: 60),
-                                  Text(
-                                    'Gestión\nde Avance',
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ])))),
-                        GestureDetector(
-                            onTap: () => Navigator.of(context).push(
-                                  new MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          new GestionRRHH(
-                                            idproyecto: widget.idproyecto,
-                                            idusuario: widget.idusuario,
-                                          )),
-                                ),
-                            child: Container(
-                                width: 180,
-                                child: Card(
-                                    child: Column(children: <Widget>[
-                                  Icon(Icons.supervised_user_circle_rounded,
-                                      size: 60),
-                                  Text(
-                                    'Gestión\nde RRHH',
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ]))))
-                      ])),
-              Container(
-                  height: MediaQuery.of(context).size.height * 0.17,
-                  margin: EdgeInsets.all(6.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        GestureDetector(
-                            child: Container(
-                                width: 180,
-                                child: Card(
-                                    child: Column(children: <Widget>[
-                                  Icon(Icons.extension_rounded, size: 60),
-                                  Text(
-                                    'Gestión\nde Materiales',
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ])))),
-                        GestureDetector(
-                            onTap: () => Navigator.of(context).push(
-                                  new MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          new GestionFinanciera(
-                                            idproyecto: widget.idproyecto,
-                                          )),
-                                ),
-                            child: Container(
-                                width: 180,
-                                child: Card(
-                                    child: Column(children: <Widget>[
-                                  Icon(Icons.monetization_on_rounded, size: 60),
-                                  Text(
-                                    'Gestión \n financiera',
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ]))))
-                      ])),
-              Container(
-                  height: MediaQuery.of(context).size.height * 0.17,
-                  margin: EdgeInsets.all(6.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        GestureDetector(
-                            child: Container(
-                                width: 180,
-                                child: Card(
-                                    child: Column(children: <Widget>[
-                                  Icon(Icons.file_copy_rounded, size: 60),
-                                  Text(
-                                    'Archivos\nproyecto',
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ])))),
-                        GestureDetector(
-                            child: Container(
-                                width: 180,
-                                child: Card(
-                                    child: Column(children: <Widget>[
-                                  Icon(Icons.alarm_rounded, size: 60),
-                                  Text(
-                                    'Eventos\npróximos',
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ]))))
-                      ])),
-              Container(
-                  height: MediaQuery.of(context).size.height * 0.17,
-                  margin: EdgeInsets.all(6.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        GestureDetector(
-                            onTap: () => Navigator.of(context).push(
-                                  new MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          new ListarTrabajadores(
-                                            idproyecto: widget.idproyecto,
-                                            idusuario: widget.idusuario,
-                                          )),
-                                ),
-                            child: Container(
-                                width: 180,
-                                child: Card(
-                                    child: Column(children: <Widget>[
-                                  Icon(Icons.people_alt_rounded, size: 60),
-                                  Text(
-                                    'Participantes\nproyecto',
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ])))),
-                        GestureDetector(
-                            child: Container(
-                                width: 180,
-                                child: Card(
-                                    child: Column(children: <Widget>[
-                                  Icon(Icons.info, size: 60),
-                                  Text(
-                                    'Información\nproyecto',
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ]))))
-                      ])),
+                                    ],
+                                  )),
+                              GestureDetector(
+                                  onTap: () => Navigator.of(context).push(
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new ListarEventos(
+                                                  idproyecto: widget.idproyecto,
+                                                )),
+                                      ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                          width: 180,
+                                          child: Card(
+                                              child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(children: <Widget>[
+                                              Icon(Icons.alarm_rounded,
+                                                  size: 60),
+                                              Text(
+                                                'Eventos\npróximos',
+                                                style: TextStyle(fontSize: 20),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ]),
+                                          ))),
+                                    ],
+                                  ))
+                            ])),
+                    Container(
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        margin: EdgeInsets.all(6.0),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              GestureDetector(
+                                  onTap: () => Navigator.of(context).push(
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new ListarTrabajadores(
+                                                  idproyecto: widget.idproyecto,
+                                                  idusuario: widget.idusuario,
+                                                )),
+                                      ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                          width: 180,
+                                          child: Card(
+                                              child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(children: <Widget>[
+                                              Icon(Icons.people_alt_rounded,
+                                                  size: 60),
+                                              Text(
+                                                'Participantes\nproyecto',
+                                                style: TextStyle(fontSize: 20),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ]),
+                                          ))),
+                                    ],
+                                  )),
+                              GestureDetector(
+                                  child: Column(
+                                children: [
+                                  Container(
+                                      width: 180,
+                                      child: Card(
+                                          child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(children: <Widget>[
+                                          Icon(Icons.info, size: 60),
+                                          Text(
+                                            'Información\nproyecto',
+                                            style: TextStyle(fontSize: 20),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ]),
+                                      ))),
+                                ],
+                              ))
+                            ])),
+                  ],
+                ),
+              ),
               RaisedButton(
                 child: new Text(
                   "Abandonar proyecto",

@@ -99,7 +99,7 @@ class _listarinfofinancieraState extends State<listarinfofinanciera> {
             padding: const EdgeInsets.all(8.0),
             child: Center(
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.2,
+                height: MediaQuery.of(context).size.height * 0.16,
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Card(
                   child: Padding(
@@ -114,7 +114,8 @@ class _listarinfofinancieraState extends State<listarinfofinanciera> {
                           ),
                           Text(
                             '\$$caja',
-                            style: TextStyle(fontSize: 25),
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
                         ],

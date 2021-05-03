@@ -75,27 +75,100 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorappbar,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return Container(
-              width: MediaQuery.of(context).size.width * 0.5,
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.menu),
-                    onPressed: () => print('hi on menu icon'),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
+
         title: Text(
           'ConstruPro',
           style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
         ),
 
         //
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      child: Image(
+                          image: new AssetImage('assets/images/logo3.png'))),
+                  Text(
+                    'ConstruPro',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [
+                    colorappbar,
+                    Colors.lightGreen,
+                  ],
+                      begin: FractionalOffset.topCenter,
+                      end: FractionalOffset.bottomCenter)),
+            ),
+            ListTile(
+              title: Text(
+                'Mi perfil',
+                style: TextStyle(fontSize: 25),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => InfoPerfil(
+                              idusuario: identificadorusuario,
+                            )));
+              },
+            ),
+            Divider(
+              color: Colors.black,
+            ),
+            ListTile(
+              title: Text(
+                'Configuración',
+                style: TextStyle(fontSize: 25),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            Divider(
+              color: Colors.black,
+            ),
+            ListTile(
+              title: Text(
+                'Cerrar sesión',
+                style: TextStyle(fontSize: 25),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            Divider(
+              color: Colors.black,
+            ),
+            ListTile(
+              title: Text(
+                'Ayuda',
+                style: TextStyle(fontSize: 25),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            Divider(
+              color: Colors.black,
+            ),
+          ],
+        ),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
