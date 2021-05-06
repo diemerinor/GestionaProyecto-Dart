@@ -17,6 +17,7 @@ void main() {
 }
 
 Color colorappbar = Colors.green;
+Color colorfondo = Color.fromRGBO(242, 242, 242, 10);
 String identificadorusuario,
     rutafotoperfil,
     lognombreus,
@@ -261,20 +262,41 @@ class _FormulariologinState extends State<Formulariologin> {
                                     style: TextStyle(
                                         color: colorappbar, fontSize: 17)))),
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          child: new RaisedButton(
-                            child: new Text(
-                              "Ingresar",
-                              style: (TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
-                            ),
-                            color: colorappbar,
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(20.0)),
-                            onPressed: () {
-                              login();
-                            },
+                          width: MediaQuery.of(context).size.width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              new RaisedButton(
+                                child: new Text(
+                                  "Ingresar",
+                                  style: (TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold)),
+                                ),
+                                color: colorappbar,
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(20.0)),
+                                onPressed: () {
+                                  login();
+                                },
+                              ),
+                              new RaisedButton(
+                                child: new Text(
+                                  "Registrarme",
+                                  style: (TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold)),
+                                ),
+                                color: colorappbar,
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(20.0)),
+                                onPressed: () {
+                                  login();
+                                },
+                              ),
+                            ],
                           ),
                         ),
                         Text(mensaje,

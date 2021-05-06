@@ -1,3 +1,4 @@
+import 'package:gestionaproyecto/main.dart';
 import 'package:gestionaproyecto/src/detalle.dart';
 import 'package:flutter/material.dart';
 import 'package:gestionaproyecto/src/homescreen.dart';
@@ -31,6 +32,7 @@ class _DetallesContactoState extends State<DetallesContacto> {
     return Scaffold(
       appBar: AppBar(
         title: new Text("Información contacto"),
+        backgroundColor: colorappbar,
       ),
       body: new Container(
           height: 500,
@@ -51,7 +53,7 @@ class _DetallesContactoState extends State<DetallesContacto> {
                       width: 120,
                       height: 120,
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.red, width: 3),
+                          border: Border.all(color: colorappbar, width: 3),
                           shape: BoxShape.circle,
                           image: DecorationImage(
                               fit: BoxFit.cover,

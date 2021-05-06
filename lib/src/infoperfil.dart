@@ -140,7 +140,7 @@ class _listarinformacionState extends State<listarinformacion> {
                                           color: Colors.white, width: 3),
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
-                                          fit: BoxFit.cover,
+                                          fit: BoxFit.fitHeight,
                                           image: new AssetImage(
                                               widget.list[i]['fotoperfil']))),
                                 ),

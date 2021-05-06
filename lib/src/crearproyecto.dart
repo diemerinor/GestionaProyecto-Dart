@@ -19,6 +19,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'detalleproyecto.dart';
+import 'misproyectos.dart';
 
 class CrearProyecto extends StatefulWidget {
   final String idusuario;
@@ -92,6 +93,12 @@ class _CrearProyectoState extends State<CrearProyecto> {
       onPressed: () {
         Navigator.pop(context);
         Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MisProyectos(
+                      idusuario: identificadorusuario,
+                    )));
         // Navigator.push(
         //     context,
         //     MaterialPageRoute(
@@ -167,7 +174,7 @@ class _CrearProyectoState extends State<CrearProyecto> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(46, 12, 21, 20),
+        backgroundColor: colorappbar,
         title: Text("Crea tu proyecto"),
       ),
       body: SingleChildScrollView(
@@ -184,7 +191,7 @@ class _CrearProyectoState extends State<CrearProyecto> {
                       child: Column(
                         children: [
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.8,
+                            height: MediaQuery.of(context).size.height * 0.5,
                             width: MediaQuery.of(context).size.width * 0.7,
                             padding: EdgeInsets.only(top: 23),
                             child: ListView(
@@ -245,13 +252,17 @@ class _CrearProyectoState extends State<CrearProyecto> {
                                 ),
                                 Padding(padding: EdgeInsets.only(bottom: 20)),
                                 Container(
-                                  width: 90,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
                                   child: new RaisedButton(
-                                    child: new Text("Crear proyecto"),
-                                    color: Colors.greenAccent,
+                                    child: new Text(
+                                      "Crear proyecto",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    color: colorappbar,
                                     shape: new RoundedRectangleBorder(
                                         borderRadius:
-                                            new BorderRadius.circular(30.0)),
+                                            new BorderRadius.circular(20.0)),
                                     onPressed: () {
                                       showAlertDialog(context);
 

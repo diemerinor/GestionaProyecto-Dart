@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestionaproyecto/src/detallecontacto.dart';
 import 'package:http/http.dart' as http;
+import 'package:expansion_tile_card/expansion_tile_card.dart';
 
 import 'dart:async';
 import 'dart:convert';
@@ -80,45 +81,176 @@ class _listarcontactosState extends State<listarcontactos> {
 
           return Column(
             children: [
-              Column(
-                children: [
-                  if ((widget.list[i]['idusuario'] != widget.idusuario))
-                    GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DetallesContacto(
-                                    list: widget.list,
-                                    index: i,
-                                  ))),
-                      child: Card(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          height: MediaQuery.of(context).size.height * 0.07,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if ((widget.list[i]['idusuario'] != widget.idusuario))
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ExpansionTileCard(
+                          baseColor: Colors.black38,
+                          expandedColor: Colors.black,
+                          title: Row(
+                            children: [
+                              Text(
+                                widget.list[i]['nombreusuario'] +
+                                    " " +
+                                    widget.list[i]['apellidos'],
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          ),
+                          children: <Widget>[
+                            Divider(
+                              thickness: 0.4,
+                              height: 0.4,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  widget.list[i]['nombreusuario'] +
-                                      " " +
-                                      widget.list[i]['apellidos'],
-                                  style: TextStyle(fontSize: 20),
-                                ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8.0),
-                                  child: Icon(
-                                    Icons.message,
-                                    color: Colors.red,
+                                  child: Row(
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          if (widget.list[i]['fotoperfil'] !=
+                                              null)
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.2,
+                                              height: 120,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: colorappbar,
+                                                      width: 2),
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                      fit: BoxFit.cover,
+                                                      image: new AssetImage(
+                                                          widget.list[i]
+                                                              ['fotoperfil']))),
+                                            )
+                                          else
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.2,
+                                              height: 120,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.red,
+                                                      width: 3),
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                      fit: BoxFit.cover,
+                                                      image: new AssetImage(
+                                                          'assets/images/sinfotoperfil.jpg'))),
+                                            ),
+                                        ],
+                                      ),
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 15)),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                            child: Text(
+                                              "${widget.list[i]['acercademi']}",
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                            child: Row(children: [
+                                              Card(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text("Invitar"),
+                                                ),
+                                              ),
+                                              Card(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child:
+                                                      Text("Eliminar contacto"),
+                                                ),
+                                              ),
+                                            ]),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                ),
+                                )
                               ],
                             ),
-                          ),
+                          ],
                         ),
                       ),
-                    ),
-                ],
+                    // if ((widget.list[i]['idusuario'] != widget.idusuario))
+                    //   GestureDetector(
+                    //     onTap: () => Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) => DetallesContacto(
+                    //                   list: widget.list,
+                    //                   index: i,
+                    //                 ))),
+                    //     child: Card(
+                    //       child: Container(
+                    //         width: MediaQuery.of(context).size.width * 0.9,
+                    //         height: MediaQuery.of(context).size.height * 0.07,
+                    //         child: Padding(
+                    //           padding: const EdgeInsets.all(8.0),
+                    //           child: Row(
+                    //             children: [
+                    //               Text(
+                    //                 widget.list[i]['nombreusuario'] +
+                    //                     " " +
+                    //                     widget.list[i]['apellidos'],
+                    //                 style: TextStyle(fontSize: 20),
+                    //               ),
+                    //               Padding(
+                    //                 padding: const EdgeInsets.only(left: 8.0),
+                    //                 child: Icon(
+                    //                   Icons.message,
+                    //                   color: Colors.red,
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                  ],
+                ),
               ),
             ],
           );

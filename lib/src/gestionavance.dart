@@ -153,7 +153,7 @@ class _GestionAvanceState extends State<GestionAvance> {
                         padding: const EdgeInsets.only(top: 20.0),
                         child: Column(
                           children: [
-                            Text(mensaje),
+                            Text(mensaje ?? ''),
                             RaisedButton(
                               child: new Text(
                                 "Crear reporte de avance",
@@ -209,7 +209,7 @@ class _DatosAvanceState extends State<DatosAvance> {
     List<DatosGrafico> datos;
     if (largo > 0 && largo >= 5) {
       datos = [
-        DatosGrafico(widget.list[0]["fechareporte"],
+        DatosGrafico((widget.list[0]["fechareporte"]),
             double.parse(widget.list[0]["metrosavanzados"]), 3),
         DatosGrafico(widget.list[1]["fechareporte"],
             double.parse(widget.list[1]["metrosavanzados"]), 3),
@@ -284,7 +284,7 @@ class _DatosAvanceState extends State<DatosAvance> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.3,
+                                              0.20,
                                           width:
                                               MediaQuery.of(context).size.width,
                                           child: Column(

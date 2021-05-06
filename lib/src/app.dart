@@ -67,15 +67,23 @@ class _MyHomePageState extends State<MyHomePage> {
   //   _controller.dispose();
   //   super.dispose();
   // }
+  cerrarsesion() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.remove('token');
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (BuildContext context) => LoginApp()),
+        (Route<dynamic> route) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
 
     return Scaffold(
+      backgroundColor: Color.fromRGBO(242, 242, 242, 10),
       appBar: AppBar(
         backgroundColor: colorappbar,
-
+        elevation: 0,
         title: Text(
           'ConstruPro',
           style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
@@ -114,9 +122,18 @@ class _MyHomePageState extends State<MyHomePage> {
                       end: FractionalOffset.bottomCenter)),
             ),
             ListTile(
-              title: Text(
-                'Mi perfil',
-                style: TextStyle(fontSize: 25),
+              title: Row(
+                children: [
+                  Icon(
+                    Icons.account_circle,
+                    size: 20,
+                  ),
+                  Padding(padding: EdgeInsets.only(right: 10)),
+                  Text(
+                    'Mi perfil',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ],
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -128,13 +145,37 @@ class _MyHomePageState extends State<MyHomePage> {
                             )));
               },
             ),
-            Divider(
-              color: Colors.black,
+            ListTile(
+              title: Row(
+                children: [
+                  Icon(
+                    Icons.settings,
+                    size: 20,
+                  ),
+                  Padding(padding: EdgeInsets.only(right: 10)),
+                  Text(
+                    'Configuración',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ],
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
             ),
             ListTile(
-              title: Text(
-                'Configuración',
-                style: TextStyle(fontSize: 25),
+              title: Row(
+                children: [
+                  Icon(
+                    Icons.help,
+                    size: 20,
+                  ),
+                  Padding(padding: EdgeInsets.only(right: 10)),
+                  Text(
+                    'Ayuda',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ],
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -144,28 +185,22 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.black,
             ),
             ListTile(
-              title: Text(
-                'Cerrar sesión',
-                style: TextStyle(fontSize: 25),
+              title: Row(
+                children: [
+                  Icon(
+                    Icons.vpn_key,
+                    size: 20,
+                  ),
+                  Padding(padding: EdgeInsets.only(right: 10)),
+                  Text(
+                    'Cerrar sesión',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ],
               ),
               onTap: () {
-                Navigator.pop(context);
+                cerrarsesion();
               },
-            ),
-            Divider(
-              color: Colors.black,
-            ),
-            ListTile(
-              title: Text(
-                'Ayuda',
-                style: TextStyle(fontSize: 25),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            Divider(
-              color: Colors.black,
             ),
           ],
         ),
