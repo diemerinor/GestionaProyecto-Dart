@@ -63,15 +63,17 @@ class _NotificacionesState extends State<Notificaciones> {
     visiblemisproy = false;
     visiblepropar = false;
 
-    seleccionado = 1;
+    seleccionado = 3;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: colorfondo,
       appBar: AppBar(
         title: new Text("Actividad"),
         backgroundColor: colorappbar,
+        elevation: 0,
       ),
       body: new FutureBuilder<List>(
           future: getNotificaciones(),
@@ -121,7 +123,7 @@ class _listatrabajState extends State<listatrabaj> {
                     gradient: LinearGradient(
                         colors: [
                           colorappbar,
-                          Colors.lightGreen,
+                          colorappbar,
                         ],
                         begin: FractionalOffset.topCenter,
                         end: FractionalOffset.bottomCenter),
@@ -144,6 +146,50 @@ class _listatrabajState extends State<listatrabaj> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.08,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      if (seleccionado != 3) {
+                                        visibletodos = false;
+                                        visiblemisproy = false;
+                                        visiblepropar = true;
+                                        print("actualmente es $visiblepropar");
+                                        todos = colorappbar;
+                                        letrastodos = Colors.white;
+                                        propar = Colors.white;
+                                        letraspropar = colorappbar;
+                                        misproy = colorappbar;
+                                        letrasmisproy = Colors.white;
+                                        seleccionado = 3;
+                                      }
+                                    });
+                                  },
+                                  child: Card(
+                                    color: propar,
+                                    elevation: 3,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Center(
+                                        child: Text(
+                                          "Todos",
+                                          style: TextStyle(
+                                              fontSize: 17,
+                                              color: letraspropar,
+                                              fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                             Padding(
                               padding:
                                   const EdgeInsets.only(left: 10, right: 10),
@@ -226,50 +272,6 @@ class _listatrabajState extends State<listatrabaj> {
                                           style: TextStyle(
                                               fontSize: 17,
                                               color: letrasmisproy,
-                                              fontWeight: FontWeight.bold),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.08,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      if (seleccionado != 3) {
-                                        visibletodos = false;
-                                        visiblemisproy = false;
-                                        visiblepropar = true;
-                                        print("actualmente es $visiblepropar");
-                                        todos = colorappbar;
-                                        letrastodos = Colors.white;
-                                        propar = Colors.white;
-                                        letraspropar = colorappbar;
-                                        misproy = colorappbar;
-                                        letrasmisproy = Colors.white;
-                                        seleccionado = 3;
-                                      }
-                                    });
-                                  },
-                                  child: Card(
-                                    color: propar,
-                                    elevation: 3,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Center(
-                                        child: Text(
-                                          "Todos",
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              color: letraspropar,
                                               fontWeight: FontWeight.bold),
                                           textAlign: TextAlign.center,
                                         ),
@@ -517,90 +519,400 @@ class _listatrabajState extends State<listatrabaj> {
                           )
                         else if (seleccionado == 2 &&
                             widget.list[i]["descripcion"] != null)
-                          Column(
-                            children: [
-                              if (widget.list[i]["descripcion"] == null)
-                                Text("No existe")
-                              else if (widget.list[i]["descripcion"] != null)
-                                Column(children: <Widget>[
-                                  Row(
-                                    children: [
-                                      Card(
-                                          color: Colors.blue,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(12.0),
-                                            child: Icon(
-                                              Icons.alarm,
-                                              size: 40,
-                                              color: Colors.white,
-                                            ),
+                          Container(
+                              padding: const EdgeInsets.all(10.0),
+                              child: GestureDetector(
+                                onTap: () => Navigator.of(context).push(
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new Detalle(
+                                            list: widget.list,
+                                            index: i,
                                           )),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                ),
+                                child: Column(
+                                  children: [
+                                    if (widget.list[i]["descripcion"] == null)
+                                      Text("No existe")
+                                    else if (widget.list[i]["descripcion"] !=
+                                        null)
+                                      Column(children: <Widget>[
+                                        Row(
                                           children: [
-                                            Text(widget.list[i]['titulo'],
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.70,
-                                              child: Text(
-                                                widget.list[i]["descripcion"],
-                                                style:
-                                                    TextStyle(fontSize: 20.0),
+                                            Card(
+                                                color: Colors.pink,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      12.0),
+                                                  child: Icon(
+                                                    Icons.alarm,
+                                                    size: 40,
+                                                    color: Colors.white,
+                                                  ),
+                                                )),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(widget.list[i]['titulo'],
+                                                      style: TextStyle(
+                                                          fontSize: 20.0,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.70,
+                                                    child: Text(
+                                                      widget.list[i]
+                                                          ["descripcion"],
+                                                      style: TextStyle(
+                                                          fontSize: 20.0),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ],
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  if (tiempodiferencia2.inDays == 0)
-                                    Container(
-                                      alignment: Alignment.topRight,
-                                      child: Text(
-                                        'Se realizó hace ${tiempodiferencia2.inHours} horas',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontStyle: FontStyle.italic,
+                                        if (tiempodiferencia2.inDays == 0)
+                                          Container(
+                                            alignment: Alignment.topRight,
+                                            child: Text(
+                                              'Se realizó hace ${tiempodiferencia2.inHours} horas',
+                                              style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                              textAlign: TextAlign.right,
+                                            ),
+                                          )
+                                        else if (tiempodiferencia2.inDays <=
+                                            365)
+                                          Container(
+                                            alignment: Alignment.topRight,
+                                            child: Text(
+                                                'Se realizó hace ${tiempodiferencia2.inDays} días',
+                                                style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontStyle: FontStyle.italic,
+                                                )),
+                                          )
+                                        else if (tiempodiferencia2.inDays >=
+                                            365)
+                                          Container(
+                                            alignment: Alignment.topRight,
+                                            child: Text(
+                                                'Se realizó hace más de $anos2 años',
+                                                style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontStyle: FontStyle.italic,
+                                                )),
+                                          ),
+                                        Divider(
+                                          color: Colors.black,
                                         ),
-                                        textAlign: TextAlign.right,
+                                      ]),
+                                  ],
+                                ),
+                              ))
+                        else if (seleccionado == 3)
+                          Container(
+                              padding: const EdgeInsets.all(10.0),
+                              child: GestureDetector(
+                                onTap: () => Navigator.of(context).push(
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new Detalle(
+                                            list: widget.list,
+                                            index: i,
+                                          )),
+                                ),
+                                child: Column(
+                                  children: [
+                                    if (widget.list[i]["descripcion"] == null &&
+                                        widget.list[i]['idtipomovimiento'] ==
+                                            null)
+                                      Text("No existe")
+                                    else if (widget.list[i]["descripcion"] !=
+                                        null)
+                                      Column(children: <Widget>[
+                                        Row(
+                                          children: [
+                                            Card(
+                                                color: Colors.pink,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      12.0),
+                                                  child: Icon(
+                                                    Icons.alarm,
+                                                    size: 40,
+                                                    color: Colors.white,
+                                                  ),
+                                                )),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(widget.list[i]['titulo'],
+                                                      style: TextStyle(
+                                                          fontSize: 20.0,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.70,
+                                                    child: Text(
+                                                      widget.list[i]
+                                                          ["descripcion"],
+                                                      style: TextStyle(
+                                                          fontSize: 20.0),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        if (tiempodiferencia2.inDays == 0)
+                                          Container(
+                                            alignment: Alignment.topRight,
+                                            child: Text(
+                                              'Se realizó hace ${tiempodiferencia2.inHours} horas',
+                                              style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                              textAlign: TextAlign.right,
+                                            ),
+                                          )
+                                        else if (tiempodiferencia2.inDays <=
+                                            365)
+                                          Container(
+                                            alignment: Alignment.topRight,
+                                            child: Text(
+                                                'Se realizó hace ${tiempodiferencia2.inDays} días',
+                                                style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontStyle: FontStyle.italic,
+                                                )),
+                                          )
+                                        else if (tiempodiferencia2.inDays >=
+                                            365)
+                                          Container(
+                                            alignment: Alignment.topRight,
+                                            child: Text(
+                                                'Se realizó hace más de $anos2 años',
+                                                style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontStyle: FontStyle.italic,
+                                                )),
+                                          ),
+                                        Divider(
+                                          color: Colors.black,
+                                        ),
+                                      ])
+                                    else if (widget.list[i]
+                                            ["idtipomovimiento"] ==
+                                        "1")
+                                      Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Card(
+                                                  color: Colors.green,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            12.0),
+                                                    child: Icon(
+                                                      Icons.north,
+                                                      size: 40,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                        widget.list[i]
+                                                            ['nombreproyecto'],
+                                                        style: TextStyle(
+                                                            fontSize: 20.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.70,
+                                                      child: Text(
+                                                        "Se realizó un ingreso de " +
+                                                            widget.list[i]
+                                                                ['ingreso'] +
+                                                            " quedando un total de " +
+                                                            widget.list[i]
+                                                                ['total'],
+                                                        style: TextStyle(
+                                                            fontSize: 20.0),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          if (tiempodiferencia.inDays == 0)
+                                            Container(
+                                              alignment: Alignment.topRight,
+                                              child: Text(
+                                                'Se realizó hace ${tiempodiferencia.inHours} horas',
+                                                style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontStyle: FontStyle.italic,
+                                                ),
+                                                textAlign: TextAlign.right,
+                                              ),
+                                            )
+                                          else if (tiempodiferencia.inDays <=
+                                              365)
+                                            Container(
+                                              alignment: Alignment.topRight,
+                                              child: Text(
+                                                  'Se realizó hace ${tiempodiferencia.inDays} días',
+                                                  style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontStyle: FontStyle.italic,
+                                                  )),
+                                            )
+                                          else if (tiempodiferencia.inDays >=
+                                              365)
+                                            Container(
+                                              alignment: Alignment.topRight,
+                                              child: Text(
+                                                  'Se realizó hace más de $anos años',
+                                                  style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontStyle: FontStyle.italic,
+                                                  )),
+                                            )
+                                        ],
+                                      )
+                                    else if (widget.list[i]
+                                            ["idtipomovimiento"] ==
+                                        "2")
+                                      Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Card(
+                                                  color: Colors.redAccent,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            12.0),
+                                                    child: Icon(
+                                                      Icons.south,
+                                                      size: 40,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                        widget.list[i]
+                                                            ['nombreproyecto'],
+                                                        style: TextStyle(
+                                                            fontSize: 20.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.70,
+                                                      child: Text(
+                                                        "Se realizó un gasto de " +
+                                                            widget.list[i]
+                                                                ['ingreso'] +
+                                                            " quedando un total de " +
+                                                            widget.list[i]
+                                                                ['total'],
+                                                        style: TextStyle(
+                                                            fontSize: 20.0),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          if (tiempodiferencia.inDays == 0)
+                                            Container(
+                                              alignment: Alignment.topRight,
+                                              child: Text(
+                                                'Se realizó hace ${tiempodiferencia.inHours} horas',
+                                                style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontStyle: FontStyle.italic,
+                                                ),
+                                                textAlign: TextAlign.right,
+                                              ),
+                                            )
+                                          else if (tiempodiferencia.inDays <=
+                                              365)
+                                            Container(
+                                              alignment: Alignment.topRight,
+                                              child: Text(
+                                                  'Se realizó hace ${tiempodiferencia.inDays} días',
+                                                  style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontStyle: FontStyle.italic,
+                                                  )),
+                                            )
+                                          else if (tiempodiferencia.inDays >=
+                                              365)
+                                            Container(
+                                              alignment: Alignment.topRight,
+                                              child: Text(
+                                                  'Se realizó hace más de $anos años',
+                                                  style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontStyle: FontStyle.italic,
+                                                  )),
+                                            ),
+                                        ],
                                       ),
-                                    )
-                                  else if (tiempodiferencia2.inDays <= 365)
-                                    Container(
-                                      alignment: Alignment.topRight,
-                                      child: Text(
-                                          'Se realizó hace ${tiempodiferencia2.inDays} días',
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontStyle: FontStyle.italic,
-                                          )),
-                                    )
-                                  else if (tiempodiferencia2.inDays >= 365)
-                                    Container(
-                                      alignment: Alignment.topRight,
-                                      child: Text(
-                                          'Se realizó hace más de $anos2 años',
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontStyle: FontStyle.italic,
-                                          )),
+                                    Divider(
+                                      color: Colors.black,
                                     ),
-                                  Divider(
-                                    color: Colors.black,
-                                  ),
-                                ]),
-                            ],
-                          )
+                                  ],
+                                ),
+                              ))
                       ]);
                     }),
               ),

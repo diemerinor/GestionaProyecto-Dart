@@ -1,3 +1,4 @@
+import 'package:gestionaproyecto/src/editarproyecto.dart';
 import 'package:gestionaproyecto/src/gestionavance.dart';
 import 'package:gestionaproyecto/src/gestionrrhh.dart';
 import 'package:gestionaproyecto/src/importararchivos.dart';
@@ -9,8 +10,10 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gestionaproyecto/src/gestionarproyecto.dart';
 
+import 'editarperfi.dart';
 import 'gestionfinanciera.dart';
 import 'listareventos.dart';
+import 'misproyectos.dart';
 
 class DetalleProyecto extends StatefulWidget {
   List list;
@@ -47,6 +50,53 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
     }
   }
 
+  String url =
+      'http://gestionaproyecto.com/phpproyectotitulo/DeleteProyecto.php';
+  Future<List> deleteproyecto() async {
+    final response = await http
+        .post(Uri.parse(url), body: {"idproyecto": widget.idproyecto});
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancelar"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Continuar"),
+      onPressed: () {
+        Navigator.pop(context);
+        deleteproyecto();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MisProyectos(
+                      idusuario: identificadorusuario,
+                    )));
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: Text("¿Está seguro de borrar el proyecto? "),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     print("el usuario tiene como rol: " +
@@ -70,6 +120,7 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                   child: Row(
                     children: [
                       Container(
+                        height: MediaQuery.of(context).size.height * 0.16,
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: new Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -129,33 +180,58 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                       Column(
                         children: [
                           if (widget.list[widget.index]['CodigoRol'] == "1")
-                            Column(
-                              children: [
-                                Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.12,
-                                    height: MediaQuery.of(context).size.width *
-                                        0.12,
-                                    child: Card(
-                                      color: Colors.black87,
-                                      child: Icon(
-                                        Icons.edit,
-                                        color: Colors.white,
+                            Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.125,
+                              child: Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () => {
+                                      Navigator.pop(context),
+                                      Navigator.of(context).push(
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new EditarProyecto(
+                                                  idproyecto: widget.idproyecto,
+                                                )),
                                       ),
-                                    )),
-                                Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.12,
-                                    height: MediaQuery.of(context).size.width *
-                                        0.12,
-                                    child: Card(
-                                      color: Colors.red,
-                                      child: Icon(
-                                        Icons.delete,
-                                        color: Colors.white,
-                                      ),
-                                    ))
-                              ],
+                                    },
+                                    child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.12,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.12,
+                                        child: Card(
+                                          color: Colors.black87,
+                                          child: Icon(
+                                            Icons.edit,
+                                            color: Colors.white,
+                                          ),
+                                        )),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () => {
+                                      showAlertDialog(context),
+                                    },
+                                    child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.12,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.12,
+                                        child: Card(
+                                          color: Colors.red,
+                                          child: Icon(
+                                            Icons.delete,
+                                            color: Colors.white,
+                                          ),
+                                        )),
+                                  )
+                                ],
+                              ),
                             )
                           else if (widget.list[widget.index]['CodigoRol'] ==
                               "2")
@@ -180,6 +256,7 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                     ],
                   )),
               Container(
+                height: MediaQuery.of(context).size.height,
                 child: Column(
                   children: [
                     Container(

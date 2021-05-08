@@ -39,6 +39,7 @@ class _InfoPerfilState extends State<InfoPerfil> {
           "Mi perfil",
         ),
         backgroundColor: colorappbar,
+        elevation: 0,
       ),
       body: new FutureBuilder<List>(
           future: getinfoperfil(),
@@ -99,7 +100,7 @@ class _listarinformacionState extends State<listarinformacion> {
           },
         ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: colorfondo,
       // appBar: AppBar(
       //   title: Text("Perfil"),
       //   backgroundColor: Colors.black87,
@@ -115,7 +116,7 @@ class _listarinformacionState extends State<listarinformacion> {
                       gradient: LinearGradient(
                           colors: [
                             colorappbar,
-                            Colors.lightGreen,
+                            colorappbar,
                           ],
                           begin: FractionalOffset.topCenter,
                           end: FractionalOffset.bottomCenter),
@@ -200,31 +201,33 @@ class _listarinformacionState extends State<listarinformacion> {
                 Container(
                     height: MediaQuery.of(context).size.height * 0.2,
                     width: MediaQuery.of(context).size.width * 0.90,
-                    padding: EdgeInsets.only(top: 23, left: 16, right: 10),
-                    child: ListView(
-                        physics: NeverScrollableScrollPhysics(),
-                        children: <Widget>[
-                          // Los bordes del contenido del card se cortan usando BorderRadius
+                    padding: EdgeInsets.only(top: 23, left: 10, right: 10),
+                    child: Column(children: <Widget>[
+                      // Los bordes del contenido del card se cortan usando BorderRadius
 
-                          Container(
-                            padding: EdgeInsets.only(left: 10),
-                            color: colorappbar,
-                            child: Text(
-                              'Acerca de mi:',
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          Padding(padding: EdgeInsets.only(bottom: 10)),
-                          Text(
-                            widget.list[i]['acercademi'],
-                            style: TextStyle(fontSize: 22),
-                            textAlign: TextAlign.left,
-                          ),
-                        ])),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.90,
+                        padding: EdgeInsets.only(left: 10),
+                        color: colorappbar,
+                        child: Text(
+                          'Acerca de mi:',
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 10)),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          widget.list[i]['acercademi'],
+                          style: TextStyle(fontSize: 22),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                    ])),
 
                 Column(children: <Widget>[
                   Container(
@@ -249,20 +252,24 @@ class _listarinformacionState extends State<listarinformacion> {
                             ),
                             Padding(padding: EdgeInsets.only(bottom: 10)),
 
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Telefono: ' + widget.list[i]["telefono"],
-                                  style: TextStyle(fontSize: 20),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Text(
-                                  'Correo: ' + widget.list[i]["correousuario"],
-                                  style: TextStyle(fontSize: 20),
-                                  textAlign: TextAlign.left,
-                                ),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Telefono: ' + widget.list[i]["telefono"],
+                                    style: TextStyle(fontSize: 20),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  Text(
+                                    'Correo: ' +
+                                        widget.list[i]["correousuario"],
+                                    style: TextStyle(fontSize: 20),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
+                              ),
                             ),
                             /*],
                       ),

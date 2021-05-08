@@ -87,12 +87,12 @@ class _listareventosState extends State<listareventos> {
                       children: <Widget>[
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.21,
+                          height: MediaQuery.of(context).size.height * 0.12,
                           decoration: new BoxDecoration(
                             gradient: LinearGradient(
                                 colors: [
                                   colorappbar,
-                                  Colors.lightGreen,
+                                  colorappbar,
                                 ],
                                 begin: FractionalOffset.topCenter,
                                 end: FractionalOffset.bottomCenter),
@@ -105,32 +105,39 @@ class _listareventosState extends State<listareventos> {
                             child: Padding(
                               padding:
                                   const EdgeInsets.only(bottom: 8.0, right: 14),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                              child: Row(
                                 children: [
-                                  Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.09,
-                                    child: Image(
-                                        image: new AssetImage(
-                                            'assets/images/logo3.png')),
-                                  ),
-                                  Text(
-                                    widget.list[i]['nombreusuario'] +
-                                        " " +
-                                        widget.list[i]['apellidos'],
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    "HOME",
-                                    style: TextStyle(
-                                      fontSize: 29,
-                                      color: Colors.white,
+                                  Expanded(
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.11,
+                                      child: Image(
+                                          image: new AssetImage(
+                                              'assets/images/logo3.png')),
                                     ),
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        widget.list[i]['nombreusuario'] +
+                                            " " +
+                                            widget.list[i]['apellidos'],
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "HOME",
+                                        style: TextStyle(
+                                          fontSize: 29,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -157,7 +164,7 @@ class _listareventosState extends State<listareventos> {
                                                         identificadorusuario,
                                                   ))),
                                       child: Card(
-                                        elevation: 3,
+                                        elevation: 2,
                                         child: Padding(
                                           padding: const EdgeInsets.all(5.0),
                                           child: Row(
@@ -215,7 +222,7 @@ class _listareventosState extends State<listareventos> {
                                                         identificadorusuario,
                                                   ))),
                                       child: Card(
-                                        elevation: 3,
+                                        elevation: 2,
                                         child: Padding(
                                           padding: const EdgeInsets.all(5.0),
                                           child: Row(
@@ -273,7 +280,7 @@ class _listareventosState extends State<listareventos> {
                                                         identificadorusuario,
                                                   ))),
                                       child: Card(
-                                        elevation: 3,
+                                        elevation: 2,
                                         child: Padding(
                                           padding: const EdgeInsets.all(5.0),
                                           child: Row(
@@ -330,7 +337,7 @@ class _listareventosState extends State<listareventos> {
                                                         identificadorusuario,
                                                   ))),
                                       child: Card(
-                                        elevation: 3,
+                                        elevation: 2,
                                         child: Padding(
                                           padding: const EdgeInsets.all(5.0),
                                           child: Row(
@@ -387,7 +394,7 @@ class _listareventosState extends State<listareventos> {
                                                         identificadorusuario,
                                                   ))),
                                       child: Card(
-                                        elevation: 3,
+                                        elevation: 2,
                                         child: Padding(
                                           padding: const EdgeInsets.all(5.0),
                                           child: Row(

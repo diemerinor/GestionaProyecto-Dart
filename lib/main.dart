@@ -16,7 +16,8 @@ void main() {
   runApp(LoginApp());
 }
 
-Color colorappbar = Colors.green;
+Color colorappbar2 = Colors.green;
+Color colorappbar = Color.fromRGBO(17, 97, 73, 4);
 Color colorfondo = Color.fromRGBO(242, 242, 242, 10);
 String identificadorusuario,
     rutafotoperfil,

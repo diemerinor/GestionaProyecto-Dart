@@ -70,7 +70,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorfondo,
       // appBar: AppBar(
       //   title: Text("Perfil"),
       //   backgroundColor: Colors.black87,

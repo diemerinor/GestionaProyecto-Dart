@@ -49,6 +49,7 @@ class _CrearProyectoState extends State<CrearProyecto> {
   void initState() {
     super.initState();
     getSecciones();
+    getCategorias();
   }
 
   String fechafinal;
@@ -59,11 +60,12 @@ class _CrearProyectoState extends State<CrearProyecto> {
       "nombreproyecto": controllernombre.text,
       "descripcionproyecto": controllerdescripcion.text,
       "idcomuna": seccionseleccionada,
+      "idcategoria": categoriaseleccionada,
     });
   }
 
   List names = List();
-  List unidades = List();
+  List categorias = List();
 
   Future<List> getSecciones() async {
     String url3 =
@@ -75,6 +77,21 @@ class _CrearProyectoState extends State<CrearProyecto> {
     print(datauser2);
     setState(() {
       names = datauser2;
+    });
+
+    return datauser2;
+  }
+
+  Future<List> getCategorias() async {
+    String url4 =
+        'http://gestionaproyecto.com/phpproyectotitulo/getCategorias.php';
+    final response = await http.get(
+      Uri.parse(url4),
+    );
+    datauser2 = json.decode(response.body);
+    print(datauser2);
+    setState(() {
+      categorias = datauser2;
     });
 
     return datauser2;
@@ -99,11 +116,6 @@ class _CrearProyectoState extends State<CrearProyecto> {
                 builder: (context) => MisProyectos(
                       idusuario: identificadorusuario,
                     )));
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) =>
-        //             GestionAvance(idproyecto: widget.idproyecto)));
       },
     );
 
@@ -135,8 +147,8 @@ class _CrearProyectoState extends State<CrearProyecto> {
     Widget continueButton = FlatButton(
       child: Text("Continuar"),
       onPressed: () {
-        insertproyecto();
         Navigator.pop(context);
+        insertproyecto();
         showAlertDialog2(context);
       },
     );
@@ -166,7 +178,7 @@ class _CrearProyectoState extends State<CrearProyecto> {
   bool _checkbox = true;
   bool _checkboxListTile = false;
   String seccionseleccionada;
-  String unidadseleccionada;
+  String categoriaseleccionada;
 
   List idssecciones = List();
 
@@ -191,7 +203,7 @@ class _CrearProyectoState extends State<CrearProyecto> {
                       child: Column(
                         children: [
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.5,
+                            height: MediaQuery.of(context).size.height * 0.7,
                             width: MediaQuery.of(context).size.width * 0.7,
                             padding: EdgeInsets.only(top: 23),
                             child: ListView(
@@ -205,11 +217,7 @@ class _CrearProyectoState extends State<CrearProyecto> {
                                 TextFormField(
                                   controller: controllernombre,
                                   decoration: InputDecoration(
-                                      icon: Icon(
-                                        Icons.account_box,
-                                        color: Colors.black,
-                                      ),
-                                      hintText: 'Ingrese su correo o telefono'),
+                                      hintText: 'Ingrese el nombre  '),
                                 ),
                                 Padding(padding: EdgeInsets.only(bottom: 20)),
                                 Text(
@@ -220,12 +228,9 @@ class _CrearProyectoState extends State<CrearProyecto> {
                                 ),
                                 TextFormField(
                                   controller: controllerdescripcion,
+                                  maxLines: null,
                                   decoration: InputDecoration(
-                                      icon: Icon(
-                                        Icons.account_box,
-                                        color: Colors.black,
-                                      ),
-                                      hintText: 'Ingrese su correo o telefono'),
+                                      hintText: 'Describa su proyecto'),
                                 ),
                                 Padding(padding: EdgeInsets.only(bottom: 20)),
                                 Text(
@@ -251,9 +256,32 @@ class _CrearProyectoState extends State<CrearProyecto> {
                                   },
                                 ),
                                 Padding(padding: EdgeInsets.only(bottom: 20)),
+                                Text(
+                                  "Categoria",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                DropdownButton<String>(
+                                  value: categoriaseleccionada,
+                                  hint: Text("Seleccione categoria"),
+                                  items: categorias.map((list) {
+                                    return new DropdownMenuItem<String>(
+                                      child: new Text(list['nombrecategoria']),
+                                      value: list['idcategoria'].toString(),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value3) {
+                                    setState(() {
+                                      categoriaseleccionada = value3;
+                                      print("se selecciono el valor $value3");
+                                    });
+                                  },
+                                ),
+                                Padding(padding: EdgeInsets.only(bottom: 20)),
                                 Container(
                                   width:
-                                      MediaQuery.of(context).size.width * 0.3,
+                                      MediaQuery.of(context).size.width * 0.4,
                                   child: new RaisedButton(
                                     child: new Text(
                                       "Crear proyecto",

@@ -116,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   gradient: LinearGradient(
                       colors: [
                     colorappbar,
-                    Colors.lightGreen,
+                    colorappbar,
                   ],
                       begin: FractionalOffset.topCenter,
                       end: FractionalOffset.bottomCenter)),
@@ -201,6 +201,9 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 cerrarsesion();
               },
+            ),
+            Expanded(
+              child: Text(''),
             ),
           ],
         ),

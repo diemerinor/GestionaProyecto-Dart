@@ -82,17 +82,17 @@ class _listarcontactosState extends State<listarcontactos> {
           return Column(
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.9,
+                width: MediaQuery.of(context).size.width * 0.95,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if ((widget.list[i]['idusuario'] != widget.idusuario))
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(6.0),
                         child: ExpansionTileCard(
-                          baseColor: Colors.black38,
-                          expandedColor: Colors.black,
+                          baseColor: colorappbar,
+                          expandedColor: colorappbar,
                           title: Row(
                             children: [
                               Text(
@@ -184,7 +184,7 @@ class _listarcontactosState extends State<listarcontactos> {
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.5,
+                                                0.6,
                                             child: Row(children: [
                                               Card(
                                                 child: Padding(

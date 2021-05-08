@@ -45,11 +45,11 @@ class _MisProyectosState extends State<MisProyectos> {
   void initState() {
     super.initState();
     todos = Colors.white;
-    letrastodos = colorappbar;
-    misproy = colorappbar;
+    letrastodos = colorappbar2;
+    misproy = colorappbar2;
     letrasmisproy = Colors.white;
 
-    propar = colorappbar;
+    propar = colorappbar2;
     letraspropar = Colors.white;
 
     visibletodos = true;
@@ -192,10 +192,7 @@ class _listaproyectosState extends State<listaproyectos> {
             Container(
               decoration: new BoxDecoration(
                 gradient: LinearGradient(
-                    colors: [
-                      colorappbar,
-                      Colors.lightGreen,
-                    ],
+                    colors: [colorappbar, colorappbar],
                     begin: FractionalOffset.topCenter,
                     end: FractionalOffset.bottomCenter),
               ),
@@ -230,10 +227,10 @@ class _listaproyectosState extends State<listaproyectos> {
                                     visiblepropar = false;
                                     print("actualmente es $visibletodos");
                                     todos = Colors.white;
-                                    letrastodos = Colors.green;
-                                    propar = colorappbar;
+                                    letrastodos = colorappbar;
+                                    propar = colorappbar2;
                                     letraspropar = Colors.white;
-                                    misproy = colorappbar;
+                                    misproy = colorappbar2;
                                     letrasmisproy = Colors.white;
 
                                     seleccionado = 1;
@@ -273,12 +270,12 @@ class _listaproyectosState extends State<listaproyectos> {
                                     visiblepropar = false;
                                     print("actualmente es $visiblemisproy");
 
-                                    todos = colorappbar;
+                                    todos = colorappbar2;
                                     letrastodos = Colors.white;
-                                    propar = colorappbar;
+                                    propar = colorappbar2;
                                     letraspropar = Colors.white;
                                     misproy = Colors.white;
-                                    letrasmisproy = colorappbar;
+                                    letrasmisproy = colorappbar2;
 
                                     seleccionado = 2;
                                   }
@@ -316,11 +313,11 @@ class _listaproyectosState extends State<listaproyectos> {
                                     visiblemisproy = false;
                                     visiblepropar = true;
                                     print("actualmente es $visiblepropar");
-                                    todos = colorappbar;
+                                    todos = colorappbar2;
                                     letrastodos = Colors.white;
                                     propar = Colors.white;
-                                    letraspropar = colorappbar;
-                                    misproy = colorappbar;
+                                    letraspropar = colorappbar2;
+                                    misproy = colorappbar2;
                                     letrasmisproy = Colors.white;
                                     seleccionado = 3;
                                   }
@@ -354,19 +351,32 @@ class _listaproyectosState extends State<listaproyectos> {
               padding: EdgeInsets.only(bottom: 15),
             ),
         ]),
+        Column(
+          children: [
+            Text(
+              "Administra tus proyectos",
+              style: TextStyle(fontSize: 24),
+            ),
+            Text(
+              "Selecciona uno y gestiona los distintos sectores",
+              style: TextStyle(fontSize: 15),
+            ),
+            Padding(padding: EdgeInsets.only(bottom: 5))
+          ],
+        ),
         Container(
           child: Expanded(
             child: new ListView.builder(
               itemCount: widget.list == null ? 0 : widget.list.length,
               itemBuilder: (context, i) {
                 return Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(3.0),
                   child: Column(children: <Widget>[
                     if (seleccionado == 1)
                       Visibility(
                         visible: visibletodos,
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.14,
+                          height: MediaQuery.of(context).size.height * 0.15,
                           child: GestureDetector(
                               onTap: () => Navigator.of(context).push(
                                     new MaterialPageRoute(
@@ -386,7 +396,7 @@ class _listaproyectosState extends State<listaproyectos> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(10)),
-                                    elevation: 4,
+                                    elevation: 2,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(10),
                                       child: ListView(
@@ -397,7 +407,7 @@ class _listaproyectosState extends State<listaproyectos> {
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                0.14,
+                                                0.15,
                                             decoration: new BoxDecoration(
                                               gradient: LinearGradient(
                                                   colors: [
@@ -409,115 +419,157 @@ class _listaproyectosState extends State<listaproyectos> {
                                                   end: FractionalOffset
                                                       .bottomCenter),
                                             ),
-                                            child: Column(
-                                              children: <Widget>[
-                                                Column(children: <Widget>[
-                                                  Container(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.09,
-                                                    child: Column(
-                                                      children: [
-                                                        Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 5)),
-                                                        Text(
-                                                          widget.list[i][
-                                                              'nombreproyecto'],
-                                                          style: TextStyle(
-                                                              fontSize: 17.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.black),
-                                                        ),
-                                                        Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 5)),
+                                            child: Expanded(
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Row(
+                                                    children: [
+                                                      Column(children: <Widget>[
                                                         Container(
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.15,
                                                           width: MediaQuery.of(
                                                                       context)
                                                                   .size
                                                                   .width *
-                                                              0.7,
-                                                          child: Text(
-                                                            widget.list[i][
-                                                                'descripcionproyecto'],
-                                                            style: TextStyle(
-                                                                fontSize: 14.0,
-                                                                color: Colors
-                                                                    .black),
-                                                            textAlign: TextAlign
-                                                                .center,
+                                                              0.5,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Column(
+                                                              children: [
+                                                                Text(
+                                                                  widget.list[i]
+                                                                      [
+                                                                      'nombreproyecto'],
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          18.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color:
+                                                                          colorappbar),
+                                                                  maxLines: 2,
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                ),
+                                                                Container(
+                                                                  child: Text(
+                                                                    widget.list[
+                                                                            i][
+                                                                        'descripcionproyecto'],
+                                                                    maxLines: 2,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            14.0,
+                                                                        color: Colors
+                                                                            .black),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ]),
-                                                Container(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.05,
-                                                  color: Colors.green,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        Icon(
-                                                          Icons.location_city,
-                                                          color: Colors.white,
-                                                        ),
-                                                        Text(
-                                                          "Comuna: " +
-                                                              widget.list[i][
-                                                                  'nombrecomuna'],
-                                                          style: TextStyle(
-                                                            fontSize: 13,
-                                                            color: Colors.white,
-                                                          ),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                        Padding(
+                                                      ]),
+                                                      Expanded(
+                                                        child: Container(
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.15,
+                                                          color: colorappbar,
+                                                          child: Padding(
                                                             padding:
                                                                 EdgeInsets.all(
-                                                                    5)),
-                                                        Icon(
-                                                          Icons
-                                                              .admin_panel_settings_rounded,
-                                                          color: Colors.white,
+                                                                    8.0),
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: <
+                                                                  Widget>[
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Icon(
+                                                                      Icons
+                                                                          .my_location_rounded,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                    Text(
+                                                                      widget.list[
+                                                                              i]
+                                                                          [
+                                                                          'nombrecomuna'],
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            15,
+                                                                        color: Colors
+                                                                            .white,
+                                                                      ),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Padding(
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom:
+                                                                            6)),
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Icon(
+                                                                      Icons
+                                                                          .admin_panel_settings_rounded,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                    Text(
+                                                                      widget.list[
+                                                                              i]
+                                                                          [
+                                                                          'NombreRol'],
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              15,
+                                                                          color:
+                                                                              Colors.white),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
                                                         ),
-                                                        Text(
-                                                          "Rol: " +
-                                                              widget.list[i]
-                                                                  ['NombreRol'],
-                                                          style: TextStyle(
-                                                              fontSize: 13,
-                                                              color:
-                                                                  Colors.white),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -531,165 +583,389 @@ class _listaproyectosState extends State<listaproyectos> {
                             identificadorusuario)
                       Visibility(
                         visible: visiblemisproy,
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.14,
-                          child: GestureDetector(
-                              onTap: () => Navigator.of(context).push(
-                                    new MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            new DetalleProyecto(
-                                              list: widget.list,
-                                              index: i,
-                                              idusuario: widget.list[i]
-                                                  ['idusuario'],
-                                              idproyecto: widget.list[i]
-                                                  ['idproyecto'],
-                                            )),
-                                  ),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.9,
-                                child: new Card(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    elevation: 4,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: ListView(
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        children: [
-                                          Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.14,
-                                            decoration: new BoxDecoration(
-                                              gradient: LinearGradient(
-                                                  colors: [
-                                                    Colors.white,
-                                                    Colors.white10,
-                                                  ],
-                                                  begin: FractionalOffset
-                                                      .topCenter,
-                                                  end: FractionalOffset
-                                                      .bottomCenter),
+                        child: Row(
+                          children: [
+                            if (i % 2 == 0)
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.15,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.4,
+                                    child: GestureDetector(
+                                        onTap: () => Navigator.of(context).push(
+                                              new MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          new DetalleProyecto(
+                                                            list: widget.list,
+                                                            index: i,
+                                                            idusuario: widget
+                                                                    .list[i]
+                                                                ['idusuario'],
+                                                            idproyecto: widget
+                                                                    .list[i]
+                                                                ['idproyecto'],
+                                                          )),
                                             ),
-                                            child: Column(
-                                              children: <Widget>[
-                                                Column(children: <Widget>[
-                                                  Container(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.09,
-                                                    child: Column(
-                                                      children: [
-                                                        Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 5)),
-                                                        Text(
-                                                          widget.list[i][
-                                                              'nombreproyecto'],
-                                                          style: TextStyle(
-                                                              fontSize: 17.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.black),
-                                                        ),
-                                                        Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 5)),
-                                                        Container(
-                                                          width: MediaQuery.of(
-                                                                      context)
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          child: new Card(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              elevation: 2,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: ListView(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  children: [
+                                                    Container(
+                                                      height:
+                                                          MediaQuery.of(context)
                                                                   .size
-                                                                  .width *
-                                                              0.7,
-                                                          child: Text(
-                                                            widget.list[i][
-                                                                'descripcionproyecto'],
-                                                            style: TextStyle(
-                                                                fontSize: 14.0,
-                                                                color: Colors
-                                                                    .black),
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                          ),
-                                                        ),
-                                                      ],
+                                                                  .height *
+                                                              0.15,
+                                                      decoration:
+                                                          new BoxDecoration(
+                                                        gradient: LinearGradient(
+                                                            colors: [
+                                                              Colors.white,
+                                                              Colors.white10,
+                                                            ],
+                                                            begin:
+                                                                FractionalOffset
+                                                                    .topCenter,
+                                                            end: FractionalOffset
+                                                                .bottomCenter),
+                                                      ),
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          Column(
+                                                              children: <
+                                                                  Widget>[
+                                                                Container(
+                                                                  height: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      0.15,
+                                                                  width: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
+                                                                      0.4,
+                                                                  child:
+                                                                      Padding(
+                                                                    padding:
+                                                                        const EdgeInsets.all(
+                                                                            8.0),
+                                                                    child:
+                                                                        Column(
+                                                                      children: [
+                                                                        Text(
+                                                                          widget.list[i]
+                                                                              [
+                                                                              'nombreproyecto'],
+                                                                          style: TextStyle(
+                                                                              fontSize: 18.0,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              color: colorappbar),
+                                                                          maxLines:
+                                                                              2,
+                                                                          textAlign:
+                                                                              TextAlign.center,
+                                                                        ),
+                                                                        Container(
+                                                                          child:
+                                                                              Text(
+                                                                            widget.list[i]['descripcionproyecto'],
+                                                                            maxLines:
+                                                                                2,
+                                                                            style:
+                                                                                TextStyle(fontSize: 14.0, color: Colors.black),
+                                                                            textAlign:
+                                                                                TextAlign.center,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Container(
+                                                                  height: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      0.04,
+                                                                  color:
+                                                                      colorappbar,
+                                                                  child:
+                                                                      Padding(
+                                                                    padding:
+                                                                        EdgeInsets.all(
+                                                                            8.0),
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .center,
+                                                                      children: <
+                                                                          Widget>[
+                                                                        Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.center,
+                                                                          children: [
+                                                                            Icon(
+                                                                              Icons.my_location_rounded,
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                            Text(
+                                                                              widget.list[i]['nombrecomuna'],
+                                                                              style: TextStyle(
+                                                                                fontSize: 15,
+                                                                                color: Colors.white,
+                                                                              ),
+                                                                              textAlign: TextAlign.center,
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Padding(
+                                                                            padding:
+                                                                                EdgeInsets.only(bottom: 6)),
+                                                                        Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.center,
+                                                                          children: [
+                                                                            Icon(
+                                                                              Icons.admin_panel_settings_rounded,
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                            Text(
+                                                                              widget.list[i]['NombreRol'],
+                                                                              style: TextStyle(fontSize: 15, color: Colors.white),
+                                                                              textAlign: TextAlign.center,
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ]),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ]),
-                                                Container(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.05,
-                                                  color: Colors.green,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        Icon(
-                                                          Icons.location_city,
-                                                          color: Colors.white,
-                                                        ),
-                                                        Text(
-                                                          "Comuna: " +
-                                                              widget.list[i][
-                                                                  'nombrecomuna'],
-                                                          style: TextStyle(
-                                                            fontSize: 13,
-                                                            color: Colors.white,
-                                                          ),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                        Padding(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    5)),
-                                                        Icon(
-                                                          Icons
-                                                              .admin_panel_settings_rounded,
-                                                          color: Colors.white,
-                                                        ),
-                                                        Text(
-                                                          "Rol: " +
-                                                              widget.list[i]
-                                                                  ['NombreRol'],
-                                                          style: TextStyle(
-                                                              fontSize: 13,
-                                                              color:
-                                                                  Colors.white),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
+                                                  ],
                                                 ),
-                                              ],
+                                              )),
+                                        )),
+                                  ),
+                                ],
+                              )
+                            else if (i % 2 == 1)
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.15,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.3,
+                                    child: GestureDetector(
+                                        onTap: () => Navigator.of(context).push(
+                                              new MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          new DetalleProyecto(
+                                                            list: widget.list,
+                                                            index: i,
+                                                            idusuario: widget
+                                                                    .list[i]
+                                                                ['idusuario'],
+                                                            idproyecto: widget
+                                                                    .list[i]
+                                                                ['idproyecto'],
+                                                          )),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                              )),
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          child: new Card(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              elevation: 2,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: ListView(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  children: [
+                                                    Container(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.15,
+                                                      decoration:
+                                                          new BoxDecoration(
+                                                        gradient: LinearGradient(
+                                                            colors: [
+                                                              Colors.white,
+                                                              Colors.white10,
+                                                            ],
+                                                            begin:
+                                                                FractionalOffset
+                                                                    .topCenter,
+                                                            end: FractionalOffset
+                                                                .bottomCenter),
+                                                      ),
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          Column(
+                                                              children: <
+                                                                  Widget>[
+                                                                Container(
+                                                                  height: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      0.15,
+                                                                  width: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
+                                                                      0.4,
+                                                                  child:
+                                                                      Padding(
+                                                                    padding:
+                                                                        const EdgeInsets.all(
+                                                                            8.0),
+                                                                    child:
+                                                                        Column(
+                                                                      children: [
+                                                                        Text(
+                                                                          widget.list[i]
+                                                                              [
+                                                                              'nombreproyecto'],
+                                                                          style: TextStyle(
+                                                                              fontSize: 18.0,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              color: colorappbar),
+                                                                          maxLines:
+                                                                              2,
+                                                                          textAlign:
+                                                                              TextAlign.center,
+                                                                        ),
+                                                                        Container(
+                                                                          child:
+                                                                              Text(
+                                                                            widget.list[i]['descripcionproyecto'],
+                                                                            maxLines:
+                                                                                2,
+                                                                            style:
+                                                                                TextStyle(fontSize: 14.0, color: Colors.black),
+                                                                            textAlign:
+                                                                                TextAlign.center,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Container(
+                                                                  height: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      0.04,
+                                                                  color:
+                                                                      colorappbar,
+                                                                  child:
+                                                                      Padding(
+                                                                    padding:
+                                                                        EdgeInsets.all(
+                                                                            8.0),
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .center,
+                                                                      children: <
+                                                                          Widget>[
+                                                                        Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.center,
+                                                                          children: [
+                                                                            Icon(
+                                                                              Icons.my_location_rounded,
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                            Text(
+                                                                              widget.list[i]['nombrecomuna'],
+                                                                              style: TextStyle(
+                                                                                fontSize: 15,
+                                                                                color: Colors.white,
+                                                                              ),
+                                                                              textAlign: TextAlign.center,
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Padding(
+                                                                            padding:
+                                                                                EdgeInsets.only(bottom: 6)),
+                                                                        Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.center,
+                                                                          children: [
+                                                                            Icon(
+                                                                              Icons.admin_panel_settings_rounded,
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                            Text(
+                                                                              widget.list[i]['NombreRol'],
+                                                                              style: TextStyle(fontSize: 13, color: Colors.white),
+                                                                              textAlign: TextAlign.center,
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ]),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )),
+                                        )),
+                                  ),
+                                ],
+                              )
+                          ],
                         ),
                       )
                     else if (seleccionado == 3 &&
@@ -698,7 +974,7 @@ class _listaproyectosState extends State<listaproyectos> {
                       Visibility(
                         visible: visiblepropar,
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.14,
+                          height: MediaQuery.of(context).size.height * 0.15,
                           child: GestureDetector(
                               onTap: () => Navigator.of(context).push(
                                     new MaterialPageRoute(
@@ -718,7 +994,7 @@ class _listaproyectosState extends State<listaproyectos> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(10)),
-                                    elevation: 4,
+                                    elevation: 2,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(10),
                                       child: ListView(
@@ -729,7 +1005,7 @@ class _listaproyectosState extends State<listaproyectos> {
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                0.14,
+                                                0.15,
                                             decoration: new BoxDecoration(
                                               gradient: LinearGradient(
                                                   colors: [
@@ -743,111 +1019,148 @@ class _listaproyectosState extends State<listaproyectos> {
                                             ),
                                             child: Column(
                                               children: <Widget>[
-                                                Column(children: <Widget>[
-                                                  Container(
-                                                    height:
-                                                        MediaQuery.of(context)
+                                                Row(
+                                                  children: [
+                                                    Column(children: <Widget>[
+                                                      Container(
+                                                        height: MediaQuery.of(
+                                                                    context)
                                                                 .size
                                                                 .height *
-                                                            0.09,
-                                                    child: Column(
-                                                      children: [
-                                                        Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 5)),
-                                                        Text(
-                                                          widget.list[i][
-                                                              'nombreproyecto'],
-                                                          style: TextStyle(
-                                                              fontSize: 17.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.black),
-                                                        ),
-                                                        Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 5)),
-                                                        Container(
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.7,
-                                                          child: Text(
-                                                            widget.list[i][
-                                                                'descripcionproyecto'],
-                                                            style: TextStyle(
-                                                                fontSize: 14.0,
-                                                                color: Colors
-                                                                    .black),
-                                                            textAlign: TextAlign
-                                                                .center,
+                                                            0.15,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.5,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Column(
+                                                            children: [
+                                                              Text(
+                                                                widget.list[i][
+                                                                    'nombreproyecto'],
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        18.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color:
+                                                                        colorappbar),
+                                                                maxLines: 2,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                              Container(
+                                                                child: Text(
+                                                                  widget.list[i]
+                                                                      [
+                                                                      'descripcionproyecto'],
+                                                                  maxLines: 2,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          14.0,
+                                                                      color: Colors
+                                                                          .black),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ]),
-                                                Container(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.05,
-                                                  color: Colors.green,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        Icon(
-                                                          Icons.location_city,
-                                                          color: Colors.white,
-                                                        ),
-                                                        Text(
-                                                          "Comuna: " +
-                                                              widget.list[i][
-                                                                  'nombrecomuna'],
-                                                          style: TextStyle(
-                                                            fontSize: 13,
-                                                            color: Colors.white,
+                                                      ),
+                                                    ]),
+                                                    Expanded(
+                                                      child: Container(
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.15,
+                                                        color: colorappbar,
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  8.0),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: <Widget>[
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Icon(
+                                                                    Icons
+                                                                        .my_location_rounded,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                  Text(
+                                                                    widget.list[
+                                                                            i][
+                                                                        'nombrecomuna'],
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          bottom:
+                                                                              6)),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Icon(
+                                                                    Icons
+                                                                        .admin_panel_settings_rounded,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                  Text(
+                                                                    widget.list[
+                                                                            i][
+                                                                        'NombreRol'],
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            15,
+                                                                        color: Colors
+                                                                            .white),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
                                                           ),
-                                                          textAlign:
-                                                              TextAlign.center,
                                                         ),
-                                                        Padding(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    5)),
-                                                        Icon(
-                                                          Icons
-                                                              .admin_panel_settings_rounded,
-                                                          color: Colors.white,
-                                                        ),
-                                                        Text(
-                                                          "Rol: " +
-                                                              widget.list[i]
-                                                                  ['NombreRol'],
-                                                          style: TextStyle(
-                                                              fontSize: 13,
-                                                              color:
-                                                                  Colors.white),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                      ],
+                                                      ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
                                               ],
                                             ),

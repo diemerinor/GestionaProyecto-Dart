@@ -171,7 +171,7 @@ class _detallesrrhhState extends State<detallesrrhh> {
                             padding: const EdgeInsets.all(8.0),
                             child: RaisedButton(
                               child: Text("Listar trabajadores"),
-                              color: Colors.red,
+                              color: colorappbar,
                               textColor: Colors.white,
                               onPressed: () {
                                 Navigator.push(
@@ -189,7 +189,7 @@ class _detallesrrhhState extends State<detallesrrhh> {
                             padding: const EdgeInsets.all(8.0),
                             child: RaisedButton(
                               child: Text("Agregar trabajador"),
-                              color: Colors.red,
+                              color: colorappbar,
                               textColor: Colors.white,
                               onPressed: () {},
                             ),
