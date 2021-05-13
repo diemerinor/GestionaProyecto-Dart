@@ -199,7 +199,6 @@ class _listarinformacionState extends State<listarinformacion> {
 
                 //
                 Container(
-                    height: MediaQuery.of(context).size.height * 0.2,
                     width: MediaQuery.of(context).size.width * 0.90,
                     padding: EdgeInsets.only(top: 23, left: 10, right: 10),
                     child: Column(children: <Widget>[
@@ -212,7 +211,7 @@ class _listarinformacionState extends State<listarinformacion> {
                         child: Text(
                           'Acerca de mi:',
                           style: TextStyle(
-                              fontSize: 25,
+                              fontSize: 22,
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                           textAlign: TextAlign.left,
@@ -231,50 +230,47 @@ class _listarinformacionState extends State<listarinformacion> {
 
                 Column(children: <Widget>[
                   Container(
-                      height: MediaQuery.of(context).size.height * 0.20,
                       width: MediaQuery.of(context).size.width * 0.90,
                       padding: EdgeInsets.only(top: 23, left: 10, right: 10),
-                      child: ListView(
-                          physics: NeverScrollableScrollPhysics(),
-                          children: <Widget>[
-                            // Los bordes del contenido del card se cortan usando BorderRadius
-                            Container(
-                              padding: EdgeInsets.only(left: 10),
-                              color: colorappbar,
-                              child: Text(
-                                'Información de contacto:',
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                      child: Column(children: <Widget>[
+                        // Los bordes del contenido del card se cortan usando BorderRadius
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.90,
+                          padding: EdgeInsets.only(left: 10),
+                          color: colorappbar,
+                          child: Text(
+                            'Información de contacto:',
+                            style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.only(bottom: 10)),
+
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Telefono: ' + widget.list[i]["telefono"],
+                                style: TextStyle(fontSize: 20),
                                 textAlign: TextAlign.left,
                               ),
-                            ),
-                            Padding(padding: EdgeInsets.only(bottom: 10)),
-
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Telefono: ' + widget.list[i]["telefono"],
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  Text(
-                                    'Correo: ' +
-                                        widget.list[i]["correousuario"],
-                                    style: TextStyle(fontSize: 20),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ],
+                              Text(
+                                'Correo: ' + widget.list[i]["correousuario"],
+                                style: TextStyle(fontSize: 20),
+                                textAlign: TextAlign.left,
                               ),
-                            ),
-                            /*],
+                            ],
+                          ),
+                        ),
+                        /*],
                       ),
                     )*/
-                          ]))
+                      ]))
                 ]),
                 Container(
                   margin: const EdgeInsets.only(right: 50, left: 50, top: 20),

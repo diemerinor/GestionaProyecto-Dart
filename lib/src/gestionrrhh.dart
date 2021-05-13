@@ -12,6 +12,7 @@ import 'dart:async';
 import 'dart:convert';
 
 int cantidadtrabajadores;
+String mensajerrhh;
 
 class GestionRRHH extends StatefulWidget {
   final String idproyecto;
@@ -25,7 +26,7 @@ class _GestionRRHHState extends State<GestionRRHH> {
   @override
   void initState() {
     super.initState();
-    cantidadtrabajadores = 0;
+    mensajerrhh = "Cargando cargos";
   }
 
   String url2 =
@@ -40,10 +41,8 @@ class _GestionRRHHState extends State<GestionRRHH> {
 
     int auxseccion = 0;
     int largodatauser = datauser.length;
-    for (auxseccion = 0; auxseccion < largodatauser; auxseccion++) {
-      cantidadtrabajadores++;
-    }
-    cantidadtrabajadores = largodatauser - 1;
+
+    cantidadtrabajadores = largodatauser;
     //cantidadtrabajadores--;
     return datauser;
   }
@@ -52,7 +51,11 @@ class _GestionRRHHState extends State<GestionRRHH> {
     final response = await http
         .post(Uri.parse(url3), body: {"idproyecto": widget.idproyecto});
     var datauser = json.decode(response.body);
-
+    if (datauser == null) {
+      mensajerrhh = "No existen cargos en el proyecto";
+    } else {
+      mensajerrhh = '';
+    }
     print(datauser);
     return datauser;
   }
@@ -68,7 +71,7 @@ class _GestionRRHHState extends State<GestionRRHH> {
         body: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.16,
+              height: MediaQuery.of(context).size.height * 0.2,
               child: Column(
                 children: [
                   Expanded(
@@ -101,11 +104,31 @@ class _GestionRRHHState extends State<GestionRRHH> {
                     future: getCargos(),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) print(snapshot.error);
-                      return snapshot.hasData
-                          ? new detallescargo(listacargos: snapshot.data)
-                          : new Center(
-                              child: new CircularProgressIndicator(),
-                            );
+                      if (snapshot.hasData) {
+                        return new detallescargo(listacargos: snapshot.data);
+                      } else {
+                        return Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            children: [
+                              Text(mensajerrhh ?? ''),
+                              RaisedButton(
+                                child: new Text(
+                                  "Crear cargo",
+                                  style: (TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold)),
+                                ),
+                                color: colorappbar,
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(20.0)),
+                                onPressed: () {},
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                     }),
               ),
             ),
@@ -130,79 +153,89 @@ class detallesrrhh extends StatefulWidget {
 class _detallesrrhhState extends State<detallesrrhh> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-                itemCount: widget.list == null ? 0 : 1,
-                itemBuilder: (context, i) {
-                  return Column(
-                    children: [
-                      Column(children: <Widget>[
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              margin: EdgeInsets.all(15),
-                              elevation: 10,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text(
-                                        "Trabajadores: $cantidadtrabajadores",
-                                        style: TextStyle(fontSize: 25),
-                                        textAlign: TextAlign.center,
+    return widget.list == null
+        ? Center(child: CircularProgressIndicator())
+        : Container(
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: widget.list == null ? 0 : 1,
+                      itemBuilder: (context, i) {
+                        return Column(
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.6,
+                              child: Column(children: <Widget>[
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Card(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      margin: EdgeInsets.all(15),
+                                      elevation: 10,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Text(
+                                                "Trabajadores: $cantidadtrabajadores",
+                                                style: TextStyle(fontSize: 25),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )),
+                                ),
+                                Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: RaisedButton(
+                                          child: Text("Listar trabajadores"),
+                                          color: colorappbar,
+                                          textColor: Colors.white,
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        new ListarTrabajadores(
+                                                          idproyecto:
+                                                              widget.idproyecto,
+                                                          idusuario:
+                                                              widget.idusuario,
+                                                        )));
+                                          },
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: RaisedButton(
+                                          child: Text("Agregar trabajador"),
+                                          color: colorappbar,
+                                          textColor: Colors.white,
+                                          onPressed: () {},
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
-                              )),
-                        ),
-                      ]),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: RaisedButton(
-                              child: Text("Listar trabajadores"),
-                              color: colorappbar,
-                              textColor: Colors.white,
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            new ListarTrabajadores(
-                                              idproyecto: widget.idproyecto,
-                                              idusuario: widget.idusuario,
-                                            )));
-                              },
+                              ]),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: RaisedButton(
-                              child: Text("Agregar trabajador"),
-                              color: colorappbar,
-                              textColor: Colors.white,
-                              onPressed: () {},
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                }),
-          ),
-        ],
-      ),
-    );
+                          ],
+                        );
+                      }),
+                ),
+              ],
+            ),
+          );
   }
 }
 

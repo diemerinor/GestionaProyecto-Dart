@@ -12,6 +12,7 @@ import 'package:gestionaproyecto/src/gestionarproyecto.dart';
 
 import 'editarperfi.dart';
 import 'gestionfinanciera.dart';
+import 'gestionmateriales.dart';
 import 'listareventos.dart';
 import 'misproyectos.dart';
 
@@ -69,6 +70,8 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
       child: Text("Continuar"),
       onPressed: () {
         Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.pop(context);
         deleteproyecto();
         Navigator.push(
             context,
@@ -120,7 +123,6 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                   child: Row(
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.16,
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: new Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -132,7 +134,7 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                               child: new Text(
                                 widget.list[widget.index]['nombreproyecto'],
                                 style: new TextStyle(
-                                    fontSize: 20.0,
+                                    fontSize: 18.0,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -145,12 +147,12 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                                   Icon(
                                     Icons.location_city,
                                     color: Colors.white,
-                                    size: 25,
+                                    size: 18,
                                   ),
                                   new Text(
                                     widget.list[widget.index]['nombrecomuna'],
                                     style: new TextStyle(
-                                        fontSize: 20.0, color: Colors.white),
+                                        fontSize: 17.0, color: Colors.white),
                                   ),
                                 ],
                               ),
@@ -163,13 +165,13 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                                   Icon(
                                     Icons.admin_panel_settings_rounded,
                                     color: Colors.white,
-                                    size: 25,
+                                    size: 18,
                                   ),
                                   Text(
                                     "Rol: " +
                                         widget.list[widget.index]['NombreRol'],
                                     style: TextStyle(
-                                        fontSize: 20, color: Colors.white),
+                                        fontSize: 17, color: Colors.white),
                                   ),
                                 ],
                               ),
@@ -187,7 +189,6 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                                 children: [
                                   GestureDetector(
                                     onTap: () => {
-                                      Navigator.pop(context),
                                       Navigator.of(context).push(
                                         new MaterialPageRoute(
                                             builder: (BuildContext context) =>
@@ -328,25 +329,32 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               GestureDetector(
+                                  onTap: () => Navigator.of(context).push(
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new GestionarMateriales(
+                                                  idproyecto: widget.idproyecto,
+                                                )),
+                                      ),
                                   child: Column(
-                                children: [
-                                  Container(
-                                      width: 180,
-                                      child: Card(
-                                          child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(children: <Widget>[
-                                          Icon(Icons.extension_rounded,
-                                              size: 40),
-                                          Text(
-                                            'Gestión\nde Materiales',
-                                            style: TextStyle(fontSize: 16),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ]),
-                                      ))),
-                                ],
-                              )),
+                                    children: [
+                                      Container(
+                                          width: 180,
+                                          child: Card(
+                                              child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(children: <Widget>[
+                                              Icon(Icons.extension_rounded,
+                                                  size: 40),
+                                              Text(
+                                                'Gestión\nde Materiales',
+                                                style: TextStyle(fontSize: 16),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ]),
+                                          ))),
+                                    ],
+                                  )),
                               GestureDetector(
                                   onTap: () => Navigator.of(context).push(
                                         new MaterialPageRoute(

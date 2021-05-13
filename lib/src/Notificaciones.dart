@@ -12,15 +12,15 @@ import 'dart:convert';
 int seleccionado;
 int cantidadeventos = 0;
 int cantidadmov = 0;
-Color todos;
-Color misproy;
-Color propar;
+Color financiamiento;
+Color eventoscolor;
+Color todoscolor;
+Color letrasfinanciamiento;
+Color letraseventos;
 Color letrastodos;
-Color letrasmisproy;
-Color letraspropar;
+bool visiblefinanciamiento;
+bool visibleeventos;
 bool visibletodos;
-bool visiblemisproy;
-bool visiblepropar;
 
 class Notificaciones extends StatefulWidget {
   final String idusuario;
@@ -51,17 +51,17 @@ class _NotificacionesState extends State<Notificaciones> {
   void initState() {
     // TODO: implement initState
 
-    todos = Colors.white;
+    financiamiento = colorappbar;
+    letrasfinanciamiento = Colors.white;
+    eventoscolor = colorappbar;
+    letraseventos = Colors.white;
+
+    todoscolor = Colors.white;
     letrastodos = colorappbar;
-    misproy = colorappbar;
-    letrasmisproy = Colors.white;
 
-    propar = colorappbar;
-    letraspropar = Colors.white;
-
-    visibletodos = true;
-    visiblemisproy = false;
-    visiblepropar = false;
+    visiblefinanciamiento = true;
+    visibleeventos = false;
+    visibletodos = false;
 
     seleccionado = 3;
   }
@@ -156,73 +156,28 @@ class _listatrabajState extends State<listatrabaj> {
                                   onTap: () {
                                     setState(() {
                                       if (seleccionado != 3) {
-                                        visibletodos = false;
-                                        visiblemisproy = false;
-                                        visiblepropar = true;
-                                        print("actualmente es $visiblepropar");
-                                        todos = colorappbar;
-                                        letrastodos = Colors.white;
-                                        propar = Colors.white;
-                                        letraspropar = colorappbar;
-                                        misproy = colorappbar;
-                                        letrasmisproy = Colors.white;
+                                        visiblefinanciamiento = false;
+                                        visibleeventos = false;
+                                        visibletodos = true;
+                                        print("actualmente es $visibletodos");
+                                        financiamiento = colorappbar;
+                                        letrasfinanciamiento = Colors.white;
+                                        todoscolor = Colors.white;
+                                        letrastodos = colorappbar;
+                                        eventoscolor = colorappbar;
+                                        letraseventos = Colors.white;
                                         seleccionado = 3;
                                       }
                                     });
                                   },
                                   child: Card(
-                                    color: propar,
+                                    color: todoscolor,
                                     elevation: 3,
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Center(
                                         child: Text(
                                           "Todos",
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              color: letraspropar,
-                                              fontWeight: FontWeight.bold),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.08,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      if (seleccionado != 1) {
-                                        visibletodos = true;
-                                        visiblemisproy = false;
-                                        visiblepropar = false;
-                                        print("actualmente es $visibletodos");
-                                        todos = Colors.white;
-                                        letrastodos = Colors.green;
-                                        propar = colorappbar;
-                                        letraspropar = Colors.white;
-                                        misproy = colorappbar;
-                                        letrasmisproy = Colors.white;
-
-                                        seleccionado = 1;
-                                      }
-                                    });
-                                  },
-                                  child: Card(
-                                    color: todos,
-                                    elevation: 3,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Center(
-                                        child: Text(
-                                          "Financiamiento",
                                           style: TextStyle(
                                               fontSize: 17,
                                               color: letrastodos,
@@ -244,25 +199,71 @@ class _listatrabajState extends State<listatrabaj> {
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      if (seleccionado != 2) {
+                                      if (seleccionado != 1) {
+                                        visiblefinanciamiento = true;
+                                        visibleeventos = false;
                                         visibletodos = false;
-                                        visiblemisproy = true;
-                                        visiblepropar = false;
-                                        print("actualmente es $visiblemisproy");
-
-                                        todos = colorappbar;
+                                        print(
+                                            "actualmente es $visiblefinanciamiento");
+                                        financiamiento = Colors.white;
+                                        letrasfinanciamiento = colorappbar;
+                                        todoscolor = colorappbar;
                                         letrastodos = Colors.white;
-                                        propar = colorappbar;
-                                        letraspropar = Colors.white;
-                                        misproy = Colors.white;
-                                        letrasmisproy = colorappbar;
+                                        eventoscolor = colorappbar;
+                                        letraseventos = Colors.white;
+
+                                        seleccionado = 1;
+                                      }
+                                    });
+                                  },
+                                  child: Card(
+                                    color: financiamiento,
+                                    elevation: 3,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Center(
+                                        child: Text(
+                                          "Financiamiento",
+                                          style: TextStyle(
+                                              fontSize: 17,
+                                              color: letrasfinanciamiento,
+                                              fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.08,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      if (seleccionado != 2) {
+                                        visiblefinanciamiento = false;
+                                        visibleeventos = true;
+                                        visibletodos = false;
+                                        print("actualmente es $visibleeventos");
+
+                                        financiamiento = colorappbar;
+                                        letrasfinanciamiento = Colors.white;
+                                        todoscolor = colorappbar;
+                                        letrastodos = Colors.white;
+                                        eventoscolor = Colors.white;
+                                        letraseventos = colorappbar;
 
                                         seleccionado = 2;
                                       }
                                     });
                                   },
                                   child: Card(
-                                    color: misproy,
+                                    color: eventoscolor,
                                     elevation: 3,
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
@@ -271,7 +272,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           "Eventos",
                                           style: TextStyle(
                                               fontSize: 17,
-                                              color: letrasmisproy,
+                                              color: letraseventos,
                                               fontWeight: FontWeight.bold),
                                           textAlign: TextAlign.center,
                                         ),
@@ -343,12 +344,12 @@ class _listatrabajState extends State<listatrabaj> {
                                         Row(
                                           children: [
                                             Card(
-                                                color: Colors.green,
+                                                color: colorappbar,
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(
                                                       12.0),
                                                   child: Icon(
-                                                    Icons.north,
+                                                    Icons.north_east,
                                                     size: 40,
                                                     color: Colors.white,
                                                   ),
@@ -430,12 +431,12 @@ class _listatrabajState extends State<listatrabaj> {
                                         Row(
                                           children: [
                                             Card(
-                                                color: Colors.redAccent,
+                                                color: rojooscuro,
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(
                                                       12.0),
                                                   child: Icon(
-                                                    Icons.south,
+                                                    Icons.south_east,
                                                     size: 40,
                                                     color: Colors.white,
                                                   ),
@@ -540,7 +541,7 @@ class _listatrabajState extends State<listatrabaj> {
                                         Row(
                                           children: [
                                             Card(
-                                                color: Colors.pink,
+                                                color: Colors.brown,
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(
                                                       12.0),
@@ -557,7 +558,9 @@ class _listatrabajState extends State<listatrabaj> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(widget.list[i]['titulo'],
+                                                  Text(
+                                                      widget.list[i]
+                                                          ['nombreproyecto'],
                                                       style: TextStyle(
                                                           fontSize: 20.0,
                                                           fontWeight:
@@ -569,8 +572,10 @@ class _listatrabajState extends State<listatrabaj> {
                                                                 .width *
                                                             0.70,
                                                     child: Text(
-                                                      widget.list[i]
-                                                          ["descripcion"],
+                                                      widget.list[i]['titulo'] +
+                                                          ": " +
+                                                          widget.list[i]
+                                                              ["descripcion"],
                                                       style: TextStyle(
                                                           fontSize: 20.0),
                                                     ),
@@ -645,7 +650,7 @@ class _listatrabajState extends State<listatrabaj> {
                                         Row(
                                           children: [
                                             Card(
-                                                color: Colors.pink,
+                                                color: Colors.brown,
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(
                                                       12.0),
@@ -662,7 +667,9 @@ class _listatrabajState extends State<listatrabaj> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(widget.list[i]['titulo'],
+                                                  Text(
+                                                      widget.list[i]
+                                                          ['nombreproyecto'],
                                                       style: TextStyle(
                                                           fontSize: 20.0,
                                                           fontWeight:
@@ -674,8 +681,10 @@ class _listatrabajState extends State<listatrabaj> {
                                                                 .width *
                                                             0.70,
                                                     child: Text(
-                                                      widget.list[i]
-                                                          ["descripcion"],
+                                                      widget.list[i]['titulo'] +
+                                                          ": " +
+                                                          widget.list[i]
+                                                              ["descripcion"],
                                                       style: TextStyle(
                                                           fontSize: 20.0),
                                                     ),
@@ -731,13 +740,13 @@ class _listatrabajState extends State<listatrabaj> {
                                           Row(
                                             children: [
                                               Card(
-                                                  color: Colors.green,
+                                                  color: colorappbar,
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(
                                                             12.0),
                                                     child: Icon(
-                                                      Icons.north,
+                                                      Icons.north_east,
                                                       size: 40,
                                                       color: Colors.white,
                                                     ),
@@ -812,7 +821,10 @@ class _listatrabajState extends State<listatrabaj> {
                                                     fontSize: 16.0,
                                                     fontStyle: FontStyle.italic,
                                                   )),
-                                            )
+                                            ),
+                                          Divider(
+                                            color: Colors.black,
+                                          ),
                                         ],
                                       )
                                     else if (widget.list[i]
@@ -823,13 +835,13 @@ class _listatrabajState extends State<listatrabaj> {
                                           Row(
                                             children: [
                                               Card(
-                                                  color: Colors.redAccent,
+                                                  color: rojooscuro,
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(
                                                             12.0),
                                                     child: Icon(
-                                                      Icons.south,
+                                                      Icons.south_east,
                                                       size: 40,
                                                       color: Colors.white,
                                                     ),
@@ -905,11 +917,11 @@ class _listatrabajState extends State<listatrabaj> {
                                                     fontStyle: FontStyle.italic,
                                                   )),
                                             ),
+                                          Divider(
+                                            color: Colors.black,
+                                          ),
                                         ],
                                       ),
-                                    Divider(
-                                      color: Colors.black,
-                                    ),
                                   ],
                                 ),
                               ))

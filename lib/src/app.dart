@@ -84,9 +84,19 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: colorappbar,
         elevation: 0,
-        title: Text(
-          'ConstruPro',
-          style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+        title: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Text(
+                'ConstruPro',
+                style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Container(
+                height: MediaQuery.of(context).size.height * 0.04,
+                child: Image(image: new AssetImage('assets/images/logo3.png'))),
+          ],
         ),
 
         //

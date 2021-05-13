@@ -201,40 +201,31 @@ class _DatosAvanceState extends State<DatosAvance> {
   List<charts.Series> seriesList;
   var datos2;
 
-  encontrarlargo() {
-    largo = widget.list.length;
-  }
-
   List<charts.Series<DatosGrafico, String>> _DatosGr() {
-    List<DatosGrafico> datos;
-    if (largo > 0 && largo >= 5) {
-      datos = [
-        DatosGrafico((widget.list[0]["fechareporte"]),
-            double.parse(widget.list[0]["metrosavanzados"]), 3),
-        DatosGrafico(widget.list[1]["fechareporte"],
-            double.parse(widget.list[1]["metrosavanzados"]), 3),
-        DatosGrafico(widget.list[2]["fechareporte"],
-            double.parse(widget.list[2]["metrosavanzados"]), 3),
-        DatosGrafico(widget.list[3]["fechareporte"],
-            double.parse(widget.list[3]["metrosavanzados"]), 3),
-        DatosGrafico(widget.list[4]["fechareporte"],
-            double.parse(widget.list[4]["metrosavanzados"]), 3),
-        DatosGrafico(widget.list[5]["fechareporte"],
-            double.parse(widget.list[5]["metrosavanzados"]), 3),
-      ];
+    List<DatosGrafico> datos = [
+      DatosGrafico((widget.list[0]["fechareportado"]),
+          double.parse(widget.list[0]["metrosavanzados"]), 3)
+    ];
+    int i = 1;
 
-      porcentaje = porcentajeavance / 100;
-      print("el porcentaje es $porcentaje");
+    while (i < largo && i < 5) {
+      datos.add(DatosGrafico((widget.list[i]["fechareportado"]),
+          double.parse(widget.list[i]["metrosavanzados"]), 3));
 
-      return [
-        charts.Series<DatosGrafico, String>(
-          id: 'Datos',
-          domainFn: (DatosGrafico datosg, _) => datosg.fecha,
-          measureFn: (DatosGrafico datosg, _) => datosg.metros,
-          data: datos,
-        )
-      ];
+      i++;
     }
+
+    porcentaje = porcentajeavance / 100;
+    print("el porcentaje es $porcentaje");
+
+    return [
+      charts.Series<DatosGrafico, String>(
+        id: 'Datos',
+        domainFn: (DatosGrafico datosg, _) => datosg.fecha,
+        measureFn: (DatosGrafico datosg, _) => datosg.metros,
+        data: datos,
+      )
+    ];
   }
 
   barChart() {
@@ -278,84 +269,89 @@ class _DatosAvanceState extends State<DatosAvance> {
                                               BorderRadius.circular(10)),
                                       margin: EdgeInsets.all(10),
                                       elevation: 4,
-                                      child: Container(
-                                          margin: EdgeInsets.only(
-                                              left: 60, right: 60, top: 20),
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.20,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          child: Column(
-                                            children: <Widget>[
-                                              if (porcentajeavance != 0)
-                                                Column(
-                                                  children: [
-                                                    Text(
-                                                      "Porcentaje de avance",
-                                                      style: TextStyle(
-                                                          fontSize: 20),
-                                                    ),
-                                                    Center(
+                                      child: Expanded(
+                                        child: Container(
+                                            margin: EdgeInsets.only(
+                                                left: 60, right: 60, top: 20),
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: Column(
+                                              children: <Widget>[
+                                                if (porcentajeavance != 0)
+                                                  Column(
+                                                    children: [
+                                                      Text(
+                                                        "Porcentaje de avance",
+                                                        style: TextStyle(
+                                                            fontSize: 20),
+                                                      ),
+                                                      Center(
+                                                          child: Text(
+                                                        "$porcentajeavance%",
+                                                        style: TextStyle(
+                                                            fontSize: 40,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      )),
+                                                      Card(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)),
+                                                        margin:
+                                                            EdgeInsets.all(10),
+                                                        elevation: 4,
+                                                        child: Stack(children: [
+                                                          Container(
+                                                            color: Colors.black,
+                                                            height: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.017,
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.5,
+                                                          ),
+                                                          Container(
+                                                            color: colorappbar,
+                                                            height: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.017,
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                porcentaje *
+                                                                0.5,
+                                                          )
+                                                        ]),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                bottom: 8.0),
                                                         child: Text(
-                                                      "$porcentajeavance%",
-                                                      style: TextStyle(
-                                                          fontSize: 40,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    )),
-                                                    Text(
-                                                      "Se han avanzado $metrosavance metros de un total de $metrostotales metros",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 17),
-                                                    ),
-                                                    Card(
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                      margin:
-                                                          EdgeInsets.all(10),
-                                                      elevation: 4,
-                                                      child: Stack(children: [
-                                                        Container(
-                                                          color: Colors.black,
-                                                          height: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.017,
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.5,
+                                                          "Haz click para más detalles",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 17),
                                                         ),
-                                                        Container(
-                                                          color: colorappbar,
-                                                          height: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.017,
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              porcentaje *
-                                                              0.5,
-                                                        )
-                                                      ]),
-                                                    ),
-                                                  ],
-                                                ),
-                                            ],
-                                          )),
+                                                      ),
+                                                    ],
+                                                  ),
+                                              ],
+                                            )),
+                                      ),
                                     ),
                                   ),
                                 new RaisedButton(
@@ -405,8 +401,8 @@ class _DatosAvanceState extends State<DatosAvance> {
                                               elevation: 4,
                                               child: Container(
                                                   margin: EdgeInsets.only(
-                                                      left: 30,
-                                                      right: 30,
+                                                      left: 5,
+                                                      right: 5,
                                                       top: 20),
                                                   height: MediaQuery.of(context)
                                                           .size
@@ -459,53 +455,94 @@ class _SeccionesState extends State<Secciones> {
         ? Center(child: CircularProgressIndicator())
         : FutureBuilder<List>(builder: (context, snapshot) {
             print("la cosita es ${widget.listasecciones.length}");
-            return ListView.builder(
-                itemCount: widget.listasecciones == null
-                    ? 0
-                    : widget.listasecciones.length,
-                itemBuilder: (context, i) {
-                  if (widget.listasecciones[0]['idseccion'] != null) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Center(
-                          child: Row(
-                            children: [
-                              Text(
-                                "Gestiona por sección",
-                                style: TextStyle(fontSize: 20),
-                                textAlign: TextAlign.center,
-                              ),
-                              Padding(padding: EdgeInsets.only(right: 10)),
-                              new RaisedButton(
-                                child: new Text(
-                                  "Ver más",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                                color: Colors.black,
-                                shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(3.0)),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Agregarreporte(
-                                                idproyecto: widget.idproyecto,
-                                              )));
-                                },
-                              ),
-                            ],
+            return ListView(
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Center(
+                      child: Row(
+                        children: [
+                          Text(
+                            "Gestiona por sección",
+                            style: TextStyle(fontSize: 20),
+                            textAlign: TextAlign.center,
                           ),
-                        ),
+                          Padding(padding: EdgeInsets.only(right: 10)),
+                          new RaisedButton(
+                            child: new Text(
+                              "Ver más",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            color: Colors.black,
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(3.0)),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Agregarreporte(
+                                            idproyecto: widget.idproyecto,
+                                          )));
+                            },
+                          ),
+                        ],
                       ),
-                    );
-                  } else {
-                    return Text("Hola");
-                  }
-                });
+                    ),
+                  ),
+                )
+                // ListView.builder(
+                //     itemCount: widget.listasecciones == null ? 0 : 1,
+                //     itemBuilder: (context, i) {
+                //       if (widget.listasecciones[0]['idseccion'] != null) {
+                //         return Container(
+                //           width: MediaQuery.of(context).size.width,
+                //           child: Padding(
+                //             padding: const EdgeInsets.all(20.0),
+                //             child: Center(
+                //               child: Row(
+                //                 children: [
+                //                   Text(
+                //                     "Gestiona por sección",
+                //                     style: TextStyle(fontSize: 20),
+                //                     textAlign: TextAlign.center,
+                //                   ),
+                //                   Padding(padding: EdgeInsets.only(right: 10)),
+                //                   new RaisedButton(
+                //                     child: new Text(
+                //                       "Ver más",
+                //                       style: TextStyle(
+                //                           color: Colors.white, fontSize: 20),
+                //                     ),
+                //                     color: Colors.black,
+                //                     shape: new RoundedRectangleBorder(
+                //                         borderRadius:
+                //                             new BorderRadius.circular(3.0)),
+                //                     onPressed: () {
+                //                       Navigator.push(
+                //                           context,
+                //                           MaterialPageRoute(
+                //                               builder: (context) =>
+                //                                   Agregarreporte(
+                //                                     idproyecto:
+                //                                         widget.idproyecto,
+                //                                   )));
+                //                     },
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //           ),
+                //         );
+                //       } else {
+                //         return Text("Hola");
+                //       }
+                //     }),
+              ],
+            );
           });
   }
 }

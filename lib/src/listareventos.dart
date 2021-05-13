@@ -1,4 +1,5 @@
 import 'package:gestionaproyecto/main.dart';
+import 'package:gestionaproyecto/src/crearevento.dart';
 import 'package:gestionaproyecto/src/detalle.dart';
 import 'package:flutter/material.dart';
 import 'package:gestionaproyecto/src/homescreen.dart';
@@ -32,6 +33,27 @@ class _ListarEventosState extends State<ListarEventos> {
         appBar: AppBar(
           title: new Text("Eventos próximos"),
           backgroundColor: colorappbar,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: IconButton(
+                icon: Icon(
+                  Icons.add_alarm_outlined,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CrearEvento(
+                                idproyecto: widget.idproyecto,
+                              )));
+                  // do something
+                },
+              ),
+            )
+          ],
         ),
         body: Column(
           children: [
@@ -69,80 +91,134 @@ class _listareventossState extends State<listareventoss> {
   Widget build(BuildContext context) {
     return widget.list == null
         ? Center(child: CircularProgressIndicator())
-        : ListView.builder(
-            itemCount: widget.list == null ? 0 : widget.list.length,
-            itemBuilder: (context, i) {
-              return new Container(
-                child: GestureDetector(
-                    onTap: () => Navigator.of(context).push(
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) => new Detalle(
-                                    list: widget.list,
-                                    index: i,
-                                  )),
-                        ),
-                    child: Column(
-                      children: [
-                        if (widget.list != null)
-                          Column(
-                            children: [
-                              Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: new Row(children: <Widget>[
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.75,
-                                      child: new Text(
-                                        widget.list[i]['titulo'] +
-                                            " " +
-                                            widget.list[i]['descripcion'],
-                                        style: TextStyle(fontSize: 18.0),
+        : Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                    itemCount: widget.list == null ? 0 : widget.list.length,
+                    itemBuilder: (context, i) {
+                      return new Container(
+                        child: GestureDetector(
+                            onTap: () => Navigator.of(context).push(
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new Detalle(
+                                            list: widget.list,
+                                            index: i,
+                                          )),
+                                ),
+                            child: Column(
+                              children: [
+                                if (widget.list != null)
+                                  Column(
+                                    children: [
+                                      Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: new Row(children: <Widget>[
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.75,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  new Text(
+                                                    widget.list[i]['titulo'] +
+                                                        ": ",
+                                                    style: TextStyle(
+                                                        fontSize: 18.0,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    widget.list[i]
+                                                        ['descripcion'],
+                                                    style: TextStyle(
+                                                        fontSize: 18.0),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ])),
+                                      Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0, right: 20),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: <Widget>[
+                                              Icon(
+                                                Icons.calendar_today,
+                                                color: Colors.red,
+                                              ),
+                                              if (widget.list[i]
+                                                      ['fechaevento2'] !=
+                                                  null)
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 12.0),
+                                                  child: Text(
+                                                    widget.list[i]
+                                                        ['fechaevento2'],
+                                                    style: TextStyle(
+                                                        fontSize: 18.0),
+                                                  ),
+                                                ),
+                                              Icon(
+                                                Icons.access_time_sharp,
+                                                color: Colors.red,
+                                              ),
+                                              if (widget.list[i]['hora'] !=
+                                                  null)
+                                                Text(
+                                                  widget.list[i]['hora'],
+                                                  style:
+                                                      TextStyle(fontSize: 18.0),
+                                                ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                      Divider(
+                                        color: colorappbar2,
+                                      ),
+                                    ],
+                                  )
+                                else if (widget.list.length == 1)
+                                  Container(
+                                    child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         children: <Widget>[
-                                          Icon(
-                                            Icons.edit,
-                                            color: Colors.red,
+                                          Text(
+                                            "No hay más \nparticipantes en el proyecto",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 20),
                                           ),
-                                          Icon(
-                                            Icons.verified_user_outlined,
+                                          RaisedButton(
+                                            child:
+                                                Text("Invita a tus contactos"),
                                             color: Colors.red,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ])),
-                              Divider(),
-                            ],
-                          )
-                        else if (widget.list.length == 1)
-                          Container(
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  Text(
-                                    "No hay más \nparticipantes en el proyecto",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 20),
+                                            textColor: Colors.white,
+                                            onPressed: () {},
+                                          )
+                                        ]),
                                   ),
-                                  RaisedButton(
-                                    child: Text("Invita a tus contactos"),
-                                    color: Colors.red,
-                                    textColor: Colors.white,
-                                    onPressed: () {},
-                                  )
-                                ]),
-                          ),
-                      ],
-                    )),
-              );
-            });
+                              ],
+                            )),
+                      );
+                    }),
+              ),
+            ],
+          );
   }
 }
 

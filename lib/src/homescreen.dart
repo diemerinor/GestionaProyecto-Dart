@@ -105,39 +105,25 @@ class _listareventosState extends State<listareventos> {
                             child: Padding(
                               padding:
                                   const EdgeInsets.only(bottom: 8.0, right: 14),
-                              child: Row(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Expanded(
-                                    child: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.11,
-                                      child: Image(
-                                          image: new AssetImage(
-                                              'assets/images/logo3.png')),
-                                    ),
+                                  Text(
+                                    widget.list[i]['nombreusuario'] +
+                                        " " +
+                                        widget.list[i]['apellidos'],
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        widget.list[i]['nombreusuario'] +
-                                            " " +
-                                            widget.list[i]['apellidos'],
-                                        style: TextStyle(
-                                            fontSize: 25,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        "HOME",
-                                        style: TextStyle(
-                                          fontSize: 29,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
+                                  Text(
+                                    "HOME",
+                                    style: TextStyle(
+                                      fontSize: 29,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ],
                               ),

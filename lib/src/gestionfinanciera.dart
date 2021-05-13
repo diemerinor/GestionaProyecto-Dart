@@ -12,6 +12,7 @@ import 'package:gestionaproyecto/src/registrargasto.dart';
 import 'package:gestionaproyecto/src/registraringreso.dart';
 import 'dart:math' as math;
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 import 'dart:async';
 import 'dart:convert';
@@ -20,6 +21,8 @@ import 'detalleproyecto.dart';
 
 String caja;
 int cajafinal;
+String cajafinal2;
+//final formateo = new NumberFormat("###.##0", "en_US");
 //String textopeso = '$';
 
 class GestionFinanciera extends StatefulWidget {
@@ -39,8 +42,12 @@ class _GestionFinancieraState extends State<GestionFinanciera> {
       "idproyecto": widget.idproyecto,
     });
     var datauser = json.decode(response.body);
-    caja = datauser[0]['total'];
+    caja = datauser[0]['cajatotal'];
     cajafinal = int.parse(caja);
+    cajafinal2 = (NumberFormat.simpleCurrency(name: 'CLP', decimalDigits: 0)
+        .format(cajafinal));
+
+    print("la cosita es " + cajafinal2);
     //print("hay $cajafinal");
     return datauser;
   }
@@ -68,14 +75,16 @@ class _GestionFinancieraState extends State<GestionFinanciera> {
                 future: getFinanciera(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) print(snapshot.error);
-                  return snapshot.hasData
-                      ? new listarinfofinanciera(
-                          listainfo: snapshot.data,
-                          idproyecto: widget.idproyecto,
-                        )
-                      : new Center(
-                          child: new CircularProgressIndicator(),
-                        );
+                  if (snapshot.hasData) {
+                    return new listarinfofinanciera(
+                      listainfo: snapshot.data,
+                      idproyecto: widget.idproyecto,
+                    );
+                  } else {
+                    return new Center(
+                      child: new CircularProgressIndicator(),
+                    );
+                  }
                 }),
           ),
         ],
@@ -103,29 +112,23 @@ class _listarinfofinancieraState extends State<listarinfofinanciera> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.16,
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Container(
-                      child: ListView(
-                        children: [
-                          Text(
-                            "Actualmente en caja hay",
-                            style: TextStyle(fontSize: 25),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            '\$$caja',
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Caja actual:",
+                        style: TextStyle(fontSize: 25),
+                        textAlign: TextAlign.center,
                       ),
-                    ),
+                      Text(
+                        cajafinal2,
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -189,7 +192,6 @@ class _listarinfofinancieraState extends State<listarinfofinanciera> {
                         )),
                         GestureDetector(
                             onTap: () => {
-                                  Navigator.pop(context),
                                   Navigator.of(context).push(
                                     new MaterialPageRoute(
                                         builder: (BuildContext context) =>
@@ -252,7 +254,6 @@ class _listarinfofinancieraState extends State<listarinfofinanciera> {
                         )),
                         GestureDetector(
                             onTap: () => {
-                                  Navigator.pop(context),
                                   Navigator.of(context).push(
                                     new MaterialPageRoute(
                                         builder: (BuildContext context) =>

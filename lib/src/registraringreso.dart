@@ -96,6 +96,7 @@ class _RegistrarIngresoState extends State<RegistrarIngreso> {
       onPressed: () {
         Navigator.pop(context);
         Navigator.pop(context);
+        Navigator.pop(context);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -192,170 +193,159 @@ class _RegistrarIngresoState extends State<RegistrarIngreso> {
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 12, bottom: 12),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              color: colorappbar,
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text(
+                                  "Título:",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ),
+                          TextFormField(
+                            controller: controllernombre,
+                            decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.account_box,
+                                  color: Colors.black,
+                                ),
+                                hintText: ''),
+                          ),
+                          Padding(padding: EdgeInsets.only(bottom: 20)),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 12, bottom: 12),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              color: colorappbar,
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text(
+                                  "Monto:",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ),
+                          TextFormField(
+                            controller: controllerdescripcion,
+                            decoration: InputDecoration(
+                              icon: Icon(
+                                Icons.account_box,
+                                color: Colors.black,
+                              ),
+                            ),
+                            inputFormatters: [
+                              FilteringTextInputFormatter.singleLineFormatter
+                            ],
+                            keyboardType: TextInputType.number,
+                          ),
+                          Padding(padding: EdgeInsets.only(bottom: 20)),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 12, bottom: 12),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              color: colorappbar,
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text(
+                                  "Fecha ingreso:",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Fecha de hoy",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ),
+                              Checkbox(
+                                value: _checkbox,
+                                onChanged: (value) {
+                                  fechadehoy(value);
+                                  setState(() {
+                                    _checkbox = !_checkbox;
+                                    fechaeditable = !value;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.6,
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            padding: EdgeInsets.only(top: 23),
-                            child: ListView(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 12, bottom: 12),
-                                  child: Container(
-                                    color: colorappbar,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Text(
-                                        "Título:",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TextFormField(
-                                  controller: controllernombre,
-                                  decoration: InputDecoration(
-                                      icon: Icon(
-                                        Icons.account_box,
-                                        color: Colors.black,
-                                      ),
-                                      hintText: ''),
-                                ),
-                                Padding(padding: EdgeInsets.only(bottom: 20)),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 12, bottom: 12),
-                                  child: Container(
-                                    color: colorappbar,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Text(
-                                        "Monto:",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TextFormField(
-                                  controller: controllerdescripcion,
-                                  decoration: InputDecoration(
-                                    icon: Icon(
-                                      Icons.account_box,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter
-                                        .singleLineFormatter
-                                  ],
-                                  keyboardType: TextInputType.number,
-                                ),
-                                Padding(padding: EdgeInsets.only(bottom: 20)),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 12, bottom: 12),
-                                  child: Container(
-                                    color: colorappbar,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Text(
-                                        "Fecha ingreso:",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "Fecha de hoy",
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ),
-                                    Checkbox(
-                                      value: _checkbox,
-                                      onChanged: (value) {
-                                        fechadehoy(value);
-                                        setState(() {
-                                          _checkbox = !_checkbox;
-                                          fechaeditable = !value;
-                                        });
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.5,
-                                  padding: EdgeInsets.all(8),
-                                  child: TextField(
-                                    enabled: fechaeditable,
-                                    readOnly: true,
-                                    controller: dateController,
-                                    onTap: () async {
-                                      var date = await showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime(1900),
-                                          lastDate: DateTime(2100));
-                                      if (date != null) {
-                                        fechareporte = date;
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            padding: EdgeInsets.all(8),
+                            child: TextField(
+                              enabled: fechaeditable,
+                              readOnly: true,
+                              controller: dateController,
+                              onTap: () async {
+                                var date = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime(2100));
+                                if (date != null) {
+                                  fechareporte = date;
 
-                                        final DateFormat formatter =
-                                            DateFormat('dd-MM-yyyy');
-                                        fechafinal =
-                                            formatter.format(fechareporte);
-                                        setState(() {
-                                          textofecha = fechafinal.toString();
-                                          //variablephp = fechafinal.toString();
-                                        });
+                                  final DateFormat formatter =
+                                      DateFormat('dd-MM-yyyy');
+                                  fechafinal = formatter.format(fechareporte);
+                                  setState(() {
+                                    textofecha = fechafinal.toString();
+                                    //variablephp = fechafinal.toString();
+                                  });
 
-                                        final DateFormat formatter2 =
-                                            DateFormat('yyyy-MM-dd');
-                                        String fechafinal3 =
-                                            formatter2.format(fechareporte);
+                                  final DateFormat formatter2 =
+                                      DateFormat('yyyy-MM-dd');
+                                  String fechafinal3 =
+                                      formatter2.format(fechareporte);
 
-                                        variablephp = fechafinal3.toString();
-                                        print(
-                                            "la fecha seleccionada es $textofecha");
-                                      }
-                                    },
-                                    decoration:
-                                        InputDecoration(hintText: textofecha),
-                                  ),
+                                  variablephp = fechafinal3.toString();
+                                  print("la fecha seleccionada es $textofecha");
+                                }
+                              },
+                              decoration: InputDecoration(hintText: textofecha),
+                            ),
+                          ),
+                          Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              child: new RaisedButton(
+                                child: new Text(
+                                  "Insertar ingreso",
+                                  style: TextStyle(color: Colors.white),
                                 ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.3,
-                                  child: new RaisedButton(
-                                    child: new Text(
-                                      "Insertar ingreso",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    color: colorappbar,
-                                    shape: new RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(20.0)),
-                                    onPressed: () {
-                                      showAlertDialog(context);
+                                color: colorappbar,
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(20.0)),
+                                onPressed: () {
+                                  showAlertDialog(context);
 
-                                      //login();
-                                    },
-                                  ),
-                                ),
-                              ],
+                                  //login();
+                                },
+                              ),
                             ),
                           ),
                         ],

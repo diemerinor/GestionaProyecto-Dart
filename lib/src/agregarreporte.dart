@@ -214,7 +214,7 @@ class _AgregarreporteState extends State<Agregarreporte> {
                   children: [
                     Container(
                       height: MediaQuery.of(context).size.height * 0.8,
-                      width: MediaQuery.of(context).size.width * 0.7,
+                      width: MediaQuery.of(context).size.width * 0.8,
                       child: ListView(
                         children: <Widget>[
                           new Container(
