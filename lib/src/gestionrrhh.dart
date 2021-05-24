@@ -63,7 +63,7 @@ class _GestionRRHHState extends State<GestionRRHH> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: colorfondo,
         appBar: AppBar(
           title: Text("Gestión RRHH"),
           backgroundColor: colorappbar,
@@ -71,7 +71,7 @@ class _GestionRRHHState extends State<GestionRRHH> {
         body: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.2,
+              height: MediaQuery.of(context).size.height * 0.17,
               child: Column(
                 children: [
                   Expanded(
@@ -93,10 +93,34 @@ class _GestionRRHHState extends State<GestionRRHH> {
                 ],
               ),
             ),
-            Text(
-              "Cargos del proyecto:",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.start,
+            Divider(
+              thickness: 1.0,
+              height: 3.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Cargos del proyecto:",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.start,
+                  ),
+                  Padding(padding: EdgeInsets.only(left: 30)),
+                  RaisedButton(
+                    child: new Text(
+                      "Crear cargo",
+                      style: (TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
+                    ),
+                    color: colorappbar,
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(20.0)),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
             ),
             Container(
               child: Expanded(
@@ -165,66 +189,86 @@ class _detallesrrhhState extends State<detallesrrhh> {
                         return Column(
                           children: [
                             Container(
-                              height: MediaQuery.of(context).size.height * 0.6,
                               child: Column(children: <Widget>[
                                 Container(
                                   width: MediaQuery.of(context).size.width,
-                                  child: Card(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      margin: EdgeInsets.all(15),
-                                      elevation: 10,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            children: <Widget>[
-                                              Text(
-                                                "Trabajadores: $cantidadtrabajadores",
-                                                style: TextStyle(fontSize: 25),
-                                                textAlign: TextAlign.center,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "Cantidad de\ntrabajadores:",
+                                                    style:
+                                                        TextStyle(fontSize: 22),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 15)),
+                                                  Text(
+                                                    "$cantidadtrabajadores",
+                                                    style: TextStyle(
+                                                        fontSize: 60,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                        ),
-                                      )),
-                                ),
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: RaisedButton(
-                                          child: Text("Listar trabajadores"),
-                                          color: colorappbar,
-                                          textColor: Colors.white,
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        new ListarTrabajadores(
-                                                          idproyecto:
-                                                              widget.idproyecto,
-                                                          idusuario:
-                                                              widget.idusuario,
-                                                        )));
-                                          },
-                                        ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 30.0),
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: RaisedButton(
+                                                    child: Text("Listar"),
+                                                    color: colorappbar,
+                                                    textColor: Colors.white,
+                                                    onPressed: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  new ListarTrabajadores(
+                                                                    idproyecto:
+                                                                        widget
+                                                                            .idproyecto,
+                                                                    idusuario:
+                                                                        widget
+                                                                            .idusuario,
+                                                                  )));
+                                                    },
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: RaisedButton(
+                                                    child: Text("Agregar"),
+                                                    color: colorappbar,
+                                                    textColor: Colors.white,
+                                                    onPressed: () {},
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: RaisedButton(
-                                          child: Text("Agregar trabajador"),
-                                          color: colorappbar,
-                                          textColor: Colors.white,
-                                          onPressed: () {},
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ]),
@@ -265,21 +309,15 @@ class _detallescargoState extends State<detallescargo> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ExpansionTileCard(
-                      baseColor: Colors.black54,
+                      baseColor: colorappbar2,
                       expandedColor: colorappbar,
                       title: Row(
                         children: [
                           Text(
                             widget.listacargos[i]['nombrecargo'],
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                          ),
-                          Icon(
-                            Icons.delete,
-                            color: Colors.white,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -297,21 +335,34 @@ class _detallescargoState extends State<detallescargo> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Card(
+                                    color: Colors.amber,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text("Editar usuarios"),
+                                      child: Text("Editar usuarios",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
                                     ),
                                   ),
                                   Card(
+                                    color: Colors.teal,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text("Editar cargo"),
+                                      child: Text(
+                                        "Editar cargo",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ),
                                   Card(
+                                    color: colorappbar2,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text("Eliminar cargo"),
+                                      child: Text("Eliminar cargo",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold)),
                                     ),
                                   ),
                                 ],

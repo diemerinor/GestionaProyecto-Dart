@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestionaproyecto/main.dart';
 import 'package:gestionaproyecto/src/agregarreporte.dart';
+import 'package:gestionaproyecto/src/detallemovimientos.dart';
 import 'package:gestionaproyecto/src/gestionarproyecto.dart';
 import 'package:gestionaproyecto/src/listartrabajadores.dart';
 import 'package:gestionaproyecto/src/homescreen.dart';
@@ -22,8 +23,6 @@ import 'detalleproyecto.dart';
 String caja;
 int cajafinal;
 String cajafinal2;
-//final formateo = new NumberFormat("###.##0", "en_US");
-//String textopeso = '$';
 
 class GestionFinanciera extends StatefulWidget {
   final String idproyecto;
@@ -42,12 +41,14 @@ class _GestionFinancieraState extends State<GestionFinanciera> {
       "idproyecto": widget.idproyecto,
     });
     var datauser = json.decode(response.body);
-    caja = datauser[0]['cajatotal'];
-    cajafinal = int.parse(caja);
-    cajafinal2 = (NumberFormat.simpleCurrency(name: 'CLP', decimalDigits: 0)
-        .format(cajafinal));
+    if (datauser != null) {
+      caja = datauser[0]['cajatotal'];
+      cajafinal = int.parse(caja);
+      cajafinal2 = (NumberFormat.simpleCurrency(name: 'CLP', decimalDigits: 0)
+          .format(cajafinal));
 
-    print("la cosita es " + cajafinal2);
+      print("la cosita es " + cajafinal2);
+    }
     //print("hay $cajafinal");
     return datauser;
   }
@@ -68,6 +69,7 @@ class _GestionFinancieraState extends State<GestionFinanciera> {
         ),
         backgroundColor: colorappbar,
       ),
+      backgroundColor: colorfondo,
       body: Column(
         children: [
           Expanded(
@@ -106,192 +108,228 @@ class listarinfofinanciera extends StatefulWidget {
 class _listarinfofinancieraState extends State<listarinfofinanciera> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+    return widget.listainfo == null
+        ? Center(child: CircularProgressIndicator())
+        : Container(
+            child: ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Caja\nactual:",
+                                style: TextStyle(fontSize: 25),
+                                textAlign: TextAlign.center,
+                              ),
+                              Padding(padding: EdgeInsets.only(left: 20)),
+                              Text(
+                                cajafinal2,
+                                style: TextStyle(
+                                    fontSize: 25, fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
                   child: Column(
                     children: [
-                      Text(
-                        "Caja actual:",
-                        style: TextStyle(fontSize: 25),
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        cajafinal2,
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        color: colorappbar,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text(
+                            '- Movimientos financieros -',
+                            style: TextStyle(
+                                fontSize: 22,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ),
-            ),
-          ),
-          Container(
-            child: Column(
-              children: [
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.85,
-                  color: colorappbar,
+                  width: MediaQuery.of(context).size.width,
                   child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      '- Movimientos financieros -',
-                      style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              GestureDetector(
+                                  onTap: () => Navigator.of(context).push(
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new DetalleMovimientos(
+                                                    idproyecto:
+                                                        widget.idproyecto)),
+                                      ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          child: Card(
+                                              elevation: 5,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child:
+                                                    Column(children: <Widget>[
+                                                  Icon(Icons.list, size: 60),
+                                                  Text(
+                                                    'Listar\nmovimientos',
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ]),
+                                              ))),
+                                    ],
+                                  )),
+                              GestureDetector(
+                                  onTap: () => {
+                                        Navigator.of(context).push(
+                                          new MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  new RegistrarIngreso(
+                                                    idproyecto:
+                                                        widget.idproyecto,
+                                                    caja: cajafinal,
+                                                  )),
+                                        )
+                                      },
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          child: Card(
+                                              elevation: 5,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child:
+                                                    Column(children: <Widget>[
+                                                  Icon(Icons.north_east,
+                                                      size: 60),
+                                                  Text(
+                                                    'Registrar\ningreso',
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ]),
+                                              ))),
+                                    ],
+                                  )),
+                            ],
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.only(bottom: 10)),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              GestureDetector(
+                                  child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4,
+                                      child: Card(
+                                          elevation: 5,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(children: <Widget>[
+                                              Icon(Icons.bar_chart, size: 60),
+                                              Text(
+                                                'Balance\ngráfico',
+                                                style: TextStyle(fontSize: 20),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ]),
+                                          ))),
+                                ],
+                              )),
+                              GestureDetector(
+                                  onTap: () => {
+                                        Navigator.of(context).push(
+                                          new MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  new RegistrarGasto(
+                                                    idproyecto:
+                                                        widget.idproyecto,
+                                                    caja: cajafinal,
+                                                  )),
+                                        )
+                                      },
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          child: Card(
+                                              elevation: 5,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child:
+                                                    Column(children: <Widget>[
+                                                  Icon(Icons.south_east,
+                                                      size: 60),
+                                                  Text(
+                                                    'Registrar\ngasto',
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ]),
+                                              ))),
+                                    ],
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
+                )
               ],
             ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                            child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                                width: MediaQuery.of(context).size.width * 0.4,
-                                child: Card(
-                                    elevation: 5,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(children: <Widget>[
-                                        Icon(Icons.list, size: 60),
-                                        Text(
-                                          'Listar\nmovimientos',
-                                          style: TextStyle(fontSize: 20),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ]),
-                                    ))),
-                          ],
-                        )),
-                        GestureDetector(
-                            onTap: () => {
-                                  Navigator.of(context).push(
-                                    new MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            new RegistrarIngreso(
-                                              idproyecto: widget.idproyecto,
-                                              caja: cajafinal,
-                                            )),
-                                  )
-                                },
-                            child: Column(
-                              children: [
-                                Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
-                                    child: Card(
-                                        elevation: 5,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(children: <Widget>[
-                                            Icon(Icons.north_east, size: 60),
-                                            Text(
-                                              'Registrar\ningreso',
-                                              style: TextStyle(fontSize: 20),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ]),
-                                        ))),
-                              ],
-                            )),
-                      ],
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: 10)),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                            child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                                width: MediaQuery.of(context).size.width * 0.4,
-                                child: Card(
-                                    elevation: 5,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(children: <Widget>[
-                                        Icon(Icons.bar_chart, size: 60),
-                                        Text(
-                                          'Balance\ngráfico',
-                                          style: TextStyle(fontSize: 20),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ]),
-                                    ))),
-                          ],
-                        )),
-                        GestureDetector(
-                            onTap: () => {
-                                  Navigator.of(context).push(
-                                    new MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            new RegistrarGasto(
-                                              idproyecto: widget.idproyecto,
-                                              caja: cajafinal,
-                                            )),
-                                  )
-                                },
-                            child: Column(
-                              children: [
-                                Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
-                                    child: Card(
-                                        elevation: 5,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(children: <Widget>[
-                                            Icon(Icons.south_east, size: 60),
-                                            Text(
-                                              'Registrar\ngasto',
-                                              style: TextStyle(fontSize: 20),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ]),
-                                        ))),
-                              ],
-                            )),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
+          );
   }
 }

@@ -42,7 +42,6 @@ class _NotificacionesState extends State<Notificaciones> {
     final response =
         await http.post(Uri.parse(url4), body: {'idusuario': widget.idusuario});
     var datauser = jsonDecode(response.body);
-    print(datauser);
 
     return datauser;
   }
@@ -51,13 +50,13 @@ class _NotificacionesState extends State<Notificaciones> {
   void initState() {
     // TODO: implement initState
 
-    financiamiento = colorappbar;
+    financiamiento = colorappbar2;
     letrasfinanciamiento = Colors.white;
-    eventoscolor = colorappbar;
+    eventoscolor = colorappbar2;
     letraseventos = Colors.white;
 
     todoscolor = Colors.white;
-    letrastodos = colorappbar;
+    letrastodos = colorappbar2;
 
     visiblefinanciamiento = true;
     visibleeventos = false;
@@ -160,11 +159,11 @@ class _listatrabajState extends State<listatrabaj> {
                                         visibleeventos = false;
                                         visibletodos = true;
                                         print("actualmente es $visibletodos");
-                                        financiamiento = colorappbar;
+                                        financiamiento = colorappbar2;
                                         letrasfinanciamiento = Colors.white;
                                         todoscolor = Colors.white;
-                                        letrastodos = colorappbar;
-                                        eventoscolor = colorappbar;
+                                        letrastodos = colorappbar2;
+                                        eventoscolor = colorappbar2;
                                         letraseventos = Colors.white;
                                         seleccionado = 3;
                                       }
@@ -206,10 +205,10 @@ class _listatrabajState extends State<listatrabaj> {
                                         print(
                                             "actualmente es $visiblefinanciamiento");
                                         financiamiento = Colors.white;
-                                        letrasfinanciamiento = colorappbar;
-                                        todoscolor = colorappbar;
+                                        letrasfinanciamiento = colorappbar2;
+                                        todoscolor = colorappbar2;
                                         letrastodos = Colors.white;
-                                        eventoscolor = colorappbar;
+                                        eventoscolor = colorappbar2;
                                         letraseventos = Colors.white;
 
                                         seleccionado = 1;
@@ -251,12 +250,12 @@ class _listatrabajState extends State<listatrabaj> {
                                         visibletodos = false;
                                         print("actualmente es $visibleeventos");
 
-                                        financiamiento = colorappbar;
+                                        financiamiento = colorappbar2;
                                         letrasfinanciamiento = Colors.white;
-                                        todoscolor = colorappbar;
+                                        todoscolor = colorappbar2;
                                         letrastodos = Colors.white;
                                         eventoscolor = Colors.white;
-                                        letraseventos = colorappbar;
+                                        letraseventos = colorappbar2;
 
                                         seleccionado = 2;
                                       }
@@ -344,7 +343,7 @@ class _listatrabajState extends State<listatrabaj> {
                                         Row(
                                           children: [
                                             Card(
-                                                color: colorappbar,
+                                                color: verde,
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(
                                                       12.0),
@@ -390,7 +389,20 @@ class _listatrabajState extends State<listatrabaj> {
                                             ),
                                           ],
                                         ),
-                                        if (tiempodiferencia.inDays == 0)
+                                        if (tiempodiferencia.inMinutes < 60)
+                                          Container(
+                                            alignment: Alignment.topRight,
+                                            child: Text(
+                                              'Se realizó hace ${tiempodiferencia.inMinutes} minutos',
+                                              style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                              textAlign: TextAlign.right,
+                                            ),
+                                          )
+                                        else if (tiempodiferencia.inDays == 0 &&
+                                            tiempodiferencia.inMinutes > 60)
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
@@ -477,7 +489,19 @@ class _listatrabajState extends State<listatrabaj> {
                                             ),
                                           ],
                                         ),
-                                        if (tiempodiferencia.inDays == 0)
+                                        if (tiempodiferencia.inMinutes < 60)
+                                          Container(
+                                            alignment: Alignment.topRight,
+                                            child: Text(
+                                              'Se realizó hace ${tiempodiferencia.inMinutes} minutos',
+                                              style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                              textAlign: TextAlign.right,
+                                            ),
+                                          )
+                                        else if (tiempodiferencia.inDays == 0)
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
@@ -585,7 +609,19 @@ class _listatrabajState extends State<listatrabaj> {
                                             ),
                                           ],
                                         ),
-                                        if (tiempodiferencia2.inDays == 0)
+                                        if (tiempodiferencia.inMinutes < 60)
+                                          Container(
+                                            alignment: Alignment.topRight,
+                                            child: Text(
+                                              'Se realizó hace ${tiempodiferencia.inMinutes} minutos',
+                                              style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                              textAlign: TextAlign.right,
+                                            ),
+                                          )
+                                        else if (tiempodiferencia2.inDays == 0)
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
@@ -694,7 +730,19 @@ class _listatrabajState extends State<listatrabaj> {
                                             ),
                                           ],
                                         ),
-                                        if (tiempodiferencia2.inDays == 0)
+                                        if (tiempodiferencia.inMinutes < 60)
+                                          Container(
+                                            alignment: Alignment.topRight,
+                                            child: Text(
+                                              'Se realizó hace ${tiempodiferencia.inMinutes} minutos',
+                                              style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                              textAlign: TextAlign.right,
+                                            ),
+                                          )
+                                        else if (tiempodiferencia2.inDays == 0)
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
@@ -740,7 +788,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Row(
                                             children: [
                                               Card(
-                                                  color: colorappbar,
+                                                  color: verde,
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(
@@ -788,7 +836,19 @@ class _listatrabajState extends State<listatrabaj> {
                                               ),
                                             ],
                                           ),
-                                          if (tiempodiferencia.inDays == 0)
+                                          if (tiempodiferencia.inMinutes < 60)
+                                            Container(
+                                              alignment: Alignment.topRight,
+                                              child: Text(
+                                                'Se realizó hace ${tiempodiferencia.inMinutes} minutos',
+                                                style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontStyle: FontStyle.italic,
+                                                ),
+                                                textAlign: TextAlign.right,
+                                              ),
+                                            )
+                                          else if (tiempodiferencia.inDays == 0)
                                             Container(
                                               alignment: Alignment.topRight,
                                               child: Text(
@@ -883,7 +943,19 @@ class _listatrabajState extends State<listatrabaj> {
                                               ),
                                             ],
                                           ),
-                                          if (tiempodiferencia.inDays == 0)
+                                          if (tiempodiferencia.inMinutes < 60)
+                                            Container(
+                                              alignment: Alignment.topRight,
+                                              child: Text(
+                                                'Se realizó hace ${tiempodiferencia.inMinutes} minutos',
+                                                style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontStyle: FontStyle.italic,
+                                                ),
+                                                textAlign: TextAlign.right,
+                                              ),
+                                            )
+                                          else if (tiempodiferencia.inDays == 0)
                                             Container(
                                               alignment: Alignment.topRight,
                                               child: Text(

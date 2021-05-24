@@ -101,10 +101,6 @@ class _listarinformacionState extends State<listarinformacion> {
         ),
       ),
       backgroundColor: colorfondo,
-      // appBar: AppBar(
-      //   title: Text("Perfil"),
-      //   backgroundColor: Colors.black87,
-      // ),
       body: ListView.builder(
           itemCount: widget.list == null ? 0 : widget.list.length,
           itemBuilder: (context, i) {
@@ -199,79 +195,82 @@ class _listarinformacionState extends State<listarinformacion> {
 
                 //
                 Container(
-                    width: MediaQuery.of(context).size.width * 0.90,
+                    width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.only(top: 23, left: 10, right: 10),
-                    child: Column(children: <Widget>[
-                      // Los bordes del contenido del card se cortan usando BorderRadius
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          // Los bordes del contenido del card se cortan usando BorderRadius
 
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.90,
-                        padding: EdgeInsets.only(left: 10),
-                        color: colorappbar,
-                        child: Text(
-                          'Acerca de mi:',
-                          style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.only(bottom: 10)),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(
-                          widget.list[i]['acercademi'],
-                          style: TextStyle(fontSize: 22),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                    ])),
-
-                Column(children: <Widget>[
-                  Container(
-                      width: MediaQuery.of(context).size.width * 0.90,
-                      padding: EdgeInsets.only(top: 23, left: 10, right: 10),
-                      child: Column(children: <Widget>[
-                        // Los bordes del contenido del card se cortan usando BorderRadius
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.90,
-                          padding: EdgeInsets.only(left: 10),
-                          color: colorappbar,
-                          child: Text(
-                            'Información de contacto:',
-                            style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                            textAlign: TextAlign.left,
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            padding: EdgeInsets.only(left: 10),
+                            color: colorappbar,
+                            child: Text(
+                              'Acerca de mi:',
+                              style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                              textAlign: TextAlign.left,
+                            ),
                           ),
-                        ),
-                        Padding(padding: EdgeInsets.only(bottom: 10)),
-
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Telefono: ' + widget.list[i]["telefono"],
-                                style: TextStyle(fontSize: 20),
-                                textAlign: TextAlign.left,
-                              ),
-                              Text(
-                                'Correo: ' + widget.list[i]["correousuario"],
-                                style: TextStyle(fontSize: 20),
-                                textAlign: TextAlign.left,
-                              ),
-                            ],
+                          Padding(padding: EdgeInsets.only(bottom: 10)),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              widget.list[i]['acercademi'],
+                              style: TextStyle(fontSize: 22),
+                              textAlign: TextAlign.left,
+                            ),
                           ),
-                        ),
-                        /*],
-                      ),
+                        ])),
+
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.only(top: 23, left: 10, right: 10),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          // Los bordes del contenido del card se cortan usando BorderRadius
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            padding: EdgeInsets.only(left: 10),
+                            color: colorappbar,
+                            child: Text(
+                              'Información de contacto:',
+                              style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                          Padding(padding: EdgeInsets.only(bottom: 10)),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Telefono: ' + widget.list[i]["telefono"],
+                                  style: TextStyle(fontSize: 20),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Text(
+                                  'Correo: ' + widget.list[i]["correousuario"],
+                                  style: TextStyle(fontSize: 20),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ],
+                            ),
+                          ),
+                          /*],
+                ),
                     )*/
-                      ]))
-                ]),
+                        ])),
                 Container(
                   margin: const EdgeInsets.only(right: 50, left: 50, top: 20),
                   width: 200,

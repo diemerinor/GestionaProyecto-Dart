@@ -59,160 +59,141 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: FutureBuilder(builder: (context, AsyncSnapshot snapshot) {
-              return Scaffold(
-                body: SingleChildScrollView(
-                  child: Form(
-                    child: Container(
-                      height: MediaQuery.of(context).size.height,
-                      decoration: new BoxDecoration(
-                          image: new DecorationImage(
-                              image: new AssetImage(
-                                "assets/images/fondologin4.jpg",
-                              ),
-                              fit: BoxFit.cover)),
-                      child: ListView(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 60.0),
-                            child: new Container(
-                              height: 145.0,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: new AssetImage(
-                                        'assets/images/logo2.png')),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 15.0, right: 30, left: 30),
-                            child: new Container(
-                              height: MediaQuery.of(context).size.height * 0.5,
-                              child: ListView(children: <Widget>[
-                                Center(
-                                    child: Text(
-                                  "Inicia sesión",
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                      color: colorappbar2),
-                                )),
-                                Padding(padding: EdgeInsets.only(bottom: 14)),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.5,
-                                  padding: EdgeInsets.all(20),
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black12,
-                                            blurRadius: 8)
-                                      ]),
-                                  child: TextFormField(
-                                    controller: controllerusuario,
-                                    decoration: InputDecoration(
-                                        icon: Icon(
-                                          Icons.account_box,
-                                          color: Colors.black,
-                                        ),
-                                        hintText:
-                                            'Ingrese su correo o telefono'),
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(20),
-                                  margin: EdgeInsets.only(top: 20),
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black12,
-                                            blurRadius: 8)
-                                      ]),
-                                  child: TextField(
-                                    controller: controllerpass,
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                        icon: Icon(
-                                          Icons.vpn_key,
-                                          color: Colors.black,
-                                        ),
-                                        hintText: 'Ingrese su contraseña'),
-                                  ),
-                                ),
-                                Align(
-                                    alignment: Alignment.topRight,
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Text('Olvidé mi contraseña',
-                                            style: TextStyle(
-                                                color: colorappbar,
-                                                fontSize: 17)))),
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      new RaisedButton(
-                                        child: new Text(
-                                          "Ingresar",
-                                          style: (TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold)),
-                                        ),
-                                        color: colorappbar2,
-                                        shape: new RoundedRectangleBorder(
-                                            borderRadius:
-                                                new BorderRadius.circular(
-                                                    20.0)),
-                                        onPressed: () {
-                                          login();
-                                        },
-                                      ),
-                                      new RaisedButton(
-                                        child: new Text(
-                                          "Registrarme",
-                                          style: (TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold)),
-                                        ),
-                                        color: colorappbar2,
-                                        shape: new RoundedRectangleBorder(
-                                            borderRadius:
-                                                new BorderRadius.circular(
-                                                    20.0)),
-                                        onPressed: () {
-                                          login();
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ]),
-                            ),
-                          ),
-                        ],
+    return FutureBuilder(builder: (context, AsyncSnapshot snapshot) {
+      return Scaffold(
+        body: SingleChildScrollView(
+          child: Form(
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              decoration: new BoxDecoration(
+                  image: new DecorationImage(
+                      image: new AssetImage(
+                        "assets/images/fondologin4.jpg",
+                      ),
+                      fit: BoxFit.cover)),
+              child: ListView(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 60.0),
+                    child: new Container(
+                      height: 145.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: new AssetImage('assets/images/logo2.png')),
                       ),
                     ),
                   ),
-                ),
-              );
-            }),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 15.0, right: 30, left: 30),
+                    child: new Container(
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      child: ListView(children: <Widget>[
+                        Center(
+                            child: Text(
+                          "Inicia sesión",
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: colorappbar),
+                        )),
+                        Padding(padding: EdgeInsets.only(bottom: 14)),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(color: Colors.black12, blurRadius: 8)
+                              ]),
+                          child: TextFormField(
+                            controller: controllerusuario,
+                            decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.account_box,
+                                  color: colorappbar,
+                                ),
+                                hintText: 'Ingrese su correo o telefono'),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          margin: EdgeInsets.only(top: 20),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(color: Colors.black12, blurRadius: 8)
+                              ]),
+                          child: TextField(
+                            controller: controllerpass,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.vpn_key,
+                                  color: colorappbar,
+                                ),
+                                hintText: 'Ingrese su contraseña'),
+                          ),
+                        ),
+                        Align(
+                            alignment: Alignment.topRight,
+                            child: Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Text('Olvidé mi contraseña',
+                                    style: TextStyle(
+                                        color: colorappbar, fontSize: 17)))),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              new RaisedButton(
+                                child: new Text(
+                                  "Ingresar",
+                                  style: (TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold)),
+                                ),
+                                color: colorappbar2,
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(20.0)),
+                                onPressed: () {
+                                  login();
+                                },
+                              ),
+                              new RaisedButton(
+                                child: new Text(
+                                  "Registrarme",
+                                  style: (TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold)),
+                                ),
+                                color: colorappbar2,
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(20.0)),
+                                onPressed: () {
+                                  login();
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ],
-      ),
-    );
+        ),
+      );
+    });
   }
 }

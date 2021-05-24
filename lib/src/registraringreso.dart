@@ -77,8 +77,12 @@ class _RegistrarIngresoState extends State<RegistrarIngreso> {
     String aux = controllerdescripcion.text;
     int monto = int.parse(aux);
     int total = cajafinal + monto;
+    DateTime fechahoyy = DateTime.now();
+    String auxfecha = fechahoyy.toString();
     String finaltotal = total.toString();
+
     final response = await http.post(Uri.parse(url), body: {
+      "fechahoy": auxfecha,
       "idusuario": identificadorusuario,
       "titulo": controllernombre.text,
       "monto": controllerdescripcion.text,
@@ -94,6 +98,7 @@ class _RegistrarIngresoState extends State<RegistrarIngreso> {
     Widget continueButton = FlatButton(
       child: Text("Continuar"),
       onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
         Navigator.pop(context);
         Navigator.pop(context);
         Navigator.pop(context);
@@ -133,14 +138,14 @@ class _RegistrarIngresoState extends State<RegistrarIngreso> {
     Widget cancelButton = FlatButton(
       child: Text("Cancelar"),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
       },
     );
     Widget continueButton = FlatButton(
       child: Text("Continuar"),
       onPressed: () {
         insertingreso();
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
         showAlertDialog2(context);
       },
     );
@@ -155,6 +160,56 @@ class _RegistrarIngresoState extends State<RegistrarIngreso> {
     );
 
     // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showAlertDialogerror(BuildContext context) {
+    // set up the buttons
+
+    Widget cancelButton = FlatButton(
+      child: Text("Ok"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      content: Text("Debe completar todos los datos"),
+      actions: [
+        cancelButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showAlertDialogerrorfecha(BuildContext context) {
+    // set up the buttons
+
+    Widget cancelButton = FlatButton(
+      child: Text("Ok"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      content: Text("Debe introducir una fecha menor o igual al día de hoy"),
+      actions: [
+        cancelButton,
+      ],
+    );
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -341,7 +396,29 @@ class _RegistrarIngresoState extends State<RegistrarIngreso> {
                                     borderRadius:
                                         new BorderRadius.circular(20.0)),
                                 onPressed: () {
-                                  showAlertDialog(context);
+                                  if (controllerdescripcion.text == null ||
+                                      controllerdescripcion.text == '' ||
+                                      controllernombre.text == null ||
+                                      controllernombre.text == '' ||
+                                      fechareporte == null) {
+                                    showAlertDialogerror(context);
+                                  } else {
+                                    DateTime fechaaux = DateTime.now();
+                                    if (fechaaux
+                                            .difference(fechareporte)
+                                            .inDays >=
+                                        0) {
+                                      print(fechaaux
+                                          .difference(fechareporte)
+                                          .inDays);
+                                      showAlertDialog(context);
+                                    } else {
+                                      showAlertDialogerrorfecha(context);
+                                      print(fechaaux
+                                          .difference(fechareporte)
+                                          .inDays);
+                                    }
+                                  }
 
                                   //login();
                                 },

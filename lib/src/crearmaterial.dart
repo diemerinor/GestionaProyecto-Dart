@@ -76,17 +76,12 @@ class _CrearMaterialState extends State<CrearMaterial> {
                 builder: (context) => GestionarMateriales(
                       idproyecto: widget.idproyecto,
                     )));
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) =>
-        //             GestionAvance(idproyecto: widget.idproyecto)));
       },
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      content: Text("Se ha subido correctamente"),
+      content: Text("Se ha registrado correctamente"),
       actions: [
         continueButton,
       ],
@@ -120,7 +115,7 @@ class _CrearMaterialState extends State<CrearMaterial> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      content: Text("¿Está seguro de insertar el ingreso? "),
+      content: Text("¿Está seguro de registrar el material?"),
       actions: [
         cancelButton,
         continueButton,

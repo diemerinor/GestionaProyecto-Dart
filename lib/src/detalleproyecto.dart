@@ -112,6 +112,7 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
         backgroundColor: colorappbar,
         elevation: 0,
       ),
+      backgroundColor: colorfondo,
       body: new ListView(
         children: <Widget>[
           Padding(
@@ -183,8 +184,6 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                         children: [
                           if (widget.list[widget.index]['CodigoRol'] == "1")
                             Container(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.125,
                               child: Column(
                                 children: [
                                   GestureDetector(
@@ -256,8 +255,8 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                       )
                     ],
                   )),
+              Padding(padding: EdgeInsets.only(top: 20)),
               Container(
-                height: MediaQuery.of(context).size.height,
                 child: Column(
                   children: [
                     Container(
@@ -451,7 +450,6 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                                   ))
                             ])),
                     Container(
-                        height: MediaQuery.of(context).size.height * 0.2,
                         margin: EdgeInsets.all(6.0),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

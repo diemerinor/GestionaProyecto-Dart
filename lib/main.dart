@@ -20,9 +20,11 @@ void main() {
 bool loggeado;
 
 //Color colorappbar2 = Colors.green;
+Color verde = Color.fromRGBO(29, 146, 29, 20);
+Color colorvino = Color.fromRGBO(46, 12, 21, 20);
 Color rojooscuro = Color.fromRGBO(185, 26, 26, 10);
-Color colorappbar2 = Color.fromRGBO(17, 97, 73, 4);
-Color colorappbar = Colors.green;
+Color colorappbar2 = Color.fromRGBO(185, 26, 26, 10);
+Color colorappbar = Color.fromRGBO(46, 12, 21, 20);
 
 Color colorfondo = Color.fromRGBO(242, 242, 242, 10);
 String identificadorusuario,
@@ -100,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
             new Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              color: colorappbar2,
+              color: colorappbar,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,

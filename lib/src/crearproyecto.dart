@@ -95,7 +95,6 @@ class _CrearProyectoState extends State<CrearProyecto> {
       Uri.parse(url4),
     );
     datauser2 = json.decode(response.body);
-    print(datauser2);
     setState(() {
       categorias = datauser2;
     });
@@ -103,7 +102,7 @@ class _CrearProyectoState extends State<CrearProyecto> {
     return datauser2;
   }
 
-  String textofecha;
+  String textofecha = "Seleccione...";
   DateTime fechareporte;
   String fechass;
   String variablephp;
@@ -148,7 +147,7 @@ class _CrearProyectoState extends State<CrearProyecto> {
     Widget cancelButton = FlatButton(
       child: Text("Cancelar"),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
       },
     );
     Widget continueButton = FlatButton(
@@ -170,6 +169,31 @@ class _CrearProyectoState extends State<CrearProyecto> {
     );
 
     // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showAlertDialogerror(BuildContext context) {
+    // set up the buttons
+
+    Widget cancelButton = FlatButton(
+      child: Text("Ok"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      content: Text("Debe completar todos los datos"),
+      actions: [
+        cancelButton,
+      ],
+    );
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -200,104 +224,241 @@ class _CrearProyectoState extends State<CrearProyecto> {
         child: Padding(
           padding: EdgeInsets.all(20),
           child: Center(
-            child: Card(
-              child: Center(
-                child: Form(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Nombre proyecto (*)",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        TextFormField(
-                          controller: controllernombre,
-                          decoration:
-                              InputDecoration(hintText: 'Ingrese el nombre  '),
-                        ),
-                        Padding(padding: EdgeInsets.only(bottom: 20)),
-                        Text(
-                          "Descripción",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        TextFormField(
-                          controller: controllerdescripcion,
-                          maxLines: null,
-                          decoration:
-                              InputDecoration(hintText: 'Describa su proyecto'),
-                        ),
-                        Padding(padding: EdgeInsets.only(bottom: 20)),
-                        Text(
-                          "Comuna",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        DropdownButton<String>(
-                          value: seccionseleccionada,
-                          hint: Text("Seleccione comuna"),
-                          items: names.map((list) {
-                            return new DropdownMenuItem<String>(
-                              child: new Text(list['nombrecomuna']),
-                              value: list['idcomuna'].toString(),
-                            );
-                          }).toList(),
-                          onChanged: (value2) {
-                            setState(() {
-                              seccionseleccionada = value2;
-                              print("se selecciono el valor $value2");
-                            });
-                          },
-                        ),
-                        Padding(padding: EdgeInsets.only(bottom: 20)),
-                        Text(
-                          "Categoria",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        DropdownButton<String>(
-                          value: categoriaseleccionada,
-                          hint: Text("Seleccione categoria"),
-                          items: categorias.map((list) {
-                            return new DropdownMenuItem<String>(
-                              child: new Text(list['nombrecategoria']),
-                              value: list['idcategoria'].toString(),
-                            );
-                          }).toList(),
-                          onChanged: (value3) {
-                            setState(() {
-                              categoriaseleccionada = value3;
-                              print("se selecciono el valor $value3");
-                            });
-                          },
-                        ),
-                        Padding(padding: EdgeInsets.only(bottom: 20)),
-                        Center(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: new RaisedButton(
-                              child: new Text(
-                                "Crear proyecto",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              color: colorappbar,
-                              shape: new RoundedRectangleBorder(
-                                  borderRadius:
-                                      new BorderRadius.circular(20.0)),
-                              onPressed: () {
-                                showAlertDialog(context);
+            child: Center(
+              child: Form(
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Nombre proyecto (*)",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      TextFormField(
+                        controller: controllernombre,
+                        decoration:
+                            InputDecoration(hintText: 'Ingrese el nombre'),
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 20)),
+                      Text(
+                        "Descripción",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      TextFormField(
+                        controller: controllerdescripcion,
+                        maxLines: null,
+                        decoration:
+                            InputDecoration(hintText: 'Describa su proyecto'),
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 20)),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Fecha inicio ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.35,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: textofecha,
+                                      icon: Icon(
+                                        Icons.date_range,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    enabled: true,
+                                    readOnly: true,
+                                    controller: dateController,
+                                    onTap: () async {
+                                      var date = await showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(1900),
+                                          lastDate: DateTime(2100));
+                                      if (date != null) {
+                                        fechareporte = date;
 
-                                //login();
-                              },
+                                        final DateFormat formatter =
+                                            DateFormat('dd-MM-yyyy');
+                                        fechafinal =
+                                            formatter.format(fechareporte);
+
+                                        textofecha = fechafinal.toString();
+                                        final DateFormat formatter2 =
+                                            DateFormat('dd-MM-yyyy');
+                                        String fechafinal3 =
+                                            formatter2.format(fechareporte);
+                                        setState(() {
+                                          final DateFormat formatter2 =
+                                              DateFormat('dd-MM-yyyy');
+                                          String fechafinal2 =
+                                              formatter2.format(fechareporte);
+
+                                          textofecha = fechafinal2.toString();
+                                        });
+
+                                        variablephp = fechafinal3.toString();
+                                        print(
+                                            "la fecha seleccionada es $fechafinal");
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
+                            Padding(padding: EdgeInsets.only(left: 20)),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Fecha término",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.35,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: textofecha,
+                                      icon: Icon(
+                                        Icons.date_range,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    enabled: true,
+                                    readOnly: true,
+                                    controller: dateController,
+                                    onTap: () async {
+                                      var date = await showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(1900),
+                                          lastDate: DateTime(2100));
+                                      if (date != null) {
+                                        fechareporte = date;
+
+                                        final DateFormat formatter =
+                                            DateFormat('dd-MM-yyyy');
+                                        fechafinal =
+                                            formatter.format(fechareporte);
+
+                                        textofecha = fechafinal.toString();
+                                        final DateFormat formatter2 =
+                                            DateFormat('dd-MM-yyyy');
+                                        String fechafinal3 =
+                                            formatter2.format(fechareporte);
+                                        setState(() {
+                                          final DateFormat formatter2 =
+                                              DateFormat('dd-MM-yyyy');
+                                          String fechafinal2 =
+                                              formatter2.format(fechareporte);
+
+                                          textofecha = fechafinal2.toString();
+                                        });
+
+                                        variablephp = fechafinal3.toString();
+                                        print(
+                                            "la fecha seleccionada es $fechafinal");
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 20)),
+                      Text(
+                        "Comuna",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      DropdownButtonFormField<String>(
+                        value: seccionseleccionada,
+                        hint: Text("Seleccione comuna"),
+                        items: names.map((list) {
+                          return new DropdownMenuItem<String>(
+                            child: new Text(list['nombrecomuna']),
+                            value: list['idcomuna'].toString(),
+                          );
+                        }).toList(),
+                        onChanged: (value2) {
+                          setState(() {
+                            seccionseleccionada = value2;
+                            print("se selecciono el valor $value2");
+                          });
+                        },
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 20)),
+                      Text(
+                        "Categoria",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      DropdownButtonFormField<String>(
+                        value: categoriaseleccionada,
+                        hint: Text("Seleccione categoria"),
+                        items: categorias.map((list) {
+                          return new DropdownMenuItem<String>(
+                            child: new Text(list['nombrecategoria']),
+                            value: list['idcategoria'].toString(),
+                          );
+                        }).toList(),
+                        onChanged: (value3) {
+                          setState(() {
+                            categoriaseleccionada = value3;
+                            print("se selecciono el valor $value3");
+                          });
+                        },
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 20)),
+                      Center(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: new RaisedButton(
+                            child: new Text(
+                              "Crear proyecto",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            color: colorappbar,
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(20.0)),
+                            onPressed: () {
+                              if (controllerdescripcion.text == null ||
+                                  controllerdescripcion.text == '' ||
+                                  controllernombre.text == null ||
+                                  controllernombre.text == '' ||
+                                  seccionseleccionada == null ||
+                                  categoriaseleccionada == null) {
+                                showAlertDialogerror(context);
+                              } else {
+                                showAlertDialog(context);
+                              }
+
+                              //login();
+                            },
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestionaproyecto/main.dart';
 import 'package:http/http.dart' as http;
 
 class Detalle extends StatefulWidget {
@@ -19,6 +20,7 @@ class _DetalleState extends State<Detalle> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: colorappbar,
         title: new Text("${widget.list[widget.index]['nombreusuario']}"),
       ),
       body: new Container(

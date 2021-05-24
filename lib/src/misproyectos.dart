@@ -458,10 +458,14 @@ class _listaproyectosState extends State<listaproyectos> {
                                                                       TextAlign
                                                                           .center,
                                                                 ),
-                                                                if (widget.list[
-                                                                            i][
-                                                                        'descripcionproyecto'] !=
-                                                                    null)
+                                                                if (widget.list[i]
+                                                                            [
+                                                                            'descripcionproyecto'] !=
+                                                                        null ||
+                                                                    widget.list[i]
+                                                                            [
+                                                                            'descripcionproyecto'] !=
+                                                                        ' ')
                                                                   Container(
                                                                     child: Text(
                                                                       widget.list[
@@ -688,10 +692,14 @@ class _listaproyectosState extends State<listaproyectos> {
                                                                       TextAlign
                                                                           .center,
                                                                 ),
-                                                                if (widget.list[
-                                                                            i][
-                                                                        'descripcionproyecto'] !=
-                                                                    null)
+                                                                if (widget.list[i]
+                                                                            [
+                                                                            'descripcionproyecto'] !=
+                                                                        null ||
+                                                                    widget.list[i]
+                                                                            [
+                                                                            'descripcionproyecto'] !=
+                                                                        ' ')
                                                                   Container(
                                                                     child: Text(
                                                                       widget.list[
@@ -917,9 +925,13 @@ class _listaproyectosState extends State<listaproyectos> {
                                                                         .center,
                                                               ),
                                                               if (widget.list[i]
-                                                                      [
-                                                                      'descripcionproyecto'] !=
-                                                                  null)
+                                                                          [
+                                                                          'descripcionproyecto'] !=
+                                                                      null ||
+                                                                  widget.list[i]
+                                                                          [
+                                                                          'descripcionproyecto'] !=
+                                                                      ' ')
                                                                 Container(
                                                                   child: Text(
                                                                     widget.list[
@@ -940,7 +952,6 @@ class _listaproyectosState extends State<listaproyectos> {
                                                                 Container(
                                                                   child: Text(
                                                                     "Sin descripción",
-                                                                    maxLines: 2,
                                                                     style: TextStyle(
                                                                         fontSize:
                                                                             14.0,

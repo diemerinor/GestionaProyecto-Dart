@@ -77,11 +77,14 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
     int monto = int.parse(aux);
     int total = cajafinal - monto;
     String finaltotal = total.toString();
+    DateTime fechahooy = DateTime.now();
+    String auxfecha = fechahooy.toString();
     final response = await http.post(Uri.parse(url), body: {
       "idusuario": identificadorusuario,
       "titulo": controllernombre.text,
       "monto": controllerdescripcion.text,
       "total": finaltotal,
+      "fechahoy": auxfecha,
       "fechareporte": variablephp,
       "idproyecto": widget.idproyecto
     });
@@ -154,6 +157,56 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
     );
 
     // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showAlertDialogerror(BuildContext context) {
+    // set up the buttons
+
+    Widget cancelButton = FlatButton(
+      child: Text("Ok"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      content: Text("Debe completar todos los datos"),
+      actions: [
+        cancelButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showAlertDialogerrorfecha(BuildContext context) {
+    // set up the buttons
+
+    Widget cancelButton = FlatButton(
+      child: Text("Ok"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      content: Text("Debe introducir una fecha menor o igual al día de hoy"),
+      actions: [
+        cancelButton,
+      ],
+    );
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -242,7 +295,7 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
                             controller: controllerdescripcion,
                             decoration: InputDecoration(
                               icon: Icon(
-                                Icons.account_box,
+                                Icons.monetization_on,
                                 color: Colors.black,
                               ),
                             ),
@@ -339,7 +392,29 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
                                     borderRadius:
                                         new BorderRadius.circular(20.0)),
                                 onPressed: () {
-                                  showAlertDialog(context);
+                                  if (controllerdescripcion.text == null ||
+                                      controllerdescripcion.text == '' ||
+                                      controllernombre.text == null ||
+                                      controllernombre.text == '' ||
+                                      fechareporte == null) {
+                                    showAlertDialogerror(context);
+                                  } else {
+                                    DateTime fechaaux = DateTime.now();
+                                    if (fechaaux
+                                            .difference(fechareporte)
+                                            .inDays >=
+                                        0) {
+                                      print(fechaaux
+                                          .difference(fechareporte)
+                                          .inDays);
+                                      showAlertDialog(context);
+                                    } else {
+                                      showAlertDialogerrorfecha(context);
+                                      print(fechaaux
+                                          .difference(fechareporte)
+                                          .inDays);
+                                    }
+                                  }
 
                                   //login();
                                 },

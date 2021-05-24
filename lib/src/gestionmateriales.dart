@@ -65,6 +65,7 @@ class _GestionarMaterialesState extends State<GestionarMateriales> {
     return datauser;
   }
 
+  final Controller1 = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,6 +92,40 @@ class _GestionarMaterialesState extends State<GestionarMateriales> {
                       return Center(
                         child: Column(
                           children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.1,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                  child: Expanded(
+                                    child: Container(
+                                      child: TextField(
+                                        controller: Controller1,
+                                        onChanged: (value) async {},
+                                        decoration: InputDecoration(
+                                            hintText: "Buscador de materiales"),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.add,
+                                    color: Colors.black,
+                                    size: 40,
+                                  ),
+                                  onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CrearMaterial(
+                                                idproyecto: widget.idproyecto,
+                                              ))),
+                                ),
+                              ],
+                            ),
                             Text(mensajemat ?? ''),
                           ],
                         ),

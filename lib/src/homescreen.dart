@@ -87,7 +87,6 @@ class _listareventosState extends State<listareventos> {
                       children: <Widget>[
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.12,
                           decoration: new BoxDecoration(
                             gradient: LinearGradient(
                                 colors: [
@@ -156,7 +155,7 @@ class _listareventosState extends State<listareventos> {
                                           child: Row(
                                             children: <Widget>[
                                               Card(
-                                                  color: Colors.red,
+                                                  color: colorappbar2,
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(
@@ -182,63 +181,6 @@ class _listareventosState extends State<listareventos> {
                                                         fontWeight:
                                                             FontWeight.bold,
                                                       ),
-                                                      textAlign: TextAlign.left,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(7.0),
-                                  child: Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.9,
-                                    child: GestureDetector(
-                                      onTap: () => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Contactos(
-                                                    idusuario:
-                                                        identificadorusuario,
-                                                  ))),
-                                      child: Card(
-                                        elevation: 2,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Card(
-                                                  color: Colors.blue,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            7.0),
-                                                    child: Icon(
-                                                      Icons.people_alt_rounded,
-                                                      size: 40,
-                                                      color: Colors.white,
-                                                    ),
-                                                  )),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 5.0,
-                                                ),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "Contactos",
-                                                      style: TextStyle(
-                                                          fontSize: 23,
-                                                          fontWeight:
-                                                              FontWeight.bold),
                                                       textAlign: TextAlign.left,
                                                     ),
                                                   ],
@@ -293,6 +235,63 @@ class _listareventosState extends State<listareventos> {
                                                   children: [
                                                     Text(
                                                       "Actividad",
+                                                      style: TextStyle(
+                                                          fontSize: 23,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                      textAlign: TextAlign.left,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(7.0),
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.9,
+                                    child: GestureDetector(
+                                      onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Contactos(
+                                                    idusuario:
+                                                        identificadorusuario,
+                                                  ))),
+                                      child: Card(
+                                        elevation: 2,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Row(
+                                            children: <Widget>[
+                                              Card(
+                                                  color: Colors.blue,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            7.0),
+                                                    child: Icon(
+                                                      Icons.people_alt_rounded,
+                                                      size: 40,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 5.0,
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Contactos",
                                                       style: TextStyle(
                                                           fontSize: 23,
                                                           fontWeight:

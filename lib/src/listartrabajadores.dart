@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import 'detallecontacto.dart';
+
 class ListarTrabajadores extends StatefulWidget {
   final String idproyecto;
   final String idusuario;
@@ -20,6 +22,7 @@ class ListarTrabajadores extends StatefulWidget {
 }
 
 class _ListarTrabajadoresState extends State<ListarTrabajadores> {
+  final Controller1 = new TextEditingController();
   String url2 =
       'http://gestionaproyecto.com/phpproyectotitulo/getParticipantes.php';
 
@@ -36,8 +39,36 @@ class _ListarTrabajadoresState extends State<ListarTrabajadores> {
           title: new Text("Participantes"),
           backgroundColor: colorappbar,
         ),
+        backgroundColor: colorfondo,
         body: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  child: Expanded(
+                    child: Container(
+                      child: TextField(
+                        controller: Controller1,
+                        onChanged: (value) async {},
+                        decoration: InputDecoration(
+                            hintText: "Buscador de participantes"),
+                      ),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.add,
+                    color: Colors.black,
+                    size: 40,
+                  ),
+                  onPressed: () {},
+                ),
+              ],
+            ),
             Expanded(
               child: new FutureBuilder<List>(
                   future: getTrabajadores(),
@@ -79,7 +110,8 @@ class _listatrabajState extends State<listatrabaj> {
                 child: new GestureDetector(
                     onTap: () => Navigator.of(context).push(
                           new MaterialPageRoute(
-                              builder: (BuildContext context) => new Detalle(
+                              builder: (BuildContext context) =>
+                                  new DetallesContacto(
                                     list: widget.list,
                                     index: i,
                                   )),
@@ -124,24 +156,28 @@ class _listatrabajState extends State<listatrabaj> {
                               Divider(),
                             ],
                           )
-                        else if (widget.list.length == 1)
-                          Container(
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  Text(
-                                    "No hay más \nparticipantes en el proyecto",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                  RaisedButton(
-                                    child: Text("Invita a tus contactos"),
-                                    color: Colors.red,
-                                    textColor: Colors.white,
-                                    onPressed: () {},
-                                  )
-                                ]),
-                          ),
+                        else if (widget.list[i]['idusuario'] ==
+                            widget.idusuario)
+                          Column(
+                            children: [
+                              Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: new Row(children: <Widget>[
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.75,
+                                      child: new Text(
+                                        widget.list[i]['nombreusuario'] +
+                                            " " +
+                                            widget.list[i]['apellidos'] +
+                                            " (Tú)",
+                                        style: TextStyle(fontSize: 18.0),
+                                      ),
+                                    ),
+                                  ])),
+                              Divider(),
+                            ],
+                          )
                       ],
                     )),
               );

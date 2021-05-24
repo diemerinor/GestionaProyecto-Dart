@@ -14,7 +14,6 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-import 'detalleavance.dart';
 import 'detalleproyecto.dart';
 
 double porcentaje;
@@ -25,16 +24,16 @@ int cantidadsecciones;
 double porcentajeavance = 0;
 String mensaje;
 
-class GestionAvance extends StatefulWidget {
+class DetalleAvance extends StatefulWidget {
   final String idproyecto;
 
-  GestionAvance({Key key, @required this.idproyecto}) : super(key: key);
+  DetalleAvance({Key key, @required this.idproyecto}) : super(key: key);
 
   @override
-  _GestionAvanceState createState() => _GestionAvanceState();
+  _DetalleAvanceState createState() => _DetalleAvanceState();
 }
 
-class _GestionAvanceState extends State<GestionAvance> {
+class _DetalleAvanceState extends State<DetalleAvance> {
   var listaavance = [];
   int cantidad;
   List<double> listafinal;
@@ -101,7 +100,7 @@ class _GestionAvanceState extends State<GestionAvance> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: colorappbar,
-          title: Text("Gestión de avance"),
+          title: Text("Detalle Avance"),
         ),
         backgroundColor: colorfondo,
         body: Column(
@@ -250,182 +249,22 @@ class _DatosAvanceState extends State<DatosAvance> {
                 Expanded(
                   child: FutureBuilder<List>(builder: (context, snapshot) {
                     return ListView.builder(
-                        itemCount: widget.list == null ? 0 : 1,
+                        itemCount: widget.list == null ? 0 : widget.list.length,
                         itemBuilder: (context, i) {
                           if (widget.list[i]['idreporteavance'] != null) {
                             return Column(
                               children: [
-                                if (largo > 0)
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: GestureDetector(
-                                      onTap: () => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DetalleAvance(
-                                                    idproyecto:
-                                                        widget.idproyecto,
-                                                  ))),
-                                      child: Card(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        margin: EdgeInsets.all(10),
-                                        elevation: 4,
-                                        child: Expanded(
-                                          child: Container(
-                                              margin: EdgeInsets.only(
-                                                  left: 60, right: 60, top: 20),
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              child: Column(
-                                                children: <Widget>[
-                                                  if (porcentajeavance != 0)
-                                                    Column(
-                                                      children: [
-                                                        Text(
-                                                          "Porcentaje de avance",
-                                                          style: TextStyle(
-                                                              fontSize: 20),
-                                                        ),
-                                                        Center(
-                                                            child: Text(
-                                                          "$porcentajeavance%",
-                                                          style: TextStyle(
-                                                              fontSize: 40,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )),
-                                                        Card(
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                          margin:
-                                                              EdgeInsets.all(
-                                                                  10),
-                                                          elevation: 4,
-                                                          child:
-                                                              Stack(children: [
-                                                            Container(
-                                                              color:
-                                                                  Colors.black,
-                                                              height: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .height *
-                                                                  0.017,
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  0.5,
-                                                            ),
-                                                            Container(
-                                                              color:
-                                                                  colorappbar2,
-                                                              height: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .height *
-                                                                  0.017,
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  porcentaje *
-                                                                  0.5,
-                                                            )
-                                                          ]),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 8.0),
-                                                          child: Text(
-                                                            "Haz click para más detalles",
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                                fontSize: 17),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                ],
-                                              )),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                new RaisedButton(
-                                  child: new Text(
-                                    "Agregar reporte de avance",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  color: colorappbar,
-                                  shape: new RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(30.0)),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Agregarreporte(
-                                                  idproyecto: widget.idproyecto,
-                                                )));
-                                  },
-                                ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 15),
-                                  child: Center(
-                                    child: Text(
-                                      "Últimos días trabajados",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Text(
+                                    "Se realizó un avance de " +
+                                        widget.list[i]['metrosavanzados'] +
+                                        " metros con una descripción de: " +
+                                        widget.list[i]['descripcionavance'],
+                                    style: TextStyle(fontSize: 20),
                                   ),
                                 ),
-                                Column(
-                                  children: [
-                                    if (largo > 0)
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: GestureDetector(
-                                          onTap: () {},
-                                          child: Container(
-                                            child: Card(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              margin: EdgeInsets.all(10),
-                                              elevation: 4,
-                                              child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: 10,
-                                                      right: 10,
-                                                      top: 20),
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.22,
-                                                  child: barChart()),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    else
-                                      Text("No hay datos suficientes")
-                                  ],
-                                ),
+                                Divider(),
                               ],
                             );
                           } else {

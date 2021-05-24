@@ -72,7 +72,7 @@ class _ImportarArchivoState extends State<ImportarArchivo> {
                                   height:
                                       MediaQuery.of(context).size.width * 0.15,
                                   child: Card(
-                                    color: Colors.green,
+                                    color: colorappbar,
                                     child: Icon(
                                       Icons.add,
                                       color: Colors.white,
@@ -125,7 +125,7 @@ class _listararchivosState extends State<listararchivos> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            color: Colors.green,
+                            color: colorappbar,
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height * 0.05,
                             child: Padding(
