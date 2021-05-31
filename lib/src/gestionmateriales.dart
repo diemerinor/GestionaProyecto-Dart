@@ -3,13 +3,12 @@ import 'package:gestionaproyecto/main.dart';
 import 'package:gestionaproyecto/src/crearmaterial.dart';
 import 'package:gestionaproyecto/src/detalle.dart';
 import 'package:flutter/material.dart';
-import 'package:gestionaproyecto/src/homescreen.dart';
-import 'package:gestionaproyecto/src/recomendados.dart';
-import 'package:gestionaproyecto/src/Notificaciones.dart';
 import 'package:http/http.dart' as http;
 
 import 'dart:async';
 import 'dart:convert';
+
+import 'editarmaterial.dart';
 
 var datos = [];
 int cantmateriales;
@@ -152,6 +151,58 @@ class listarmateriales extends StatefulWidget {
 
 class _listarmaterialesState extends State<listarmateriales> {
   final Controller1 = new TextEditingController();
+
+  String url =
+      'http://gestionaproyecto.com/phpproyectotitulo/DeleteMaterial.php';
+  String materialaeliminar;
+  Future<List> deletematerial() async {
+    print(materialaeliminar);
+    final response = await http
+        .post(Uri.parse(url), body: {"idmaterial": materialaeliminar});
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancelar"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Continuar"),
+      onPressed: () {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.pop(context);
+        deletematerial();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => GestionarMateriales(
+                      idproyecto: widget.idproyecto,
+                    )));
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: Text("¿Está seguro de eliminar el material? "),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.list == null) {
@@ -312,18 +363,32 @@ class _listarmaterialesState extends State<listarmateriales> {
                                                 Color.fromRGBO(17, 97, 73, 4),
                                             size: 40,
                                           ),
-                                          onPressed: () =>
-                                              print('hi on menu icon'),
+                                          onPressed: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EditarMaterial(
+                                                        idmaterial: widget
+                                                                .list[i]
+                                                            ["idrecursomat"],
+                                                        idproyecto:
+                                                            widget.idproyecto,
+                                                      ))),
                                         ),
                                         IconButton(
-                                          icon: const Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                            size: 40,
-                                          ),
-                                          onPressed: () =>
-                                              print('hi on menu icon'),
-                                        ),
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                              size: 40,
+                                            ),
+                                            onPressed: () => {
+                                                  setState(() {
+                                                    materialaeliminar =
+                                                        widget.list[i]
+                                                            ['idrecursomat'];
+                                                  }),
+                                                  showAlertDialog(context)
+                                                }),
                                       ],
                                     ),
                                   ),

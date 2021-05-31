@@ -1,65 +1,59 @@
 import 'package:gestionaproyecto/main.dart';
-import 'package:gestionaproyecto/src/crearevento.dart';
+import 'package:gestionaproyecto/src/crearseccion.dart';
 import 'package:gestionaproyecto/src/detalle.dart';
 import 'package:flutter/material.dart';
-import 'package:gestionaproyecto/src/homescreen.dart';
-import 'package:gestionaproyecto/src/recomendados.dart';
-import 'package:gestionaproyecto/src/Notificaciones.dart';
 import 'package:http/http.dart' as http;
 
 import 'dart:async';
 import 'dart:convert';
 
-String mensajeeventos;
+import 'detalleseccion.dart';
 
-class ListarEventos extends StatefulWidget {
+String mensajeseccion;
+
+class ListarSecciones extends StatefulWidget {
   final String idproyecto;
 
-  ListarEventos({Key key, this.idproyecto}) : super(key: key);
+  ListarSecciones({Key key, this.idproyecto}) : super(key: key);
   @override
-  _ListarEventosState createState() => _ListarEventosState();
+  _ListarSeccionesState createState() => _ListarSeccionesState();
 }
 
-class _ListarEventosState extends State<ListarEventos> {
-  String url2 = 'http://gestionaproyecto.com/phpproyectotitulo/getEventos.php';
-  int cantidadeventos;
-  Future<List> getEventos() async {
-    final response = await http
-        .post(Uri.parse(url2), body: {"idproyecto": widget.idproyecto});
-    var datauser = json.decode(response.body);
-    if (datauser == null) {
-      mensajeeventos = "No existen eventos en tu proyecto";
-      print("entró");
-    } else {
-      cantidadeventos = datauser.length;
-      if (cantidadeventos == 0) {
-        mensajeeventos = "No existen eventos en tu proyecto";
-      }
-      print("la cantidad es");
-      print(cantidadeventos);
-    }
+class _ListarSeccionesState extends State<ListarSecciones> {
+  int cantidadsecciones;
+  Future<List> getSecciones() async {
+    String url3 =
+        'http://gestionaproyecto.com/phpproyectotitulo/getSecciones.php';
+    final response = await http.post(Uri.parse(url3), body: {
+      "idproyecto": widget.idproyecto,
+    });
 
-    return datauser;
+    var datauser2 = json.decode(response.body);
+
+    cantidadsecciones = datauser2.length;
+    print("Actualmente existen $cantidadsecciones secciones");
+
+    return datauser2;
   }
 
   @override
   void initState() {
     super.initState();
-    mensajeeventos = "Cargando eventos...";
+    mensajeseccion = "Cargando secciones...";
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: new Text("Eventos próximos"),
+          title: new Text("Secciones del proyecto"),
           backgroundColor: colorappbar,
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
               child: IconButton(
                 icon: Icon(
-                  Icons.add_alarm_outlined,
+                  Icons.add_comment,
                   color: Colors.white,
                   size: 30,
                 ),
@@ -67,7 +61,7 @@ class _ListarEventosState extends State<ListarEventos> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CrearEvento(
+                          builder: (context) => CrearSeccion(
                                 idproyecto: widget.idproyecto,
                               )));
                   // do something
@@ -81,27 +75,30 @@ class _ListarEventosState extends State<ListarEventos> {
           children: [
             Expanded(
               child: new FutureBuilder<List>(
-                  future: getEventos(),
+                  future: getSecciones(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print(snapshot.error);
-                    if (snapshot.hasData && cantidadeventos != 0) {
+                    if (snapshot.hasData && cantidadsecciones != 0) {
                       return Column(
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                               color: colorappbar,
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              child: Text(
-                                'Selecciona un evento',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.white),
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  'Administra tus secciones',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
                           Expanded(
-                            child: new listareventoss(
+                            child: new listarsecciones(
                               list: snapshot.data,
                               idproyecto: widget.idproyecto,
                             ),
@@ -109,20 +106,25 @@ class _ListarEventosState extends State<ListarEventos> {
                         ],
                       );
                     } else {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Text(
-                              mensajeeventos ?? '',
+                      return Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              mensajeseccion ?? '',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 21,
                                   fontWeight: FontWeight.bold,
                                   color: colorappbar2),
                             ),
-                          ),
-                        ],
+                            Text(
+                              'En la parte superior derecha, tienes la opción de crear un evento',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ],
+                        ),
                       );
                     }
                   }),
@@ -132,16 +134,17 @@ class _ListarEventosState extends State<ListarEventos> {
   }
 }
 
-class listareventoss extends StatefulWidget {
+class listarsecciones extends StatefulWidget {
   final List list;
   final String idproyecto;
 
-  const listareventoss({Key key, this.list, this.idproyecto}) : super(key: key);
+  const listarsecciones({Key key, this.list, this.idproyecto})
+      : super(key: key);
   @override
-  _listareventossState createState() => _listareventossState();
+  _listarseccionesState createState() => _listarseccionesState();
 }
 
-class _listareventossState extends State<listareventoss> {
+class _listarseccionesState extends State<listarsecciones> {
   @override
   Widget build(BuildContext context) {
     if (widget.list == null) {
@@ -158,7 +161,7 @@ class _listareventossState extends State<listareventoss> {
                         onTap: () => Navigator.of(context).push(
                               new MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      new Detalle(
+                                      new DetalleSeccion(
                                         list: widget.list,
                                         index: i,
                                       )),
@@ -183,14 +186,17 @@ class _listareventossState extends State<listareventoss> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               new Text(
-                                                widget.list[i]['titulo'] + ": ",
+                                                widget.list[i]
+                                                        ['nombreseccion'] +
+                                                    ": ",
                                                 style: TextStyle(
                                                     fontSize: 18.0,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                widget.list[i]['descripcion'],
+                                                widget.list[i]
+                                                    ['descripcionseccion'],
                                                 style:
                                                     TextStyle(fontSize: 18.0),
                                               ),
@@ -198,47 +204,52 @@ class _listareventossState extends State<listareventoss> {
                                           ),
                                         ),
                                       ])),
-                                  Container(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, right: 20),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.date_range,
-                                            color: colorappbar2,
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 20.0,
+                                          height: 20.0,
+                                          decoration: new BoxDecoration(
+                                            color: verde,
+                                            shape: BoxShape.circle,
                                           ),
-                                          if (widget.list[i]['fechaevento2'] !=
-                                              null)
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 12, right: 12.0),
-                                              child: Text(
-                                                widget.list[i]['fechaevento2'],
-                                                style:
-                                                    TextStyle(fontSize: 18.0),
-                                              ),
-                                            ),
-                                          Icon(
-                                            Icons.access_time_sharp,
-                                            color: colorappbar2,
-                                          ),
-                                          if (widget.list[i]['hora'] != null)
-                                            Text(
-                                              widget.list[i]['hora'],
-                                              style: TextStyle(fontSize: 18.0),
-                                            ),
-                                        ],
-                                      ),
+                                        ),
+                                        Padding(
+                                            padding:
+                                                EdgeInsets.only(left: 5.0)),
+                                        Text("Total: " +
+                                            widget.list[i]['metrosseccion'] +
+                                            " " +
+                                            widget.list[i]['nombreunidad']),
+                                      ],
                                     ),
                                   ),
-                                  Divider(
-                                    color: colorappbar2,
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 10, left: 10.0),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 20.0,
+                                          height: 20.0,
+                                          decoration: new BoxDecoration(
+                                            color: azul,
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
+                                        Padding(
+                                            padding:
+                                                EdgeInsets.only(left: 5.0)),
+                                        Text("Avanzado: " +
+                                            widget.list[i]['avanzado'] +
+                                            " " +
+                                            widget.list[i]['nombreunidad']),
+                                      ],
+                                    ),
                                   ),
+                                  Divider(),
                                 ],
                               )
                           ],

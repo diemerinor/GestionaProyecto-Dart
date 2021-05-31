@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:gestionaproyecto/src/app.dart';
 import 'package:gestionaproyecto/src/detallecontacto.dart';
-import 'package:gestionaproyecto/src/detalleproyecto.dart';
-import 'package:gestionaproyecto/src/homescreen.dart';
 import 'package:gestionaproyecto/src/login.dart';
 import 'package:gestionaproyecto/src/misproyectos.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +18,12 @@ bool loggeado;
 
 //Color colorappbar2 = Colors.green;
 Color verde = Color.fromRGBO(29, 146, 29, 20);
+Color azul = Color.fromRGBO(13, 0, 187, 20);
 Color colorvino = Color.fromRGBO(46, 12, 21, 20);
 Color rojooscuro = Color.fromRGBO(185, 26, 26, 10);
 Color colorappbar2 = Color.fromRGBO(185, 26, 26, 10);
 Color colorappbar = Color.fromRGBO(46, 12, 21, 20);
+Color colortextoss = Colors.black;
 
 Color colorfondo = Color.fromRGBO(242, 242, 242, 10);
 String identificadorusuario,
@@ -102,18 +101,23 @@ class _LoginPageState extends State<LoginPage> {
             new Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              color: colorappbar,
+              decoration: new BoxDecoration(
+                  image: new DecorationImage(
+                      image: new AssetImage(
+                        "assets/images/fondocargando.jpg",
+                      ),
+                      fit: BoxFit.cover)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                      height: MediaQuery.of(context).size.height * 0.3,
+                      height: MediaQuery.of(context).size.height * 0.24,
                       child: Image(
                           image: new AssetImage('assets/images/logo3.png'))),
                   Text(
                     "Cargando...",
-                    style: TextStyle(color: Colors.white, fontSize: 25),
+                    style: TextStyle(color: Colors.white, fontSize: 26),
                   )
                 ],
               ),

@@ -178,7 +178,7 @@ class _listatrabajState extends State<listatrabaj> {
                                         child: Text(
                                           "Todos",
                                           style: TextStyle(
-                                              fontSize: 17,
+                                              fontSize: 14,
                                               color: letrastodos,
                                               fontWeight: FontWeight.bold),
                                           textAlign: TextAlign.center,
@@ -224,7 +224,7 @@ class _listatrabajState extends State<listatrabaj> {
                                         child: Text(
                                           "Financiamiento",
                                           style: TextStyle(
-                                              fontSize: 17,
+                                              fontSize: 14,
                                               color: letrasfinanciamiento,
                                               fontWeight: FontWeight.bold),
                                           textAlign: TextAlign.center,
@@ -270,7 +270,7 @@ class _listatrabajState extends State<listatrabaj> {
                                         child: Text(
                                           "Eventos",
                                           style: TextStyle(
-                                              fontSize: 17,
+                                              fontSize: 14,
                                               color: letraseventos,
                                               fontWeight: FontWeight.bold),
                                           textAlign: TextAlign.center,
@@ -319,7 +319,7 @@ class _listatrabajState extends State<listatrabaj> {
                           Container(
                             child: Text(
                               "No existen notificaciones en tus proyectos",
-                              style: TextStyle(fontSize: 20.0),
+                              style: TextStyle(fontSize: 17.0),
                             ),
                           )
                         else if (seleccionado == 1 &&
@@ -360,13 +360,21 @@ class _listatrabajState extends State<listatrabaj> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
-                                                      widget.list[i]
-                                                          ['nombreproyecto'],
-                                                      style: TextStyle(
-                                                          fontSize: 20.0,
-                                                          fontWeight:
-                                                              FontWeight.bold)),
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.7,
+                                                    child: Text(
+                                                        widget.list[i]
+                                                            ['nombreproyecto'],
+                                                        style: TextStyle(
+                                                            fontSize: 17.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                  ),
                                                   Container(
                                                     width:
                                                         MediaQuery.of(context)
@@ -381,7 +389,7 @@ class _listatrabajState extends State<listatrabaj> {
                                                           widget.list[i]
                                                               ['total'],
                                                       style: TextStyle(
-                                                          fontSize: 20.0),
+                                                          fontSize: 17.0),
                                                     ),
                                                   ),
                                                 ],
@@ -393,7 +401,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                              'Se realizó hace ${tiempodiferencia.inMinutes} minutos',
+                                              'Hace ${tiempodiferencia.inMinutes} minutos',
                                               style: TextStyle(
                                                 fontSize: 16.0,
                                                 fontStyle: FontStyle.italic,
@@ -406,7 +414,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                              'Se realizó hace ${tiempodiferencia.inHours} horas',
+                                              'Hace ${tiempodiferencia.inHours} horas',
                                               style: TextStyle(
                                                 fontSize: 16.0,
                                                 fontStyle: FontStyle.italic,
@@ -418,7 +426,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                                'Se realizó hace ${tiempodiferencia.inDays} días',
+                                                'Hace ${tiempodiferencia.inDays} días',
                                                 style: TextStyle(
                                                   fontSize: 16.0,
                                                   fontStyle: FontStyle.italic,
@@ -428,7 +436,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                                'Se realizó hace más de $anos años',
+                                                'Hace más de $anos años',
                                                 style: TextStyle(
                                                   fontSize: 16.0,
                                                   fontStyle: FontStyle.italic,
@@ -460,13 +468,21 @@ class _listatrabajState extends State<listatrabaj> {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                 children: [
-                                                  Text(
-                                                      widget.list[i]
-                                                          ['nombreproyecto'],
-                                                      style: TextStyle(
-                                                          fontSize: 20.0,
-                                                          fontWeight:
-                                                              FontWeight.bold)),
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.7,
+                                                    child: Text(
+                                                        widget.list[i]
+                                                            ['nombreproyecto'],
+                                                        style: TextStyle(
+                                                            fontSize: 17.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                  ),
                                                   Container(
                                                     width:
                                                         MediaQuery.of(context)
@@ -481,7 +497,7 @@ class _listatrabajState extends State<listatrabaj> {
                                                           widget.list[i]
                                                               ['total'],
                                                       style: TextStyle(
-                                                          fontSize: 20.0),
+                                                          fontSize: 17.0),
                                                     ),
                                                   ),
                                                 ],
@@ -493,7 +509,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                              'Se realizó hace ${tiempodiferencia.inMinutes} minutos',
+                                              'Hace ${tiempodiferencia.inMinutes} minutos',
                                               style: TextStyle(
                                                 fontSize: 16.0,
                                                 fontStyle: FontStyle.italic,
@@ -505,7 +521,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                              'Se realizó hace ${tiempodiferencia.inHours} horas',
+                                              'Hace ${tiempodiferencia.inHours} horas',
                                               style: TextStyle(
                                                 fontSize: 16.0,
                                                 fontStyle: FontStyle.italic,
@@ -517,7 +533,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                                'Se realizó hace ${tiempodiferencia.inDays} días',
+                                                'Hace ${tiempodiferencia.inDays} días',
                                                 style: TextStyle(
                                                   fontSize: 16.0,
                                                   fontStyle: FontStyle.italic,
@@ -527,7 +543,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                                'Se realizó hace más de $anos años',
+                                                'Hace más de $anos años',
                                                 style: TextStyle(
                                                   fontSize: 16.0,
                                                   fontStyle: FontStyle.italic,
@@ -565,7 +581,7 @@ class _listatrabajState extends State<listatrabaj> {
                                         Row(
                                           children: [
                                             Card(
-                                                color: Colors.brown,
+                                                color: azul,
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(
                                                       12.0),
@@ -582,13 +598,21 @@ class _listatrabajState extends State<listatrabaj> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
-                                                      widget.list[i]
-                                                          ['nombreproyecto'],
-                                                      style: TextStyle(
-                                                          fontSize: 20.0,
-                                                          fontWeight:
-                                                              FontWeight.bold)),
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.7,
+                                                    child: Text(
+                                                        widget.list[i]
+                                                            ['nombreproyecto'],
+                                                        style: TextStyle(
+                                                            fontSize: 17.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                  ),
                                                   Container(
                                                     width:
                                                         MediaQuery.of(context)
@@ -601,8 +625,39 @@ class _listatrabajState extends State<listatrabaj> {
                                                           widget.list[i]
                                                               ["descripcion"],
                                                       style: TextStyle(
-                                                          fontSize: 20.0),
+                                                          fontSize: 17.0),
                                                     ),
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons.date_range,
+                                                          size: 25),
+                                                      Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 5)),
+                                                      Text(
+                                                        widget.list[i]
+                                                            ["fecha_evento"],
+                                                        style: TextStyle(
+                                                            fontSize: 19),
+                                                      ),
+                                                      Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 10)),
+                                                      Icon(Icons.alarm,
+                                                          size: 25),
+                                                      Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 5)),
+                                                      Text(
+                                                          widget.list[i]
+                                                              ["hora_evento"],
+                                                          style: TextStyle(
+                                                              fontSize: 19)),
+                                                    ],
                                                   ),
                                                 ],
                                               ),
@@ -613,7 +668,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                              'Se realizó hace ${tiempodiferencia.inMinutes} minutos',
+                                              'Hace ${tiempodiferencia.inMinutes} minutos',
                                               style: TextStyle(
                                                 fontSize: 16.0,
                                                 fontStyle: FontStyle.italic,
@@ -625,7 +680,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                              'Se realizó hace ${tiempodiferencia2.inHours} horas',
+                                              'Hace ${tiempodiferencia2.inHours} horas',
                                               style: TextStyle(
                                                 fontSize: 16.0,
                                                 fontStyle: FontStyle.italic,
@@ -638,7 +693,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                                'Se realizó hace ${tiempodiferencia2.inDays} días',
+                                                'Hace ${tiempodiferencia2.inDays} días',
                                                 style: TextStyle(
                                                   fontSize: 16.0,
                                                   fontStyle: FontStyle.italic,
@@ -649,7 +704,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                                'Se realizó hace más de $anos2 años',
+                                                'Hace más de $anos2 años',
                                                 style: TextStyle(
                                                   fontSize: 16.0,
                                                   fontStyle: FontStyle.italic,
@@ -686,7 +741,7 @@ class _listatrabajState extends State<listatrabaj> {
                                         Row(
                                           children: [
                                             Card(
-                                                color: Colors.brown,
+                                                color: azul,
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(
                                                       12.0),
@@ -703,13 +758,21 @@ class _listatrabajState extends State<listatrabaj> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
-                                                      widget.list[i]
-                                                          ['nombreproyecto'],
-                                                      style: TextStyle(
-                                                          fontSize: 20.0,
-                                                          fontWeight:
-                                                              FontWeight.bold)),
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.7,
+                                                    child: Text(
+                                                        widget.list[i]
+                                                            ['nombreproyecto'],
+                                                        style: TextStyle(
+                                                            fontSize: 17.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                  ),
                                                   Container(
                                                     width:
                                                         MediaQuery.of(context)
@@ -722,8 +785,39 @@ class _listatrabajState extends State<listatrabaj> {
                                                           widget.list[i]
                                                               ["descripcion"],
                                                       style: TextStyle(
-                                                          fontSize: 20.0),
+                                                          fontSize: 17.0),
                                                     ),
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons.date_range,
+                                                          size: 25),
+                                                      Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 5)),
+                                                      Text(
+                                                        widget.list[i]
+                                                            ["fecha_evento"],
+                                                        style: TextStyle(
+                                                            fontSize: 19),
+                                                      ),
+                                                      Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 10)),
+                                                      Icon(Icons.alarm,
+                                                          size: 25),
+                                                      Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 5)),
+                                                      Text(
+                                                          widget.list[i]
+                                                              ["hora_evento"],
+                                                          style: TextStyle(
+                                                              fontSize: 19)),
+                                                    ],
                                                   ),
                                                 ],
                                               ),
@@ -734,7 +828,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                              'Se realizó hace ${tiempodiferencia.inMinutes} minutos',
+                                              'Hace ${tiempodiferencia.inMinutes} minutos',
                                               style: TextStyle(
                                                 fontSize: 16.0,
                                                 fontStyle: FontStyle.italic,
@@ -746,7 +840,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                              'Se realizó hace ${tiempodiferencia2.inHours} horas',
+                                              'Hace ${tiempodiferencia2.inHours} horas',
                                               style: TextStyle(
                                                 fontSize: 16.0,
                                                 fontStyle: FontStyle.italic,
@@ -759,7 +853,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                                'Se realizó hace ${tiempodiferencia2.inDays} días',
+                                                'Hace ${tiempodiferencia2.inDays} días',
                                                 style: TextStyle(
                                                   fontSize: 16.0,
                                                   fontStyle: FontStyle.italic,
@@ -770,7 +864,7 @@ class _listatrabajState extends State<listatrabaj> {
                                           Container(
                                             alignment: Alignment.topRight,
                                             child: Text(
-                                                'Se realizó hace más de $anos2 años',
+                                                'Hace más de $anos2 años',
                                                 style: TextStyle(
                                                   fontSize: 16.0,
                                                   fontStyle: FontStyle.italic,
@@ -806,14 +900,21 @@ class _listatrabajState extends State<listatrabaj> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                        widget.list[i]
-                                                            ['nombreproyecto'],
-                                                        style: TextStyle(
-                                                            fontSize: 20.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.7,
+                                                      child: Text(
+                                                          widget.list[i][
+                                                              'nombreproyecto'],
+                                                          style: TextStyle(
+                                                              fontSize: 17.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                    ),
                                                     Container(
                                                       width:
                                                           MediaQuery.of(context)
@@ -828,7 +929,7 @@ class _listatrabajState extends State<listatrabaj> {
                                                             widget.list[i]
                                                                 ['total'],
                                                         style: TextStyle(
-                                                            fontSize: 20.0),
+                                                            fontSize: 17.0),
                                                       ),
                                                     ),
                                                   ],
@@ -840,7 +941,7 @@ class _listatrabajState extends State<listatrabaj> {
                                             Container(
                                               alignment: Alignment.topRight,
                                               child: Text(
-                                                'Se realizó hace ${tiempodiferencia.inMinutes} minutos',
+                                                'Hace ${tiempodiferencia.inMinutes} minutos',
                                                 style: TextStyle(
                                                   fontSize: 16.0,
                                                   fontStyle: FontStyle.italic,
@@ -852,7 +953,7 @@ class _listatrabajState extends State<listatrabaj> {
                                             Container(
                                               alignment: Alignment.topRight,
                                               child: Text(
-                                                'Se realizó hace ${tiempodiferencia.inHours} horas',
+                                                'Hace ${tiempodiferencia.inHours} horas',
                                                 style: TextStyle(
                                                   fontSize: 16.0,
                                                   fontStyle: FontStyle.italic,
@@ -865,7 +966,7 @@ class _listatrabajState extends State<listatrabaj> {
                                             Container(
                                               alignment: Alignment.topRight,
                                               child: Text(
-                                                  'Se realizó hace ${tiempodiferencia.inDays} días',
+                                                  'Hace ${tiempodiferencia.inDays} días',
                                                   style: TextStyle(
                                                     fontSize: 16.0,
                                                     fontStyle: FontStyle.italic,
@@ -876,7 +977,7 @@ class _listatrabajState extends State<listatrabaj> {
                                             Container(
                                               alignment: Alignment.topRight,
                                               child: Text(
-                                                  'Se realizó hace más de $anos años',
+                                                  'Hace más de $anos años',
                                                   style: TextStyle(
                                                     fontSize: 16.0,
                                                     fontStyle: FontStyle.italic,
@@ -913,14 +1014,21 @@ class _listatrabajState extends State<listatrabaj> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                        widget.list[i]
-                                                            ['nombreproyecto'],
-                                                        style: TextStyle(
-                                                            fontSize: 20.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.7,
+                                                      child: Text(
+                                                          widget.list[i][
+                                                              'nombreproyecto'],
+                                                          style: TextStyle(
+                                                              fontSize: 17.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                    ),
                                                     Container(
                                                       width:
                                                           MediaQuery.of(context)
@@ -935,7 +1043,7 @@ class _listatrabajState extends State<listatrabaj> {
                                                             widget.list[i]
                                                                 ['total'],
                                                         style: TextStyle(
-                                                            fontSize: 20.0),
+                                                            fontSize: 17.0),
                                                       ),
                                                     ),
                                                   ],
@@ -947,7 +1055,7 @@ class _listatrabajState extends State<listatrabaj> {
                                             Container(
                                               alignment: Alignment.topRight,
                                               child: Text(
-                                                'Se realizó hace ${tiempodiferencia.inMinutes} minutos',
+                                                'Hace ${tiempodiferencia.inMinutes} minutos',
                                                 style: TextStyle(
                                                   fontSize: 16.0,
                                                   fontStyle: FontStyle.italic,
@@ -959,7 +1067,7 @@ class _listatrabajState extends State<listatrabaj> {
                                             Container(
                                               alignment: Alignment.topRight,
                                               child: Text(
-                                                'Se realizó hace ${tiempodiferencia.inHours} horas',
+                                                'Hace ${tiempodiferencia.inHours} horas',
                                                 style: TextStyle(
                                                   fontSize: 16.0,
                                                   fontStyle: FontStyle.italic,
@@ -972,7 +1080,7 @@ class _listatrabajState extends State<listatrabaj> {
                                             Container(
                                               alignment: Alignment.topRight,
                                               child: Text(
-                                                  'Se realizó hace ${tiempodiferencia.inDays} días',
+                                                  'Hace ${tiempodiferencia.inDays} días',
                                                   style: TextStyle(
                                                     fontSize: 16.0,
                                                     fontStyle: FontStyle.italic,
@@ -983,7 +1091,7 @@ class _listatrabajState extends State<listatrabaj> {
                                             Container(
                                               alignment: Alignment.topRight,
                                               child: Text(
-                                                  'Se realizó hace más de $anos años',
+                                                  'Hace más de $anos años',
                                                   style: TextStyle(
                                                     fontSize: 16.0,
                                                     fontStyle: FontStyle.italic,

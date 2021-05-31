@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestionaproyecto/main.dart';
 import 'package:gestionaproyecto/src/agregarreporte.dart';
-import 'package:gestionaproyecto/src/gestionarproyecto.dart';
-import 'package:gestionaproyecto/src/listartrabajadores.dart';
-import 'package:gestionaproyecto/src/homescreen.dart';
-import 'package:gestionaproyecto/src/recomendados.dart';
-import 'package:gestionaproyecto/src/Notificaciones.dart';
-import 'package:flutter_sparkline/flutter_sparkline.dart';
+import 'package:gestionaproyecto/src/gestionseccion.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 import 'package:http/http.dart' as http;
@@ -15,7 +10,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'detalleavance.dart';
-import 'detalleproyecto.dart';
 
 double porcentaje;
 int largo = 0;
@@ -200,13 +194,13 @@ class _DatosAvanceState extends State<DatosAvance> {
 
   List<charts.Series<DatosGrafico, String>> _DatosGr() {
     List<DatosGrafico> datos = [
-      DatosGrafico((widget.list[0]["fechareportado"]),
+      DatosGrafico((widget.list[0]["fechareportado3"]),
           double.parse(widget.list[0]["metrosavanzados"]), 3)
     ];
     int i = 1;
 
     while (i < largo && i < 5) {
-      datos.add(DatosGrafico((widget.list[i]["fechareportado"]),
+      datos.add(DatosGrafico((widget.list[i]["fechareportado3"]),
           double.parse(widget.list[i]["metrosavanzados"]), 3));
 
       i++;
@@ -493,7 +487,7 @@ class _SeccionesState extends State<Secciones> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Agregarreporte(
+                                      builder: (context) => ListarSecciones(
                                             idproyecto: widget.idproyecto,
                                           )));
                             },

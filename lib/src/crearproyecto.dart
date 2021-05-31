@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:gestionaproyecto/main.dart';
-import 'package:gestionaproyecto/src/gestionarproyecto.dart';
-import 'package:gestionaproyecto/src/gestionavance.dart';
-import 'package:gestionaproyecto/src/listartrabajadores.dart';
-import 'package:gestionaproyecto/src/homescreen.dart';
-import 'package:gestionaproyecto/src/recomendados.dart';
-import 'package:gestionaproyecto/src/Notificaciones.dart';
-import 'package:flutter_sparkline/flutter_sparkline.dart';
-
-import 'package:flutter/services.dart';
-
-import 'package:charts_flutter/flutter.dart' as charts;
 
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:flutter/services.dart';
 
 import 'dart:async';
 import 'dart:convert';
 
-import 'detalleproyecto.dart';
 import 'misproyectos.dart';
+
+String fechainicial;
+String fechatermino;
+String fechafinal3, fechafinal4;
 
 class CrearProyecto extends StatefulWidget {
   final String idusuario;
@@ -36,12 +29,15 @@ class _CrearProyectoState extends State<CrearProyecto> {
 
   TextEditingController controllernombre = new TextEditingController();
   TextEditingController controllerdescripcion = new TextEditingController();
+  TextEditingController controllermonto = new TextEditingController();
   final dateController = TextEditingController();
+  final dateController2 = TextEditingController();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is removed
     dateController.dispose();
+    dateController2.dispose();
     super.dispose();
   }
 
@@ -53,6 +49,7 @@ class _CrearProyectoState extends State<CrearProyecto> {
   }
 
   String fechafinal;
+  DateTime fechahoyy = DateTime.now();
 
   Future<List> insertproyecto() async {
     final response = await http.post(Uri.parse(url), body: {
@@ -61,6 +58,10 @@ class _CrearProyectoState extends State<CrearProyecto> {
       "descripcionproyecto": controllerdescripcion.text,
       "idcomuna": seccionseleccionada,
       "idcategoria": categoriaseleccionada,
+      "cajatotal": controllermonto.text,
+      "fechahoy": '$fechahoyy',
+      "fechainicial": fechafinal3,
+      "fechatermino": fechafinal4,
     });
   }
 
@@ -68,12 +69,6 @@ class _CrearProyectoState extends State<CrearProyecto> {
   List categorias = List();
 
   Future<List> getSecciones() async {
-    // String url6 = 'https://apis.modernizacion.cl/dpa/provincias';
-    // final response4 = await http.get(
-    //   Uri.parse(url6),
-    // );
-    // var datauser4 = json.decode(response4.body);
-    // print("aqui es " + datauser4);
     String url3 =
         'http://gestionaproyecto.com/phpproyectotitulo/getComunas.php';
     final response = await http.get(
@@ -103,9 +98,10 @@ class _CrearProyectoState extends State<CrearProyecto> {
   }
 
   String textofecha = "Seleccione...";
+  String textofecha2 = "Seleccione...";
   DateTime fechareporte;
+  DateTime fechareporte2;
   String fechass;
-  String variablephp;
 
   showAlertDialog2(BuildContext context) {
     // set up the buttons
@@ -189,6 +185,31 @@ class _CrearProyectoState extends State<CrearProyecto> {
 
     AlertDialog alert = AlertDialog(
       content: Text("Debe completar todos los datos"),
+      actions: [
+        cancelButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showAlertDialogerrorfecha(BuildContext context) {
+    // set up the buttons
+
+    Widget cancelButton = FlatButton(
+      child: Text("Ok"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      content: Text("La fecha inicial no puede ser mayor que la de término"),
       actions: [
         cancelButton,
       ],
@@ -298,11 +319,12 @@ class _CrearProyectoState extends State<CrearProyecto> {
                                             formatter.format(fechareporte);
 
                                         textofecha = fechafinal.toString();
-                                        final DateFormat formatter2 =
-                                            DateFormat('dd-MM-yyyy');
-                                        String fechafinal3 =
-                                            formatter2.format(fechareporte);
+
                                         setState(() {
+                                          final DateFormat formatter3 =
+                                              DateFormat('yyyy-MM-dd');
+                                          fechafinal3 =
+                                              formatter3.format(fechareporte);
                                           final DateFormat formatter2 =
                                               DateFormat('dd-MM-yyyy');
                                           String fechafinal2 =
@@ -311,7 +333,7 @@ class _CrearProyectoState extends State<CrearProyecto> {
                                           textofecha = fechafinal2.toString();
                                         });
 
-                                        variablephp = fechafinal3.toString();
+                                        fechainicial = fechafinal3.toString();
                                         print(
                                             "la fecha seleccionada es $fechafinal");
                                       }
@@ -336,7 +358,7 @@ class _CrearProyectoState extends State<CrearProyecto> {
                                       MediaQuery.of(context).size.width * 0.35,
                                   child: TextField(
                                     decoration: InputDecoration(
-                                      hintText: textofecha,
+                                      hintText: textofecha2,
                                       icon: Icon(
                                         Icons.date_range,
                                         color: Colors.black,
@@ -344,36 +366,37 @@ class _CrearProyectoState extends State<CrearProyecto> {
                                     ),
                                     enabled: true,
                                     readOnly: true,
-                                    controller: dateController,
+                                    controller: dateController2,
                                     onTap: () async {
-                                      var date = await showDatePicker(
+                                      var date2 = await showDatePicker(
                                           context: context,
                                           initialDate: DateTime.now(),
                                           firstDate: DateTime(1900),
                                           lastDate: DateTime(2100));
-                                      if (date != null) {
-                                        fechareporte = date;
+                                      if (date2 != null) {
+                                        fechareporte2 = date2;
 
                                         final DateFormat formatter =
                                             DateFormat('dd-MM-yyyy');
                                         fechafinal =
-                                            formatter.format(fechareporte);
+                                            formatter.format(fechareporte2);
 
-                                        textofecha = fechafinal.toString();
-                                        final DateFormat formatter2 =
-                                            DateFormat('dd-MM-yyyy');
-                                        String fechafinal3 =
-                                            formatter2.format(fechareporte);
+                                        textofecha2 = fechafinal.toString();
+
                                         setState(() {
+                                          final DateFormat formatter3 =
+                                              DateFormat('yyyy-MM-dd');
+                                          fechafinal4 =
+                                              formatter3.format(fechareporte2);
                                           final DateFormat formatter2 =
                                               DateFormat('dd-MM-yyyy');
                                           String fechafinal2 =
                                               formatter2.format(fechareporte);
 
-                                          textofecha = fechafinal2.toString();
+                                          textofecha2 = fechafinal2.toString();
                                         });
 
-                                        variablephp = fechafinal3.toString();
+                                        fechatermino = fechafinal4.toString();
                                         print(
                                             "la fecha seleccionada es $fechafinal");
                                       }
@@ -384,6 +407,29 @@ class _CrearProyectoState extends State<CrearProyecto> {
                             ),
                           ],
                         ),
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 20)),
+                      Text(
+                        "Capital inicial: ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      TextFormField(
+                        controller: controllermonto,
+                        decoration: InputDecoration(
+                          icon: Icon(
+                            Icons.monetization_on,
+                            color: Colors.black,
+                          ),
+                        ),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.singleLineFormatter
+                        ],
+                        keyboardType: TextInputType.number,
+                      ),
+                      Text(
+                        "Al no rellenar este campo, se completará con 0",
+                        style: TextStyle(fontStyle: FontStyle.italic),
                       ),
                       Padding(padding: EdgeInsets.only(bottom: 20)),
                       Text(
@@ -450,7 +496,14 @@ class _CrearProyectoState extends State<CrearProyecto> {
                                   categoriaseleccionada == null) {
                                 showAlertDialogerror(context);
                               } else {
-                                showAlertDialog(context);
+                                if (fechareporte
+                                        .difference(fechareporte2)
+                                        .inMinutes <=
+                                    0) {
+                                  showAlertDialog(context);
+                                } else {
+                                  showAlertDialogerrorfecha(context);
+                                }
                               }
 
                               //login();

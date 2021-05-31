@@ -12,22 +12,43 @@ import 'dart:convert';
 
 int cantidadsecciones;
 
-class Agregarreporte extends StatefulWidget {
+class EditarReporte extends StatefulWidget {
   final String idproyecto;
+  final String idreporteavance;
 
-  const Agregarreporte({Key key, this.idproyecto}) : super(key: key);
+  const EditarReporte({Key key, this.idproyecto, this.idreporteavance})
+      : super(key: key);
   @override
-  _AgregarreporteState createState() => _AgregarreporteState();
+  _EditarReporteState createState() => _EditarReporteState();
 }
 
-class _AgregarreporteState extends State<Agregarreporte> {
+class _EditarReporteState extends State<EditarReporte> {
   String url =
-      'http://gestionaproyecto.com/phpproyectotitulo/InsertReporte.php';
+      'http://gestionaproyecto.com/phpproyectotitulo/EditarReporte.php';
   var datauser2;
 
   TextEditingController controllerusuario = new TextEditingController();
   TextEditingController controllerdescripcion = new TextEditingController();
   final dateController = TextEditingController();
+
+  Future<List> getinforeporte() async {
+    String url7 =
+        'http://gestionaproyecto.com/phpproyectotitulo/getInfoReporte.php';
+    final response = await http.post(Uri.parse(url7), body: {
+      "idproyecto": widget.idproyecto,
+      "idreporteavance": widget.idreporteavance
+    });
+    var datauser = json.decode(response.body);
+    print(datauser);
+    setState(() {
+      seccionseleccionada = datauser[0]['idseccion'];
+      controllerusuario.text = datauser[0]['metrosavanzados'];
+      controllerdescripcion.text = datauser[0]['descripcionavance'];
+      textofecha = datauser[0]['fechareporte'];
+    });
+
+    return datauser;
+  }
 
   @override
   void dispose() {
@@ -38,17 +59,18 @@ class _AgregarreporteState extends State<Agregarreporte> {
 
   String fechafinal;
 
-  Future<List> insertreporte() async {
+  Future<List> editarreporte() async {
     DateTime fechahoy = DateTime.now();
     String auxfecha = fechahoy.toString();
     final response = await http.post(Uri.parse(url), body: {
       "fechahoy": auxfecha,
-      "fechareporte": variablephp,
+      "fechareporte": fechafinal,
       "idseccion": seccionseleccionada,
       "metrosavanzados": controllerusuario.text,
       "idusuario": identificadorusuario,
       "idproyecto": widget.idproyecto,
       "descripcion": controllerdescripcion.text,
+      "idreporte": widget.idreporteavance,
     });
   }
 
@@ -94,7 +116,7 @@ class _AgregarreporteState extends State<Agregarreporte> {
     super.initState();
     getSecciones();
     getUnidades();
-    fechadehoy(true);
+    getinforeporte();
   }
 
   void fechadehoy(bool value) {
@@ -155,7 +177,7 @@ class _AgregarreporteState extends State<Agregarreporte> {
     Widget continueButton = FlatButton(
       child: Text("Continuar"),
       onPressed: () {
-        insertreporte();
+        editarreporte();
         Navigator.of(context, rootNavigator: true).pop('dialog');
         showAlertDialog2(context);
       },
@@ -163,7 +185,7 @@ class _AgregarreporteState extends State<Agregarreporte> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      content: Text("¿Está seguro de subir el reporte? "),
+      content: Text("¿Está seguro de editar el reporte? "),
       actions: [
         cancelButton,
         continueButton,
@@ -245,7 +267,7 @@ class _AgregarreporteState extends State<Agregarreporte> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorappbar,
-        title: Text("Ingresa un reporte de avance"),
+        title: Text("Editar reporte de avance"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -280,8 +302,6 @@ class _AgregarreporteState extends State<Agregarreporte> {
                                         MediaQuery.of(context).size.width * 0.6,
                                     child: new Text(list['nombreseccion'])),
                                 value: list['idseccion'].toString(),
-                                
-                                
                               );
                             }).toList(),
                             onChanged: (value2) {
@@ -389,6 +409,10 @@ class _AgregarreporteState extends State<Agregarreporte> {
                               String fechafinal2 =
                                   formatter2.format(fechareporte);
 
+                              final DateFormat formatter3 =
+                                  DateFormat('yyyy-MM-dd');
+                              fechafinal = formatter3.format(fechareporte);
+
                               textofecha = fechafinal2.toString();
                             });
 
@@ -407,7 +431,7 @@ class _AgregarreporteState extends State<Agregarreporte> {
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: new Text(
-                              "Ingresar reporte",
+                              "Editar reporte",
                               style:
                                   TextStyle(fontSize: 16, color: Colors.white),
                               textAlign: TextAlign.center,
@@ -421,7 +445,6 @@ class _AgregarreporteState extends State<Agregarreporte> {
                                 controllerdescripcion.text == '' ||
                                 controllerusuario.text == null ||
                                 controllerusuario.text == '' ||
-                                variablephp == null ||
                                 seccionseleccionada == null) {
                               showAlertDialogerror(context);
                             } else {

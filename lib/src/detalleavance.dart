@@ -15,6 +15,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'detalleproyecto.dart';
+import 'editarcargoproyecto.dart';
+import 'editarreporte.dart';
+import 'gestionavance.dart';
 
 double porcentaje;
 int largo = 0;
@@ -107,28 +110,6 @@ class _DetalleAvanceState extends State<DetalleAvance> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.09,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: new FutureBuilder<List>(
-                        future: getSecciones(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) print(snapshot.error);
-                          return snapshot.hasData
-                              ? new Secciones(
-                                  listasecciones: snapshot.data,
-                                  idproyecto: widget.idproyecto,
-                                )
-                              : new Center(
-                                  child: new CircularProgressIndicator(),
-                                );
-                        }),
-                  ),
-                ],
-              ),
-            ),
             Expanded(
               child: new FutureBuilder<List>(
                   future: getAvance(),
@@ -136,10 +117,60 @@ class _DetalleAvanceState extends State<DetalleAvance> {
                     if (snapshot.hasError) print(snapshot.error);
                     if (snapshot.hasData) {
                       if (largo != 0) {
-                        return new DatosAvance(
-                          list: snapshot.data,
-                          datosavance: listafinal,
-                          idproyecto: widget.idproyecto,
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.4,
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              "Avances",
+                                              style: TextStyle(
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        )),
+                                    Padding(
+                                        padding: EdgeInsets.only(right: 10)),
+                                    Container(
+                                      width: 10.0,
+                                      height: 10.0,
+                                      decoration: new BoxDecoration(
+                                        color: colorappbar,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        height: 2,
+                                        color: colorappbar,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: new DatosAvance(
+                                list: snapshot.data,
+                                datosavance: listafinal,
+                                idproyecto: widget.idproyecto,
+                              ),
+                            ),
+                          ],
                         );
                       } else {
                         return Text("No existe nada");
@@ -149,27 +180,11 @@ class _DetalleAvanceState extends State<DetalleAvance> {
                         padding: const EdgeInsets.only(top: 20.0),
                         child: Column(
                           children: [
-                            Text(mensaje ?? ''),
-                            RaisedButton(
-                              child: new Text(
-                                "Crear reporte de avance",
-                                style: (TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold)),
-                              ),
-                              color: colorappbar,
-                              shape: new RoundedRectangleBorder(
-                                  borderRadius:
-                                      new BorderRadius.circular(20.0)),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Agregarreporte(
-                                              idproyecto: widget.idproyecto,
-                                            )));
-                              },
-                            ),
+                            Center(
+                                child: Text(
+                              mensaje ?? '',
+                              style: TextStyle(fontSize: 20),
+                            )),
                           ],
                         ),
                       );
@@ -196,47 +211,59 @@ class DatosAvance extends StatefulWidget {
 class _DatosAvanceState extends State<DatosAvance> {
   List<charts.Series> seriesList;
   var datos2;
-
-  List<charts.Series<DatosGrafico, String>> _DatosGr() {
-    List<DatosGrafico> datos = [
-      DatosGrafico((widget.list[0]["fechareportado"]),
-          double.parse(widget.list[0]["metrosavanzados"]), 3)
-    ];
-    int i = 1;
-
-    while (i < largo && i < 5) {
-      datos.add(DatosGrafico((widget.list[i]["fechareportado"]),
-          double.parse(widget.list[i]["metrosavanzados"]), 3));
-
-      i++;
-    }
-
-    porcentaje = porcentajeavance / 100;
-
-    return [
-      charts.Series<DatosGrafico, String>(
-        id: 'Datos',
-        domainFn: (DatosGrafico datosg, _) => datosg.fecha,
-        measureFn: (DatosGrafico datosg, _) => datosg.metros,
-        data: datos,
-      )
-    ];
-  }
-
-  barChart() {
-    return charts.BarChart(
-      seriesList,
-      animate: true,
-    );
+  String url = 'http://gestionaproyecto.com/phpproyectotitulo/DeleteAvance.php';
+  String avanceaeliminar;
+  Future<List> deleteavance() async {
+    final response =
+        await http.post(Uri.parse(url), body: {"idavance": avanceaeliminar});
   }
 
   @override
   void initState() {
     super.initState();
-    mensaje = "Cargando avances";
-    if (largo > 0) {
-      seriesList = _DatosGr();
-    }
+    mensaje = "Cargando avances...";
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancelar"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Continuar"),
+      onPressed: () {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.pop(context);
+        deleteavance();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => GestionAvance(
+                      idproyecto: widget.idproyecto,
+                    )));
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: Text("¿Está seguro de eliminar el reporte? "),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   @override
@@ -245,6 +272,7 @@ class _DatosAvanceState extends State<DatosAvance> {
         ? Center(child: CircularProgressIndicator())
         : Column(
             children: [
+              Divider(),
               if (widget.list != null)
                 Expanded(
                   child: FutureBuilder<List>(builder: (context, snapshot) {
@@ -253,15 +281,116 @@ class _DatosAvanceState extends State<DatosAvance> {
                         itemBuilder: (context, i) {
                           if (widget.list[i]['idreporteavance'] != null) {
                             return Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(12.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 15.0, right: 15),
                                   child: Text(
-                                    "Se realizó un avance de " +
-                                        widget.list[i]['metrosavanzados'] +
-                                        " metros con una descripción de: " +
-                                        widget.list[i]['descripcionavance'],
-                                    style: TextStyle(fontSize: 20),
+                                      "Descripcion: " +
+                                          widget.list[i]['descripcionavance'],
+                                      style: TextStyle(fontSize: 20)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 15.0, right: 15),
+                                  child: Text(
+                                      "Avance: " +
+                                          widget.list[i]['metrosavanzados'] +
+                                          " " +
+                                          widget.list[i]['nombreunidad'],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                          color: verde)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 15.0, right: 15),
+                                  child: Text(
+                                      "Total: " +
+                                          widget.list[i]['metrostotales'] +
+                                          " " +
+                                          widget.list[i]['nombreunidad'],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                          color: verde)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 15.0, right: 15),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap: () =>
+                                              Navigator.of(context).push(
+                                            new MaterialPageRoute(
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    new EditarReporte(
+                                                      idproyecto:
+                                                          widget.idproyecto,
+                                                      idreporteavance: widget
+                                                              .list[i]
+                                                          ['idreporteavance'],
+                                                    )),
+                                          ),
+                                          child: Card(
+                                            color: Colors.teal,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Icon(
+                                                Icons.edit,
+                                                color: Colors.white,
+                                                size: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap: () => {
+                                            setState(() {
+                                              avanceaeliminar = widget.list[i]
+                                                  ['idreporteavance'];
+                                            }),
+                                            showAlertDialog(context),
+                                          },
+                                          child: Card(
+                                            color: colorappbar2,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Icon(
+                                                Icons.delete,
+                                                color: Colors.white,
+                                                size: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                          child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.date_range,
+                                            size: 20,
+                                          ),
+                                          Text(
+                                            widget.list[i]['fechareportado3'],
+                                            style: TextStyle(fontSize: 17),
+                                          ),
+                                        ],
+                                      ))
+                                    ],
                                   ),
                                 ),
                                 Divider(),
@@ -275,122 +404,5 @@ class _DatosAvanceState extends State<DatosAvance> {
                 ),
             ],
           );
-  }
-}
-
-class DatosGrafico {
-  final String fecha;
-  final double metros;
-  final double metrosavanzados;
-
-  DatosGrafico(this.fecha, this.metros, this.metrosavanzados);
-}
-
-class Secciones extends StatefulWidget {
-  final List listasecciones;
-  final String idproyecto;
-
-  const Secciones({Key key, this.listasecciones, this.idproyecto})
-      : super(key: key);
-  @override
-  _SeccionesState createState() => _SeccionesState();
-}
-
-class _SeccionesState extends State<Secciones> {
-  @override
-  Widget build(BuildContext context) {
-    return widget.listasecciones == null
-        ? Center(child: CircularProgressIndicator())
-        : FutureBuilder<List>(builder: (context, snapshot) {
-            return ListView(
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Center(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Gestiona por sección",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          Padding(padding: EdgeInsets.only(right: 10)),
-                          new RaisedButton(
-                            child: new Text(
-                              "Ver más",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                            color: colorappbar,
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(3.0)),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Agregarreporte(
-                                            idproyecto: widget.idproyecto,
-                                          )));
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-                // ListView.builder(
-                //     itemCount: widget.listasecciones == null ? 0 : 1,
-                //     itemBuilder: (context, i) {
-                //       if (widget.listasecciones[0]['idseccion'] != null) {
-                //         return Container(
-                //           width: MediaQuery.of(context).size.width,
-                //           child: Padding(
-                //             padding: const EdgeInsets.all(20.0),
-                //             child: Center(
-                //               child: Row(
-                //                 children: [
-                //                   Text(
-                //                     "Gestiona por sección",
-                //                     style: TextStyle(fontSize: 20),
-                //                     textAlign: TextAlign.center,
-                //                   ),
-                //                   Padding(padding: EdgeInsets.only(right: 10)),
-                //                   new RaisedButton(
-                //                     child: new Text(
-                //                       "Ver más",
-                //                       style: TextStyle(
-                //                           color: Colors.white, fontSize: 20),
-                //                     ),
-                //                     color: Colors.black,
-                //                     shape: new RoundedRectangleBorder(
-                //                         borderRadius:
-                //                             new BorderRadius.circular(3.0)),
-                //                     onPressed: () {
-                //                       Navigator.push(
-                //                           context,
-                //                           MaterialPageRoute(
-                //                               builder: (context) =>
-                //                                   Agregarreporte(
-                //                                     idproyecto:
-                //                                         widget.idproyecto,
-                //                                   )));
-                //                     },
-                //                   ),
-                //                 ],
-                //               ),
-                //             ),
-                //           ),
-                //         );
-                //       } else {
-                //         return Text("Hola");
-                //       }
-                //     }),
-              ],
-            );
-          });
   }
 }

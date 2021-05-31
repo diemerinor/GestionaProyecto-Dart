@@ -12,39 +12,29 @@ import 'dart:convert';
 
 import 'detallecontacto.dart';
 
-class ListarTrabajadores extends StatefulWidget {
+class ListarUsCargo extends StatefulWidget {
   final String idproyecto;
-  final String idusuario;
+  final String idcargo;
 
-  ListarTrabajadores({Key key, this.idproyecto, this.idusuario})
-      : super(key: key);
+  ListarUsCargo({Key key, this.idproyecto, this.idcargo}) : super(key: key);
   @override
-  _ListarTrabajadoresState createState() => _ListarTrabajadoresState();
+  _ListarUsCargoState createState() => _ListarUsCargoState();
 }
 
-class _ListarTrabajadoresState extends State<ListarTrabajadores> {
-  final Controller1 = new TextEditingController();
+class _ListarUsCargoState extends State<ListarUsCargo> {
   String url2 =
-      'http://gestionaproyecto.com/phpproyectotitulo/getParticipantes.php';
+      'http://gestionaproyecto.com/phpproyectotitulo/getUsuarioCargo.php';
   List info = [];
   List nombresfiltrados = [];
   List info2 = [];
 
   Future<List> getTrabajadores() async {
-    final response = await http
-        .post(Uri.parse(url2), body: {"idproyecto": widget.idproyecto});
+    print(widget.idcargo);
+    final response =
+        await http.post(Uri.parse(url2), body: {"idcargo": widget.idcargo});
     var datauser = json.decode(response.body);
     int cantidad = datauser.length;
 
-    if (datauser != null) {
-      info2 = datauser;
-      List datos = [datauser[0]['nombreusuario']];
-      for (int i = 1; i < cantidad; i++) {
-        datos.add(datauser[i]['nombreusuario']);
-      }
-      info = datos;
-    }
-    print(info);
     return datauser;
   }
 
@@ -72,35 +62,6 @@ class _ListarTrabajadoresState extends State<ListarTrabajadores> {
         backgroundColor: colorfondo,
         body: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.1,
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child: Expanded(
-                    child: Container(
-                      child: TextField(
-                        controller: Controller1,
-                        onChanged: (value) async {
-                          _nombrefiltrados(value);
-                        },
-                        decoration: InputDecoration(
-                            hintText: "Buscador de participantes"),
-                      ),
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.add,
-                    color: Colors.black,
-                    size: 40,
-                  ),
-                  onPressed: () {},
-                ),
-              ],
-            ),
             Expanded(
               child: new FutureBuilder<List>(
                   future: getTrabajadores(),
@@ -109,7 +70,7 @@ class _ListarTrabajadoresState extends State<ListarTrabajadores> {
                     return snapshot.hasData
                         ? new listatrabaj(
                             list: snapshot.data,
-                            idusuario: widget.idusuario,
+                            idcargo: widget.idcargo,
                           )
                         : new Center(
                             child: new CircularProgressIndicator(),
@@ -123,8 +84,8 @@ class _ListarTrabajadoresState extends State<ListarTrabajadores> {
 
 class listatrabaj extends StatefulWidget {
   final List list;
-  final String idusuario;
-  listatrabaj({this.list, this.idusuario});
+  final String idcargo;
+  listatrabaj({this.list, this.idcargo});
   @override
   _listatrabajState createState() => _listatrabajState();
 }
@@ -137,6 +98,14 @@ class _listatrabajState extends State<listatrabaj> {
         ? Center(child: CircularProgressIndicator())
         : Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Usuarios con el\ncargo de " + widget.list[0]['nombrecargo'],
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+              ),
               Expanded(
                 child: new ListView.builder(
                   itemCount: widget.list == null ? 0 : widget.list.length,
@@ -154,8 +123,7 @@ class _listatrabajState extends State<listatrabaj> {
                               ),
                           child: Column(
                             children: [
-                              if (widget.list[i]['idusuario'] !=
-                                  widget.idusuario)
+                              if (widget.list[i]['idusuario'] != widget.idcargo)
                                 Column(
                                   children: [
                                     Padding(
@@ -189,30 +157,6 @@ class _listatrabajState extends State<listatrabaj> {
                                                   color: Colors.red,
                                                 ),
                                               ],
-                                            ),
-                                          ),
-                                        ])),
-                                    Divider(),
-                                  ],
-                                )
-                              else if (widget.list[i]['idusuario'] ==
-                                  widget.idusuario)
-                                Column(
-                                  children: [
-                                    Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: new Row(children: <Widget>[
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.75,
-                                            child: new Text(
-                                              widget.list[i]['nombreusuario'] +
-                                                  " " +
-                                                  widget.list[i]['apellidos'] +
-                                                  " (Tú)",
-                                              style: TextStyle(fontSize: 18.0),
                                             ),
                                           ),
                                         ])),

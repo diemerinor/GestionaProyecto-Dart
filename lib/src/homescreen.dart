@@ -177,7 +177,7 @@ class _listareventosState extends State<listareventos> {
                                                     Text(
                                                       "Mis Proyectos",
                                                       style: TextStyle(
-                                                        fontSize: 23,
+                                                        fontSize: 20,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                       ),
@@ -214,7 +214,7 @@ class _listareventosState extends State<listareventos> {
                                           child: Row(
                                             children: <Widget>[
                                               Card(
-                                                  color: Colors.green,
+                                                  color: verde,
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(
@@ -236,7 +236,7 @@ class _listareventosState extends State<listareventos> {
                                                     Text(
                                                       "Actividad",
                                                       style: TextStyle(
-                                                          fontSize: 23,
+                                                          fontSize: 20,
                                                           fontWeight:
                                                               FontWeight.bold),
                                                       textAlign: TextAlign.left,
@@ -271,7 +271,7 @@ class _listareventosState extends State<listareventos> {
                                           child: Row(
                                             children: <Widget>[
                                               Card(
-                                                  color: Colors.blue,
+                                                  color: azul,
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(
@@ -293,7 +293,7 @@ class _listareventosState extends State<listareventos> {
                                                     Text(
                                                       "Contactos",
                                                       style: TextStyle(
-                                                          fontSize: 23,
+                                                          fontSize: 20,
                                                           fontWeight:
                                                               FontWeight.bold),
                                                       textAlign: TextAlign.left,
@@ -350,7 +350,7 @@ class _listareventosState extends State<listareventos> {
                                                     Text(
                                                       "Mi Perfil",
                                                       style: TextStyle(
-                                                          fontSize: 23,
+                                                          fontSize: 20,
                                                           fontWeight:
                                                               FontWeight.bold),
                                                       textAlign: TextAlign.left,
@@ -408,7 +408,7 @@ class _listareventosState extends State<listareventos> {
                                                     Text(
                                                       "Configuración",
                                                       style: TextStyle(
-                                                          fontSize: 23,
+                                                          fontSize: 20,
                                                           fontWeight:
                                                               FontWeight.bold),
                                                       textAlign: TextAlign.left,

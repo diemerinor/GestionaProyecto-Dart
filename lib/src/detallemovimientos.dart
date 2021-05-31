@@ -1,23 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gestionaproyecto/main.dart';
-import 'package:gestionaproyecto/src/agregarreporte.dart';
-import 'package:gestionaproyecto/src/gestionarproyecto.dart';
-import 'package:gestionaproyecto/src/listartrabajadores.dart';
-import 'package:gestionaproyecto/src/homescreen.dart';
-import 'package:gestionaproyecto/src/recomendados.dart';
-import 'package:gestionaproyecto/src/Notificaciones.dart';
-import 'package:flutter_sparkline/flutter_sparkline.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:gestionaproyecto/src/registrargasto.dart';
-import 'package:gestionaproyecto/src/registraringreso.dart';
-import 'dart:math' as math;
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import 'dart:async';
 import 'dart:convert';
-
-import 'detalleproyecto.dart';
 
 double porcentaje;
 int largo = 0;
@@ -29,8 +16,9 @@ String mensaje;
 
 class DetalleMovimientos extends StatefulWidget {
   final String idproyecto;
-
-  DetalleMovimientos({Key key, @required this.idproyecto}) : super(key: key);
+  final String saldo;
+  DetalleMovimientos({Key key, @required this.idproyecto, this.saldo})
+      : super(key: key);
 
   @override
   _DetalleMovimientosState createState() => _DetalleMovimientosState();
@@ -57,10 +45,12 @@ class _DetalleMovimientosState extends State<DetalleMovimientos> {
     });
     var datauser = json.decode(response.body);
     int cantmov = datauser.length;
+    cantmov = cantmov - 1;
     print("el largo es  $cantmov");
     if (datauser != null && cantmov != 0) {
       print("si me meti aqui");
-      caja = datauser[0]['cajatotal'];
+
+      caja = datauser[cantmov]['total'];
       cajafinal = int.parse(caja);
       cajafinal2 = (NumberFormat.simpleCurrency(name: 'CLP', decimalDigits: 0)
           .format(cajafinal));
@@ -85,7 +75,7 @@ class _DetalleMovimientosState extends State<DetalleMovimientos> {
             future: getFinanciera(),
             builder: (context, snapshot) {
               if (snapshot.hasError) print(snapshot.error);
-              if (snapshot.hasData && cantidadmovimientos != 0) {
+              if (snapshot.hasData && snapshot.data.length > 0) {
                 print("holasss2");
                 return Column(
                   children: [
@@ -99,7 +89,7 @@ class _DetalleMovimientosState extends State<DetalleMovimientos> {
                             child: Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: Text(
-                                "Caja actual: " + cajafinal2,
+                                "Caja actual: " + widget.saldo,
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 25),
                               ),
@@ -186,19 +176,22 @@ class _DatosAvanceState extends State<DatosAvance> {
                                                     .size
                                                     .width *
                                                 0.8,
-                                            child: Text(
-                                              "Se realizó un ingreso con titulo: " +
-                                                  widget.list[i]['titulo'] +
-                                                  " de " +
-                                                  widget.list[i]['ingreso'] +
-                                                  " quedando un total de " +
-                                                  widget.list[i]['total'],
-                                              style: TextStyle(fontSize: 15),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Se realizó un ingreso con titulo: " +
+                                                    widget.list[i]['titulo'] +
+                                                    " de \$" +
+                                                    widget.list[i]['ingreso'] +
+                                                    " quedando un total de \$" +
+                                                    widget.list[i]['total'],
+                                                style: TextStyle(fontSize: 21),
+                                              ),
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Divider()
                                     ],
                                   )
                                 else if (widget.list[i]['idtipomovimiento'] ==
@@ -223,21 +216,43 @@ class _DatosAvanceState extends State<DatosAvance> {
                                                     .size
                                                     .width *
                                                 0.8,
-                                            child: Text(
-                                              "Se realizó un gasto con titulo: " +
-                                                  widget.list[i]['titulo'] +
-                                                  " de " +
-                                                  widget.list[i]['ingreso'] +
-                                                  " quedando un total de " +
-                                                  widget.list[i]['total'],
-                                              style: TextStyle(fontSize: 15),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Se realizó un gasto con titulo: " +
+                                                    widget.list[i]['titulo'] +
+                                                    " de \$" +
+                                                    widget.list[i]['ingreso'] +
+                                                    " quedando un total de \$" +
+                                                    widget.list[i]['total'],
+                                                style: TextStyle(fontSize: 21),
+                                              ),
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Divider()
                                     ],
-                                  )
+                                  ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 15.0, right: 15),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Icon(
+                                        Icons.date_range,
+                                        size: 20,
+                                      ),
+                                      Text(
+                                        widget.list[i]['fechapub'],
+                                        style: TextStyle(fontSize: 17),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Divider()
                               ],
                             );
                           } else {

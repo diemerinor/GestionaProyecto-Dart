@@ -63,6 +63,8 @@ class _MisProyectosState extends State<MisProyectos> {
       'http://gestionaproyecto.com/phpproyectotitulo/getProyectousuario.php';
   String url3 =
       'http://gestionaproyecto.com/phpproyectotitulo/getProyectosCreados.php';
+      String url4 =
+      'http://gestionaproyecto.com/phpproyectotitulo/getFechasProyecto.php';
 
   Future<List> getTrabajadores() async {
     final response = await http.post(Uri.parse(url2), body: {
@@ -245,7 +247,7 @@ class _listaproyectosState extends State<listaproyectos> {
                                     child: Text(
                                       "Todos",
                                       style: TextStyle(
-                                          fontSize: 17,
+                                          fontSize: 14,
                                           color: letrastodos,
                                           fontWeight: FontWeight.bold),
                                       textAlign: TextAlign.center,
@@ -289,7 +291,7 @@ class _listaproyectosState extends State<listaproyectos> {
                                     child: Text(
                                       "Mis\nproyectos",
                                       style: TextStyle(
-                                          fontSize: 17,
+                                          fontSize: 14,
                                           color: letrasmisproy,
                                           fontWeight: FontWeight.bold),
                                       textAlign: TextAlign.center,
@@ -331,7 +333,7 @@ class _listaproyectosState extends State<listaproyectos> {
                                     child: Text(
                                       "Proyectos\nque participo",
                                       style: TextStyle(
-                                          fontSize: 17,
+                                          fontSize: 14,
                                           color: letraspropar,
                                           fontWeight: FontWeight.bold),
                                       textAlign: TextAlign.center,
@@ -354,11 +356,11 @@ class _listaproyectosState extends State<listaproyectos> {
           children: [
             Text(
               "Administra tus proyectos",
-              style: TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: 20),
             ),
             Text(
               "Selecciona uno y gestiona los distintos sectores",
-              style: TextStyle(fontSize: 15),
+              style: TextStyle(fontSize: 13),
             ),
             Padding(padding: EdgeInsets.only(bottom: 5))
           ],
@@ -390,7 +392,7 @@ class _listaproyectosState extends State<listaproyectos> {
                                             )),
                                   ),
                               child: Container(
-                                width: MediaQuery.of(context).size.width * 0.9,
+                                width: MediaQuery.of(context).size.width * 0.95,
                                 child: new Card(
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
@@ -447,7 +449,7 @@ class _listaproyectosState extends State<listaproyectos> {
                                                                       'nombreproyecto'],
                                                                   style: TextStyle(
                                                                       fontSize:
-                                                                          18.0,
+                                                                          15,
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .bold,
@@ -624,7 +626,7 @@ class _listaproyectosState extends State<listaproyectos> {
                                             )),
                                   ),
                               child: Container(
-                                width: MediaQuery.of(context).size.width * 0.9,
+                                width: MediaQuery.of(context).size.width * 0.95,
                                 child: new Card(
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
@@ -681,7 +683,7 @@ class _listaproyectosState extends State<listaproyectos> {
                                                                       'nombreproyecto'],
                                                                   style: TextStyle(
                                                                       fontSize:
-                                                                          18.0,
+                                                                          15,
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .bold,
@@ -913,7 +915,7 @@ class _listaproyectosState extends State<listaproyectos> {
                                                                     'nombreproyecto'],
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                        18.0,
+                                                                        15,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,

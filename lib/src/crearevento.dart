@@ -1,27 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gestionaproyecto/main.dart';
-import 'package:gestionaproyecto/src/gestionarproyecto.dart';
-import 'package:gestionaproyecto/src/gestionavance.dart';
-import 'package:gestionaproyecto/src/gestionfinanciera.dart';
 import 'package:gestionaproyecto/src/listareventos.dart';
-import 'package:gestionaproyecto/src/listartrabajadores.dart';
-import 'package:gestionaproyecto/src/homescreen.dart';
-import 'package:gestionaproyecto/src/recomendados.dart';
-import 'package:gestionaproyecto/src/Notificaciones.dart';
-import 'package:flutter_sparkline/flutter_sparkline.dart';
-
-import 'package:flutter/services.dart';
-
-import 'package:charts_flutter/flutter.dart' as charts;
 
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import 'dart:async';
-import 'dart:convert';
-
-import 'detalleproyecto.dart';
-import 'misproyectos.dart';
 
 class CrearEvento extends StatefulWidget {
   final String idproyecto;
@@ -241,7 +225,7 @@ class _CrearEventoState extends State<CrearEvento> {
 
   String fechafinal;
   String horafinal;
-  String textohora;
+  String textohora = "Seleccione hora...";
   String mensaje = '';
   String rol;
   bool fechaeditable = false;
@@ -258,6 +242,7 @@ class _CrearEventoState extends State<CrearEvento> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: colorfondo,
       appBar: AppBar(
         backgroundColor: colorappbar,
         title: Text("Crear evento"),
@@ -270,201 +255,162 @@ class _CrearEventoState extends State<CrearEvento> {
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Padding(padding: EdgeInsets.only(bottom: 20)),
+                    Text(
+                      "Título evento:",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    TextFormField(
+                      controller: controllernombre,
+                      decoration: InputDecoration(
+                          icon: Icon(
+                            Icons.alarm_add_sharp,
+                            color: Colors.black,
+                          ),
+                          hintText: 'Nombre del evento'),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 20)),
+                    Text(
+                      "Descripción evento:",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    TextFormField(
+                      maxLines: null,
+                      controller: controllerdescripcion,
+                      decoration: InputDecoration(
+                          icon: Icon(
+                            Icons.description,
+                            color: Colors.black,
+                          ),
+                          hintText: 'Información del evento'),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 20)),
+                    Text(
+                      "Fecha evento:",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      padding: EdgeInsets.only(top: 23),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 12, bottom: 12),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              color: colorappbar,
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Text(
-                                  "Título:",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
+                      width: MediaQuery.of(context).size.width,
+                      child: TextFormField(
+                        enabled: true,
+                        readOnly: true,
+                        controller: dateController,
+                        decoration: InputDecoration(
+                            icon: Icon(
+                              Icons.date_range,
+                              color: Colors.black,
                             ),
-                          ),
-                          TextFormField(
-                            controller: controllernombre,
-                            decoration: InputDecoration(hintText: ''),
-                          ),
-                          Padding(padding: EdgeInsets.only(bottom: 20)),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 12, bottom: 12),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              color: colorappbar,
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Text(
-                                  "Descripción:",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          ),
-                          TextFormField(
-                            maxLines: null,
-                            controller: controllerdescripcion,
-                            decoration: InputDecoration(hintText: ''),
-                          ),
-                          Padding(padding: EdgeInsets.only(bottom: 20)),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 12, bottom: 12),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              color: colorappbar,
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Text(
-                                  "Fecha evento:",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.all(8),
-                            child: TextFormField(
-                              enabled: true,
-                              readOnly: true,
-                              controller: dateController,
-                              decoration: InputDecoration(hintText: textofecha),
-                              onTap: () async {
-                                var date = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(1900),
-                                    lastDate: DateTime(2100));
+                            hintText: textofecha),
+                        onTap: () async {
+                          var date = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime(2100));
 
-                                if (date != null) {
-                                  fechareporte = date;
+                          if (date != null) {
+                            fechareporte = date;
 
-                                  final DateFormat formatter2 =
-                                      DateFormat('dd-MM-yyyy');
-                                  String fechafinal2 =
-                                      formatter2.format(fechareporte);
-                                  aux = DateTime(fechareporte.year,
-                                      fechareporte.month, fechareporte.day);
-                                  setState(() {
-                                    textofecha = fechafinal2.toString();
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 12, bottom: 12),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              color: colorappbar,
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Text(
-                                  "Hora evento:",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.all(8),
-                            child: TextFormField(
-                              enabled: true,
-                              readOnly: true,
-                              controller: dateController,
-                              onTap: () async {
-                                TimeOfDay hour2 = await showTimePicker(
-                                    context: context,
-                                    initialTime: TimeOfDay.now(),
-                                    initialEntryMode: TimePickerEntryMode.input,
-                                    builder: (context, _) {
-                                      return MediaQuery(
-                                          data: MediaQuery.of(context).copyWith(
-                                              alwaysUse24HourFormat: true),
-                                          // If you want 24-Hour format, just change alwaysUse24HourFormat to true
-                                          child: _);
-                                    });
+                            final DateFormat formatter2 =
+                                DateFormat('dd-MM-yyyy');
+                            String fechafinal2 =
+                                formatter2.format(fechareporte);
+                            aux = DateTime(fechareporte.year,
+                                fechareporte.month, fechareporte.day);
+                            setState(() {
+                              textofecha = fechafinal2.toString();
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(bottom: 20)),
+                    Text(
+                      "Hora evento:",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: TextFormField(
+                        enabled: true,
+                        readOnly: true,
+                        controller: dateController,
+                        onTap: () async {
+                          TimeOfDay hour2 = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.now(),
+                              initialEntryMode: TimePickerEntryMode.input,
+                              builder: (context, _) {
+                                return MediaQuery(
+                                    data: MediaQuery.of(context)
+                                        .copyWith(alwaysUse24HourFormat: true),
+                                    // If you want 24-Hour format, just change alwaysUse24HourFormat to true
+                                    child: _);
+                              });
 
-                                if (hour2 != null) {
-                                  aux2 = TimeOfDay(
-                                      hour: hour2.hour, minute: hour2.minute);
-                                  //aux = TimeOfDay(hour2.hour, hour2.minute);
-                                  setState(() {
-                                    var auxhora = aux2.hour.toString();
-                                    var auxminute = aux2.minute.toString();
-                                    textohora = auxhora + ":" + auxminute;
-                                  });
-                                }
-                              },
-                              decoration: InputDecoration(hintText: textohora),
+                          if (hour2 != null) {
+                            aux2 = TimeOfDay(
+                                hour: hour2.hour, minute: hour2.minute);
+                            //aux = TimeOfDay(hour2.hour, hour2.minute);
+                            setState(() {
+                              var auxhora = aux2.hour.toString();
+                              var auxminute = aux2.minute.toString();
+                              textohora = auxhora + ":" + auxminute;
+                            });
+                          }
+                        },
+                        decoration: InputDecoration(
+                            icon: Icon(
+                              Icons.alarm,
+                              color: Colors.black,
                             ),
+                            hintText: textohora),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(top: 30)),
+                    Center(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: new RaisedButton(
+                          child: new Text(
+                            "Crear evento",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
-                          Padding(padding: EdgeInsets.only(top: 30)),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: new RaisedButton(
-                              child: new Text(
-                                "Crear evento",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              color: colorappbar,
-                              shape: new RoundedRectangleBorder(
-                                  borderRadius:
-                                      new BorderRadius.circular(20.0)),
-                              onPressed: () {
-                                DateTime fechaaux = DateTime.now();
-                                print(fechaaux);
-                                print(fechareporte);
-                                print(fechaaux.difference(aux).inMinutes);
-                                if (controllerdescripcion.text == null ||
-                                    controllerdescripcion.text == '' ||
-                                    controllernombre.text == null ||
-                                    controllernombre.text == '' ||
-                                    fechareporte == null) {
-                                  showAlertDialogerror(context);
-                                } else {
-                                  if (fechaaux
-                                          .difference(fechareporte)
-                                          .inMinutes <=
-                                      0) {
-                                    print(fechaaux
-                                        .difference(fechareporte)
-                                        .inDays);
-                                    showAlertDialog(context);
-                                  } else {
-                                    showAlertDialogerrorfecha(context);
+                          color: colorappbar,
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(20.0)),
+                          onPressed: () {
+                            DateTime fechaaux = DateTime.now();
+                            print(fechaaux);
+                            print(fechareporte);
+                            print(fechaaux.difference(aux).inMinutes);
+                            if (controllerdescripcion.text == null ||
+                                controllerdescripcion.text == '' ||
+                                controllernombre.text == null ||
+                                controllernombre.text == '' ||
+                                fechareporte == null) {
+                              showAlertDialogerror(context);
+                            } else {
+                              if (fechaaux.difference(fechareporte).inMinutes <=
+                                  0) {
+                                print(fechaaux.difference(fechareporte).inDays);
+                                showAlertDialog(context);
+                              } else {
+                                showAlertDialogerrorfecha(context);
 
-                                    print(fechaaux
-                                        .difference(fechareporte)
-                                        .inDays);
-                                  }
-                                }
-                                //login();
-                              },
-                            ),
-                          ),
-                        ],
+                                print(fechaaux.difference(fechareporte).inDays);
+                              }
+                            }
+                            //login();
+                          },
+                        ),
                       ),
                     ),
                   ],

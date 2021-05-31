@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gestionaproyecto/main.dart';
+import 'package:gestionaproyecto/src/crearcargoproyecto.dart';
 import 'package:gestionaproyecto/src/gestionarproyecto.dart';
 import 'package:gestionaproyecto/src/listartrabajadores.dart';
 import 'package:gestionaproyecto/src/homescreen.dart';
+import 'package:gestionaproyecto/src/listarusuariocargo.dart';
 import 'package:gestionaproyecto/src/recomendados.dart';
 import 'package:gestionaproyecto/src/Notificaciones.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +12,8 @@ import 'package:expansion_tile_card/expansion_tile_card.dart';
 
 import 'dart:async';
 import 'dart:convert';
+
+import 'editarcargoproyecto.dart';
 
 int cantidadtrabajadores;
 String mensajerrhh;
@@ -117,7 +121,13 @@ class _GestionRRHHState extends State<GestionRRHH> {
                     color: colorappbar,
                     shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(20.0)),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => new CrearCargo(
+                                  idproyecto: widget.idproyecto)));
+                    },
                   ),
                 ],
               ),
@@ -129,25 +139,18 @@ class _GestionRRHHState extends State<GestionRRHH> {
                     builder: (context, snapshot) {
                       if (snapshot.hasError) print(snapshot.error);
                       if (snapshot.hasData) {
-                        return new detallescargo(listacargos: snapshot.data);
+                        return new detallescargo(
+                          listacargos: snapshot.data,
+                          idproyecto: widget.idproyecto,
+                        );
                       } else {
                         return Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
                             children: [
-                              Text(mensajerrhh ?? ''),
-                              RaisedButton(
-                                child: new Text(
-                                  "Crear cargo",
-                                  style: (TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold)),
-                                ),
-                                color: colorappbar,
-                                shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(20.0)),
-                                onPressed: () {},
+                              Text(
+                                mensajerrhh ?? '',
+                                style: TextStyle(fontSize: 18),
                               ),
                             ],
                           ),
@@ -285,14 +288,64 @@ class _detallesrrhhState extends State<detallesrrhh> {
 
 class detallescargo extends StatefulWidget {
   final List listacargos;
+  final String idproyecto;
 
-  const detallescargo({Key key, this.listacargos}) : super(key: key);
+  const detallescargo({Key key, this.listacargos, this.idproyecto})
+      : super(key: key);
   @override
   _detallescargoState createState() => _detallescargoState();
 }
 
 class _detallescargoState extends State<detallescargo> {
-  bool _showData = false;
+  String url = 'http://gestionaproyecto.com/phpproyectotitulo/DeleteCargo.php';
+  String cargoaeliminar;
+  Future<List> deletecargo() async {
+    print(cargoaeliminar);
+    final response =
+        await http.post(Uri.parse(url), body: {"idcargo": cargoaeliminar});
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancelar"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Continuar"),
+      onPressed: () {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.pop(context);
+        deletecargo();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => GestionRRHH(
+                      idproyecto: widget.idproyecto,
+                    )));
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: Text("¿Está seguro de eliminar el cargo? "),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -327,42 +380,93 @@ class _detallescargoState extends State<detallescargo> {
                           height: 1.0,
                         ),
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            if (widget.listacargos[i]['descripcioncargo'] !=
+                                null)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 10, left: 20.0),
+                                child: Text(
+                                  widget.listacargos[i]['descripcioncargo'],
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Card(
-                                    color: Colors.amber,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("Editar usuarios",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
-                                    ),
-                                  ),
-                                  Card(
-                                    color: Colors.teal,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "Editar cargo",
-                                        style: TextStyle(
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () => Navigator.of(context).push(
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new ListarUsCargo(
+                                                  idproyecto: widget.idproyecto,
+                                                  idcargo: widget.listacargos[i]
+                                                      ['idcargo'],
+                                                )),
+                                      ),
+                                      child: Card(
+                                        color: Colors.amber,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.people,
                                             color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                                            size: 20,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  Card(
-                                    color: colorappbar2,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text("Eliminar cargo",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold)),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () => Navigator.of(context).push(
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new EditarCargo(
+                                                  idproyecto: widget.idproyecto,
+                                                  idcargo: widget.listacargos[i]
+                                                      ['idcargo'],
+                                                )),
+                                      ),
+                                      child: Card(
+                                        color: Colors.teal,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.edit,
+                                            color: Colors.white,
+                                            size: 20,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () => {
+                                        setState(() {
+                                          cargoaeliminar =
+                                              widget.listacargos[i]['idcargo'];
+                                        }),
+                                        showAlertDialog(context),
+                                      },
+                                      child: Card(
+                                        color: colorappbar2,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.delete,
+                                            color: Colors.white,
+                                            size: 20,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],

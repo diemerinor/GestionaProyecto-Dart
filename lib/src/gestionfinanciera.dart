@@ -1,28 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:gestionaproyecto/main.dart';
-import 'package:gestionaproyecto/src/agregarreporte.dart';
 import 'package:gestionaproyecto/src/detallemovimientos.dart';
-import 'package:gestionaproyecto/src/gestionarproyecto.dart';
-import 'package:gestionaproyecto/src/listartrabajadores.dart';
-import 'package:gestionaproyecto/src/homescreen.dart';
-import 'package:gestionaproyecto/src/recomendados.dart';
-import 'package:gestionaproyecto/src/Notificaciones.dart';
-import 'package:flutter_sparkline/flutter_sparkline.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:gestionaproyecto/src/registrargasto.dart';
 import 'package:gestionaproyecto/src/registraringreso.dart';
-import 'dart:math' as math;
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import 'dart:async';
 import 'dart:convert';
 
-import 'detalleproyecto.dart';
-
 String caja;
 int cajafinal;
 String cajafinal2;
+String nombreproyectoss;
 
 class GestionFinanciera extends StatefulWidget {
   final String idproyecto;
@@ -40,11 +30,16 @@ class _GestionFinancieraState extends State<GestionFinanciera> {
     final response = await http.post(Uri.parse(url2), body: {
       "idproyecto": widget.idproyecto,
     });
+
     var datauser = json.decode(response.body);
+    int cantmov = datauser.length;
+    cantmov = cantmov - 1;
     if (datauser != null) {
-      caja = datauser[0]['cajatotal'];
+      nombreproyectoss = datauser[0]['nombreproyecto'];
+      caja = datauser[cantmov]['total'];
       cajafinal = int.parse(caja);
-      cajafinal2 = (NumberFormat.simpleCurrency(name: 'CLP', decimalDigits: 0)
+
+      cajafinal2 = (NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0)
           .format(cajafinal));
 
       print("la cosita es " + cajafinal2);
@@ -120,23 +115,29 @@ class _listarinfofinancieraState extends State<listarinfofinanciera> {
                       padding: const EdgeInsets.all(15.0),
                       child: Column(
                         children: [
+                          Text(
+                            nombreproyectoss,
+                            style: TextStyle(fontSize: 20),
+                            textAlign: TextAlign.center,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                "Caja\nactual:",
-                                style: TextStyle(fontSize: 25),
-                                textAlign: TextAlign.center,
-                              ),
-                              Padding(padding: EdgeInsets.only(left: 20)),
-                              Text(
                                 cajafinal2,
                                 style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold),
+                                    color: colorappbar,
+                                    fontSize: 35,
+                                    fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,
                               ),
                             ],
+                          ),
+                          Text(
+                            "Saldo disponible",
+                            style: TextStyle(fontSize: 20),
+                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),
@@ -183,7 +184,8 @@ class _listarinfofinancieraState extends State<listarinfofinanciera> {
                                             builder: (BuildContext context) =>
                                                 new DetalleMovimientos(
                                                     idproyecto:
-                                                        widget.idproyecto)),
+                                                        widget.idproyecto,
+                                                    saldo: cajafinal2)),
                                       ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,

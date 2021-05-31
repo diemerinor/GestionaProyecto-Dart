@@ -149,57 +149,35 @@ class _CrearMaterialState extends State<CrearMaterial> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12, bottom: 12),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        color: colorappbar,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Text(
-                            "Nombre material:",
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
+                    Padding(padding: EdgeInsets.only(bottom: 20)),
+                    Text(
+                      "Nombre Material (*)",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     TextFormField(
                       controller: controllernombre,
                       decoration: InputDecoration(
                           icon: Icon(
-                            Icons.account_box,
+                            Icons.extension_rounded,
                             color: Colors.black,
                           ),
-                          hintText: ''),
+                          hintText: 'Ingrese el nombre'),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12, bottom: 12),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        color: colorappbar,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Text(
-                            "Stock inicial:",
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
+                    Padding(padding: EdgeInsets.only(bottom: 20)),
+                    Text(
+                      "Stock material (*)",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     TextFormField(
                       controller: controllerstock,
                       decoration: InputDecoration(
-                        icon: Icon(
-                          Icons.account_box,
-                          color: Colors.black,
-                        ),
-                      ),
+                          icon: Icon(
+                            Icons.format_list_numbered,
+                            color: Colors.black,
+                          ),
+                          hintText: 'Ingrese el stock'),
                       inputFormatters: [
                         FilteringTextInputFormatter.singleLineFormatter
                       ],
