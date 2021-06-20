@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gestionaproyecto/main.dart';
 import 'package:gestionaproyecto/src/crearcargoproyecto.dart';
-import 'package:gestionaproyecto/src/gestionarproyecto.dart';
 import 'package:gestionaproyecto/src/listartrabajadores.dart';
-import 'package:gestionaproyecto/src/homescreen.dart';
 import 'package:gestionaproyecto/src/listarusuariocargo.dart';
-import 'package:gestionaproyecto/src/recomendados.dart';
-import 'package:gestionaproyecto/src/Notificaciones.dart';
 import 'package:http/http.dart' as http;
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 

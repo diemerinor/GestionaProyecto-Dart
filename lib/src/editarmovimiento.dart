@@ -7,21 +7,27 @@ import 'package:flutter/services.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-
 import 'dart:async';
+import 'dart:convert';
 
-class RegistrarGasto extends StatefulWidget {
+class EditarMovimiento extends StatefulWidget {
   final String idproyecto;
   final int caja;
+  final String idmovimiento;
+  final String idtipomovimiento;
 
-  const RegistrarGasto({Key key, this.idproyecto, this.caja}) : super(key: key);
+  const EditarMovimiento(
+      {Key key,
+      this.idproyecto,
+      this.caja,
+      this.idmovimiento,
+      this.idtipomovimiento})
+      : super(key: key);
   @override
-  _RegistrarGastoState createState() => _RegistrarGastoState();
+  _EditarMovimientoState createState() => _EditarMovimientoState();
 }
 
-class _RegistrarGastoState extends State<RegistrarGasto> {
-  String url =
-      'http://gestionaproyecto.com/phpproyectotitulo/RegistrarGasto.php';
+class _EditarMovimientoState extends State<EditarMovimiento> {
   var datauser2;
 
   TextEditingController controllernombre = new TextEditingController();
@@ -39,10 +45,50 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
   DateTime fechareporte;
   String fechass;
   String variablephp;
+  String nombre1;
+
+  String url2 = 'http://gestionaproyecto.com/phpproyectotitulo/getInfoMov.php';
+  Future<List> getFinanciera() async {
+    final response = await http.post(Uri.parse(url2), body: {
+      "idmov": widget.idmovimiento,
+    });
+    var datauser = json.decode(response.body);
+    int cantmov = datauser.length;
+    controllernombre.text = datauser[0]['titulo'];
+    controllerdescripcion.text = datauser[0]['ingreso'];
+    dateController.text = datauser[0]['fechareporte'];
+    variablephp = datauser[0]['fechareporte'];
+    print(variablephp);
+    print("el largo es  $cantmov");
+
+    return datauser;
+  }
+
+  Future<List> editarmovimiento() async {
+    print("entre al mov");
+    print(controllernombre.text);
+    print(controllerdescripcion.text);
+    print(dateController.text);
+    print(variablephp);
+    String url = 'http://gestionaproyecto.com/phpproyectotitulo/EditarMov.php';
+    final response = await http.post(Uri.parse(url), body: {
+      "idmov": widget.idmovimiento,
+      "titulo": controllernombre.text,
+      "monto": controllerdescripcion.text,
+      "fechareporte": variablephp,
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    print(widget.idtipomovimiento);
+    if (widget.idtipomovimiento == '1') {
+      nombre1 = "ingreso";
+    } else {
+      nombre1 = "gasto";
+    }
+    getFinanciera();
     fechadehoy(true);
   }
 
@@ -61,21 +107,6 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
 
   String fechafinal;
   String mensaje2 = '';
-
-  Future<List> insertgasto() async {
-    String aux = controllerdescripcion.text;
-    int monto = int.parse(aux);
-    DateTime fechahooy = DateTime.now();
-    String auxfecha = fechahooy.toString();
-    final response = await http.post(Uri.parse(url), body: {
-      "idusuario": identificadorusuario,
-      "titulo": controllernombre.text,
-      "monto": controllerdescripcion.text,
-      "fechahoy": auxfecha,
-      "fechareporte": variablephp,
-      "idproyecto": widget.idproyecto
-    });
-  }
 
   showAlertDialog2(BuildContext context) {
     // set up the buttons
@@ -102,7 +133,7 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      content: Text("Se ha subido correctamente"),
+      content: Text("Se ha editado correctamente"),
       actions: [
         continueButton,
       ],
@@ -128,7 +159,7 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
     Widget continueButton = FlatButton(
       child: Text("Continuar"),
       onPressed: () {
-        insertgasto();
+        editarmovimiento();
         Navigator.pop(context);
         showAlertDialog2(context);
       },
@@ -136,7 +167,7 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      content: Text("¿Está seguro de insertar el ingreso? "),
+      content: Text("¿Está seguro de editar el movimiento financiero? "),
       actions: [
         cancelButton,
         continueButton,
@@ -218,7 +249,7 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
       backgroundColor: colorfondo,
       appBar: AppBar(
         backgroundColor: colorappbar,
-        title: Text("Registra gasto"),
+        title: Text("Editar movimiento"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -235,7 +266,7 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Motivo gasto (*)",
+                          "Motivo " + nombre1 + " (*)",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
@@ -246,8 +277,9 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
                                 Icons.south_east,
                                 color: Colors.black,
                               ),
-                              hintText:
-                                  'Ingrese el motivo del gasto de dinero'),
+                              hintText: 'Ingrese el motivo del ' +
+                                  nombre1 +
+                                  ' de dinero'),
                         ),
                         Padding(padding: EdgeInsets.only(bottom: 20)),
                         Text(
@@ -256,7 +288,7 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                         TextFormField(
-                          style: TextStyle(color: colortextoss),
+                          style: TextStyle(color: coloreditarmov),
                           controller: controllerdescripcion,
                           decoration: InputDecoration(
                               icon: Icon(
@@ -265,19 +297,22 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
                               ),
                               hintText: 'Ingrese el monto'),
                           onChanged: (text) {
-                            setState(() {
-                              String aux = controllerdescripcion.text;
-                              int aux2 = int.parse(aux);
-                              int total = widget.caja - aux2;
-                              print(total);
-                              if (total < 0) {
-                                colortextoss = Colors.red;
-                                mensaje2 = "El saldo quedará negativo";
-                              } else {
-                                colortextoss = Colors.black;
-                                mensaje2 = '';
-                              }
-                            });
+                            if (widget.idtipomovimiento == '2') {
+                              print("sdadasdsd");
+                              setState(() {
+                                String aux = controllerdescripcion.text;
+                                int aux2 = int.parse(aux);
+                                int total = cajafinal - aux2;
+                                print(total);
+                                if (total < 0) {
+                                  coloreditarmov = Colors.red;
+                                  mensaje2 = "El saldo quedará negativo";
+                                } else {
+                                  coloreditarmov = Colors.black;
+                                  mensaje2 = '';
+                                }
+                              });
+                            }
                           },
                           inputFormatters: [
                             FilteringTextInputFormatter.singleLineFormatter
@@ -289,7 +324,7 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              "Saldo actual: \$${widget.caja}",
+                              "Saldo actual: \$${cajafinal}",
                               style: TextStyle(
                                   fontSize: 16, fontStyle: FontStyle.italic),
                             ),
@@ -348,6 +383,7 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
                                     fechafinal = formatter.format(fechareporte);
                                     setState(() {
                                       textofecha = fechafinal.toString();
+                                      dateController.text = textofecha;
                                       //variablephp = fechafinal.toString();
                                     });
 
@@ -373,7 +409,7 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
                             width: MediaQuery.of(context).size.width * 0.5,
                             child: new RaisedButton(
                               child: new Text(
-                                "Registrar gasto",
+                                "Editar movimiento",
                                 style: TextStyle(color: Colors.white),
                               ),
                               color: colorappbar,

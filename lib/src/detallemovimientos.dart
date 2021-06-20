@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'dart:async';
 import 'dart:convert';
 
+import 'detallemov.dart';
+
 double porcentaje;
 int largo = 0;
 double metrosavance;
@@ -36,9 +38,6 @@ class _DetalleMovimientosState extends State<DetalleMovimientos> {
   List<double> listafinal;
   String url2 =
       'http://gestionaproyecto.com/phpproyectotitulo/ListarMovimientos.php';
-  String caja;
-  int cajafinal;
-  String cajafinal2;
   Future<List> getFinanciera() async {
     final response = await http.post(Uri.parse(url2), body: {
       "idproyecto": widget.idproyecto,
@@ -46,20 +45,11 @@ class _DetalleMovimientosState extends State<DetalleMovimientos> {
     var datauser = json.decode(response.body);
     int cantmov = datauser.length;
     cantmov = cantmov - 1;
-    print("el largo es  $cantmov");
     if (datauser != null && cantmov != 0) {
-      print("si me meti aqui");
-
-      caja = datauser[cantmov]['total'];
-      cajafinal = int.parse(caja);
-      cajafinal2 = (NumberFormat.simpleCurrency(name: 'CLP', decimalDigits: 0)
-          .format(cajafinal));
-      print("en caja hay " + cajafinal2);
     } else {
       cantidadmovimientos = 0;
       mensaje = "No existen movimientos financieros";
     }
-    //print("hay $cajafinal");
     return datauser;
   }
 
@@ -76,7 +66,6 @@ class _DetalleMovimientosState extends State<DetalleMovimientos> {
             builder: (context, snapshot) {
               if (snapshot.hasError) print(snapshot.error);
               if (snapshot.hasData && snapshot.data.length > 0) {
-                print("holasss2");
                 return Column(
                   children: [
                     Row(
@@ -152,87 +141,106 @@ class _DatosAvanceState extends State<DatosAvance> {
                         itemCount: widget.list == null ? 0 : widget.list.length,
                         itemBuilder: (context, i) {
                           if (widget.list[i]['idproyecto'] != null) {
-                            print("aqui si entre");
                             return Column(
                               children: [
                                 if (widget.list[i]['idtipomovimiento'] == '1')
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Card(
-                                              color: verde,
+                                  GestureDetector(
+                                    onTap: () => Navigator.of(context).push(
+                                      new MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              new DetalleMov(
+                                                  idmov: widget.list[i]
+                                                      ['idnotificaciones'],
+                                                  idproyecto:
+                                                      widget.idproyecto)),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Card(
+                                                color: verde,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Icon(
+                                                    Icons.north_east,
+                                                    size: 40,
+                                                    color: Colors.white,
+                                                  ),
+                                                )),
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.8,
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
-                                                child: Icon(
-                                                  Icons.north_east,
-                                                  size: 40,
-                                                  color: Colors.white,
+                                                child: Text(
+                                                  "Se realizó un ingreso con titulo: " +
+                                                      widget.list[i]['titulo'] +
+                                                      " de \$" +
+                                                      widget.list[i]['ingreso'],
+                                                  style:
+                                                      TextStyle(fontSize: 21),
                                                 ),
-                                              )),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.8,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                "Se realizó un ingreso con titulo: " +
-                                                    widget.list[i]['titulo'] +
-                                                    " de \$" +
-                                                    widget.list[i]['ingreso'] +
-                                                    " quedando un total de \$" +
-                                                    widget.list[i]['total'],
-                                                style: TextStyle(fontSize: 21),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   )
                                 else if (widget.list[i]['idtipomovimiento'] ==
                                     '2')
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Card(
-                                              color: rojooscuro,
+                                  GestureDetector(
+                                    onTap: () => Navigator.of(context).push(
+                                      new MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              new DetalleMov(
+                                                  idmov: widget.list[i]
+                                                      ['idnotificaciones'],
+                                                  idproyecto:
+                                                      widget.idproyecto)),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Card(
+                                                color: rojooscuro,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Icon(
+                                                    Icons.south_east,
+                                                    size: 40,
+                                                    color: Colors.white,
+                                                  ),
+                                                )),
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.8,
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
-                                                child: Icon(
-                                                  Icons.south_east,
-                                                  size: 40,
-                                                  color: Colors.white,
+                                                child: Text(
+                                                  "Se realizó un gasto con titulo: " +
+                                                      widget.list[i]['titulo'] +
+                                                      " de \$" +
+                                                      widget.list[i]['ingreso'],
+                                                  style:
+                                                      TextStyle(fontSize: 21),
                                                 ),
-                                              )),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.8,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                "Se realizó un gasto con titulo: " +
-                                                    widget.list[i]['titulo'] +
-                                                    " de \$" +
-                                                    widget.list[i]['ingreso'] +
-                                                    " quedando un total de \$" +
-                                                    widget.list[i]['total'],
-                                                style: TextStyle(fontSize: 21),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 Padding(
                                   padding: const EdgeInsets.only(

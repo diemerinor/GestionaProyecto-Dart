@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:async';
 
-
 class RegistrarIngreso extends StatefulWidget {
   final String idproyecto;
   final int caja;
@@ -61,17 +60,14 @@ class _RegistrarIngresoState extends State<RegistrarIngreso> {
   Future<List> insertingreso() async {
     String aux = controllerdescripcion.text;
     int monto = int.parse(aux);
-    int total = cajafinal + monto;
     DateTime fechahoyy = DateTime.now();
     String auxfecha = fechahoyy.toString();
-    String finaltotal = total.toString();
 
     final response = await http.post(Uri.parse(url), body: {
       "fechahoy": auxfecha,
       "idusuario": identificadorusuario,
       "titulo": controllernombre.text,
       "monto": controllerdescripcion.text,
-      "total": finaltotal,
       "fechareporte": variablephp,
       "idproyecto": widget.idproyecto
     });

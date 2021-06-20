@@ -24,6 +24,7 @@ Color rojooscuro = Color.fromRGBO(185, 26, 26, 10);
 Color colorappbar2 = Color.fromRGBO(185, 26, 26, 10);
 Color colorappbar = Color.fromRGBO(46, 12, 21, 20);
 Color colortextoss = Colors.black;
+Color coloreditarmov = Colors.black;
 
 Color colorfondo = Color.fromRGBO(242, 242, 242, 10);
 String identificadorusuario,

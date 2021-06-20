@@ -123,7 +123,7 @@ class _listatrabajState extends State<listatrabaj> {
                               ),
                           child: Column(
                             children: [
-                              if (widget.list[i]['idusuario'] != widget.idcargo)
+                              if (widget.list[i]['idusuario'] != null)
                                 Column(
                                   children: [
                                     Padding(

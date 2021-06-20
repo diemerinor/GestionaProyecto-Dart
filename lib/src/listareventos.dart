@@ -10,6 +10,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import 'detalleevento.dart';
+
 String mensajeeventos;
 
 class ListarEventos extends StatefulWidget {
@@ -155,14 +157,19 @@ class _listareventossState extends State<listareventoss> {
                 itemBuilder: (context, i) {
                   return new Container(
                     child: GestureDetector(
-                        onTap: () => Navigator.of(context).push(
-                              new MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      new Detalle(
-                                        list: widget.list,
-                                        index: i,
-                                      )),
-                            ),
+                        onTap: () => {
+                              print("la wea es " +
+                                  widget.list[i]['idnotificaciones']),
+                              Navigator.of(context).push(
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        new DetalleEvento(
+                                          idevento: widget.list[i]
+                                              ['idnotificaciones'],
+                                          idproyecto: widget.idproyecto,
+                                        )),
+                              ),
+                            },
                         child: Column(
                           children: [
                             if (widget.list != null)

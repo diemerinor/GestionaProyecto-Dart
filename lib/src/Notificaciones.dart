@@ -384,10 +384,7 @@ class _listatrabajState extends State<listatrabaj> {
                                                     child: Text(
                                                       "Se realizó un ingreso de " +
                                                           widget.list[i]
-                                                              ['ingreso'] +
-                                                          " quedando un total de " +
-                                                          widget.list[i]
-                                                              ['total'],
+                                                              ['ingreso'],
                                                       style: TextStyle(
                                                           fontSize: 17.0),
                                                     ),
@@ -492,10 +489,7 @@ class _listatrabajState extends State<listatrabaj> {
                                                     child: Text(
                                                       "Se realizó un gasto de " +
                                                           widget.list[i]
-                                                              ['ingreso'] +
-                                                          " quedando un total de " +
-                                                          widget.list[i]
-                                                              ['total'],
+                                                              ['ingreso'],
                                                       style: TextStyle(
                                                           fontSize: 17.0),
                                                     ),
@@ -924,10 +918,7 @@ class _listatrabajState extends State<listatrabaj> {
                                                       child: Text(
                                                         "Se realizó un ingreso de " +
                                                             widget.list[i]
-                                                                ['ingreso'] +
-                                                            " quedando un total de " +
-                                                            widget.list[i]
-                                                                ['total'],
+                                                                ['ingreso'],
                                                         style: TextStyle(
                                                             fontSize: 17.0),
                                                       ),
@@ -1038,10 +1029,7 @@ class _listatrabajState extends State<listatrabaj> {
                                                       child: Text(
                                                         "Se realizó un gasto de " +
                                                             widget.list[i]
-                                                                ['ingreso'] +
-                                                            " quedando un total de " +
-                                                            widget.list[i]
-                                                                ['total'],
+                                                                ['ingreso'],
                                                         style: TextStyle(
                                                             fontSize: 17.0),
                                                       ),

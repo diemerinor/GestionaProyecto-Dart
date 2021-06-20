@@ -10,9 +10,9 @@ import 'dart:async';
 import 'dart:convert';
 
 String caja;
-int cajafinal;
-String cajafinal2;
+
 String nombreproyectoss;
+int cajafinal;
 
 class GestionFinanciera extends StatefulWidget {
   final String idproyecto;
@@ -26,6 +26,8 @@ class _GestionFinancieraState extends State<GestionFinanciera> {
   String url2 =
       'http://gestionaproyecto.com/phpproyectotitulo/getMovimientos.php';
 
+  String cajafinal2;
+
   Future<List> getFinanciera() async {
     final response = await http.post(Uri.parse(url2), body: {
       "idproyecto": widget.idproyecto,
@@ -33,18 +35,27 @@ class _GestionFinancieraState extends State<GestionFinanciera> {
 
     var datauser = json.decode(response.body);
     int cantmov = datauser.length;
-    cantmov = cantmov - 1;
+    cajafinal = 0;
     if (datauser != null) {
       nombreproyectoss = datauser[0]['nombreproyecto'];
-      caja = datauser[cantmov]['total'];
-      cajafinal = int.parse(caja);
+      //caja = datauser[cantmov]['total'];
+      //cajafinal = int.parse(caja);
+
+      for (int i = 0; i < cantmov; i++) {
+        var aux1 = datauser[i]['ingreso'];
+        int aux2 = int.parse(aux1);
+        if (datauser[i]['idtipomovimiento'] == '1') {
+          cajafinal = cajafinal + aux2;
+        } else if (datauser[i]['idtipomovimiento'] == '2') {
+          cajafinal = cajafinal - aux2;
+        }
+      }
+
+      cantmov = cantmov - 1;
 
       cajafinal2 = (NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0)
           .format(cajafinal));
-
-      print("la cosita es " + cajafinal2);
     }
-    //print("hay $cajafinal");
     return datauser;
   }
 
@@ -52,7 +63,6 @@ class _GestionFinancieraState extends State<GestionFinanciera> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getFinanciera();
   }
 
   @override
@@ -76,6 +86,8 @@ class _GestionFinancieraState extends State<GestionFinanciera> {
                     return new listarinfofinanciera(
                       listainfo: snapshot.data,
                       idproyecto: widget.idproyecto,
+                      cajafinal2: cajafinal2,
+                      cajafinal: cajafinal,
                     );
                   } else {
                     return new Center(
@@ -93,8 +105,15 @@ class _GestionFinancieraState extends State<GestionFinanciera> {
 class listarinfofinanciera extends StatefulWidget {
   final List listainfo;
   final String idproyecto;
+  final String cajafinal2;
+  final int cajafinal;
 
-  const listarinfofinanciera({Key key, this.listainfo, this.idproyecto})
+  const listarinfofinanciera(
+      {Key key,
+      this.listainfo,
+      this.idproyecto,
+      this.cajafinal2,
+      this.cajafinal})
       : super(key: key);
   @override
   _listarinfofinancieraState createState() => _listarinfofinancieraState();
@@ -125,7 +144,7 @@ class _listarinfofinancieraState extends State<listarinfofinanciera> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                cajafinal2,
+                                widget.cajafinal2,
                                 style: TextStyle(
                                     color: colorappbar,
                                     fontSize: 35,
@@ -185,7 +204,7 @@ class _listarinfofinancieraState extends State<listarinfofinanciera> {
                                                 new DetalleMovimientos(
                                                     idproyecto:
                                                         widget.idproyecto,
-                                                    saldo: cajafinal2)),
+                                                    saldo: widget.cajafinal2)),
                                       ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -223,7 +242,7 @@ class _listarinfofinancieraState extends State<listarinfofinanciera> {
                                                   new RegistrarIngreso(
                                                     idproyecto:
                                                         widget.idproyecto,
-                                                    caja: cajafinal,
+                                                    caja: widget.cajafinal,
                                                   )),
                                         )
                                       },
@@ -293,7 +312,7 @@ class _listarinfofinancieraState extends State<listarinfofinanciera> {
                                                   new RegistrarGasto(
                                                     idproyecto:
                                                         widget.idproyecto,
-                                                    caja: cajafinal,
+                                                    caja: widget.cajafinal,
                                                   )),
                                         )
                                       },
