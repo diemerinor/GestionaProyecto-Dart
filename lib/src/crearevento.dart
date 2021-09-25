@@ -124,13 +124,15 @@ class _CrearEventoState extends State<CrearEvento> {
     Widget cancelButton = FlatButton(
       child: Text("Cancelar"),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
       },
     );
     Widget continueButton = FlatButton(
       child: Text("Continuar"),
       onPressed: () {
         insertevento();
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+
         Navigator.pop(context);
         showAlertDialog2(context);
       },

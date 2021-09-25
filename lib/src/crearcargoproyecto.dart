@@ -101,14 +101,15 @@ class _CrearCargoState extends State<CrearCargo> {
     Widget cancelButton = FlatButton(
       child: Text("Cancelar"),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
       },
     );
     Widget continueButton = FlatButton(
       child: Text("Continuar"),
       onPressed: () {
         insertcargo();
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+
         showAlertDialog2(context);
       },
     );

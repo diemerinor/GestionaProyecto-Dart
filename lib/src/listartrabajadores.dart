@@ -68,39 +68,26 @@ class _ListarTrabajadoresState extends State<ListarTrabajadores> {
         appBar: AppBar(
           title: new Text("Participantes"),
           backgroundColor: colorappbar,
+          // actions: [
+          //   Padding(
+          //     padding: const EdgeInsets.only(right: 16.0),
+          //     child: IconButton(
+          //       icon: Icon(
+          //         Icons.add_circle,
+          //         color: Colors.white,
+          //         size: 30,
+          //       ),
+          //       onPressed: () {
+          //         Navigator.push(context, MaterialPageRoute());
+          //         // do something
+          //       },
+          //     ),
+          //   )
+          // ],
         ),
         backgroundColor: colorfondo,
         body: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.1,
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child: Expanded(
-                    child: Container(
-                      child: TextField(
-                        controller: Controller1,
-                        onChanged: (value) async {
-                          _nombrefiltrados(value);
-                        },
-                        decoration: InputDecoration(
-                            hintText: "Buscador de participantes"),
-                      ),
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.add,
-                    color: Colors.black,
-                    size: 40,
-                  ),
-                  onPressed: () {},
-                ),
-              ],
-            ),
             Expanded(
               child: new FutureBuilder<List>(
                   future: getTrabajadores(),
@@ -144,14 +131,22 @@ class _listatrabajState extends State<listatrabaj> {
                     return new Container(
                       padding: const EdgeInsets.all(4.0),
                       child: new GestureDetector(
-                          onTap: () => Navigator.of(context).push(
-                                new MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        new DetallesContacto(
-                                          list: widget.list,
-                                          index: i,
-                                        )),
-                              ),
+                          onTap: () => {
+                                print(widget.list[i]['idusuario']),
+                                print(widget.list[i]['idproyecto']),
+                                Navigator.of(context).push(
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new DetallesContacto(
+                                            idusuario: widget.list[i]
+                                                ['idusuario'],
+                                            idproyecto: widget.list[i]
+                                                ['idproyecto'],
+                                            list: widget.list,
+                                            index: i,
+                                          )),
+                                ),
+                              },
                           child: Column(
                             children: [
                               if (widget.list[i]['idusuario'] !=
@@ -182,10 +177,6 @@ class _listatrabajState extends State<listatrabaj> {
                                               children: <Widget>[
                                                 Icon(
                                                   Icons.edit,
-                                                  color: Colors.red,
-                                                ),
-                                                Icon(
-                                                  Icons.verified_user_outlined,
                                                   color: Colors.red,
                                                 ),
                                               ],

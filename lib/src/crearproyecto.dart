@@ -30,6 +30,7 @@ class _CrearProyectoState extends State<CrearProyecto> {
   TextEditingController controllernombre = new TextEditingController();
   TextEditingController controllerdescripcion = new TextEditingController();
   TextEditingController controllermonto = new TextEditingController();
+  TextEditingController controllermetros = new TextEditingController();
   final dateController = TextEditingController();
   final dateController2 = TextEditingController();
 
@@ -56,12 +57,12 @@ class _CrearProyectoState extends State<CrearProyecto> {
       "idusuario": identificadorusuario,
       "nombreproyecto": controllernombre.text,
       "descripcionproyecto": controllerdescripcion.text,
-      "idcomuna": seccionseleccionada,
-      "idcategoria": categoriaseleccionada,
       "cajatotal": controllermonto.text,
+      "metrostotales": controllermetros.text,
       "fechahoy": '$fechahoyy',
       "fechainicial": fechafinal3,
       "fechatermino": fechafinal4,
+      "inversioninicial": "Inversión inicial"
     });
   }
 
@@ -410,6 +411,25 @@ class _CrearProyectoState extends State<CrearProyecto> {
                       ),
                       Padding(padding: EdgeInsets.only(bottom: 20)),
                       Text(
+                        "Metros totales",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      TextFormField(
+                        controller: controllermetros,
+                        decoration: InputDecoration(
+                          icon: Icon(
+                            Icons.aspect_ratio_rounded,
+                            color: Colors.black,
+                          ),
+                        ),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.singleLineFormatter
+                        ],
+                        keyboardType: TextInputType.number,
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 20)),
+                      Text(
                         "Capital inicial: ",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
@@ -432,49 +452,6 @@ class _CrearProyectoState extends State<CrearProyecto> {
                         style: TextStyle(fontStyle: FontStyle.italic),
                       ),
                       Padding(padding: EdgeInsets.only(bottom: 20)),
-                      Text(
-                        "Comuna",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      DropdownButtonFormField<String>(
-                        value: seccionseleccionada,
-                        hint: Text("Seleccione comuna"),
-                        items: names.map((list) {
-                          return new DropdownMenuItem<String>(
-                            child: new Text(list['nombrecomuna']),
-                            value: list['idcomuna'].toString(),
-                          );
-                        }).toList(),
-                        onChanged: (value2) {
-                          setState(() {
-                            seccionseleccionada = value2;
-                            print("se selecciono el valor $value2");
-                          });
-                        },
-                      ),
-                      Padding(padding: EdgeInsets.only(bottom: 20)),
-                      Text(
-                        "Categoria",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      DropdownButtonFormField<String>(
-                        value: categoriaseleccionada,
-                        hint: Text("Seleccione categoria"),
-                        items: categorias.map((list) {
-                          return new DropdownMenuItem<String>(
-                            child: new Text(list['nombrecategoria']),
-                            value: list['idcategoria'].toString(),
-                          );
-                        }).toList(),
-                        onChanged: (value3) {
-                          setState(() {
-                            categoriaseleccionada = value3;
-                            print("se selecciono el valor $value3");
-                          });
-                        },
-                      ),
                       Padding(padding: EdgeInsets.only(bottom: 20)),
                       Center(
                         child: Container(
@@ -491,9 +468,7 @@ class _CrearProyectoState extends State<CrearProyecto> {
                               if (controllerdescripcion.text == null ||
                                   controllerdescripcion.text == '' ||
                                   controllernombre.text == null ||
-                                  controllernombre.text == '' ||
-                                  seccionseleccionada == null ||
-                                  categoriaseleccionada == null) {
+                                  controllernombre.text == '') {
                                 showAlertDialogerror(context);
                               } else {
                                 if (fechareporte

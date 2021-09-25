@@ -115,13 +115,15 @@ class _ListarEventosState extends State<ListarEventos> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Center(
-                            child: Text(
-                              mensajeeventos ?? '',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.bold,
-                                  color: colorappbar2),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                mensajeeventos ?? '',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 25,
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -158,8 +160,6 @@ class _listareventossState extends State<listareventoss> {
                   return new Container(
                     child: GestureDetector(
                         onTap: () => {
-                              print("la wea es " +
-                                  widget.list[i]['idnotificaciones']),
                               Navigator.of(context).push(
                                 new MaterialPageRoute(
                                     builder: (BuildContext context) =>
@@ -244,7 +244,7 @@ class _listareventossState extends State<listareventoss> {
                                     ),
                                   ),
                                   Divider(
-                                    color: colorappbar2,
+                                    color: Colors.black45,
                                   ),
                                 ],
                               )

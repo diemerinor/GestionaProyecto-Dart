@@ -219,33 +219,7 @@ class _listarseccionesState extends State<listarsecciones> {
                                         Padding(
                                             padding:
                                                 EdgeInsets.only(left: 5.0)),
-                                        Text("Total: " +
-                                            widget.list[i]['metrosseccion'] +
-                                            " " +
-                                            widget.list[i]['nombreunidad']),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 10, left: 10.0),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          width: 20.0,
-                                          height: 20.0,
-                                          decoration: new BoxDecoration(
-                                            color: azul,
-                                            shape: BoxShape.circle,
-                                          ),
-                                        ),
-                                        Padding(
-                                            padding:
-                                                EdgeInsets.only(left: 5.0)),
-                                        Text("Avanzado: " +
-                                            widget.list[i]['avanzado'] +
-                                            " " +
-                                            widget.list[i]['nombreunidad']),
+                                        Text("Click para más información"),
                                       ],
                                     ),
                                   ),

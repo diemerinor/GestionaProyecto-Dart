@@ -9,6 +9,7 @@ import 'package:gestionaproyecto/src/misproyectos.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
 import 'gestionavance.dart';
@@ -23,6 +24,7 @@ class _LoginState extends State<Login> {
   TextEditingController controllerusuario = new TextEditingController();
   TextEditingController controllerpass = new TextEditingController();
   String url2 = 'http://gestionaproyecto.com/phpproyectotitulo/login.php';
+  int existe;
 
   Future<List> login() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -34,8 +36,9 @@ class _LoginState extends State<Login> {
     var datauser = json.decode(response.body);
 
     if (datauser.length == 0) {
+      print("entre aca");
       setState(() {
-        mensaje = "Usuario o contraseña incorrecta";
+        existe = datauser.length;
       });
     }
 
@@ -116,7 +119,7 @@ class _LoginState extends State<Login> {
                                   Icons.account_box,
                                   color: colorappbar,
                                 ),
-                                hintText: 'Ingrese su correo o telefono'),
+                                hintText: 'Ingrese su correo'),
                           ),
                         ),
                         Container(
@@ -140,14 +143,8 @@ class _LoginState extends State<Login> {
                                 hintText: 'Ingrese su contraseña'),
                           ),
                         ),
-                        Align(
-                            alignment: Alignment.topRight,
-                            child: Padding(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: Text('Olvidé mi contraseña',
-                                    style: TextStyle(
-                                        color: colorappbar, fontSize: 17)))),
                         Container(
+                          margin: EdgeInsets.only(bottom: 5),
                           width: MediaQuery.of(context).size.width,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -167,24 +164,25 @@ class _LoginState extends State<Login> {
                                   login();
                                 },
                               ),
-                              new RaisedButton(
-                                child: new Text(
-                                  "Registrarme",
-                                  style: (TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold)),
-                                ),
-                                color: colorappbar2,
-                                shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(20.0)),
-                                onPressed: () {
-                                  login();
-                                },
-                              ),
                             ],
                           ),
                         ),
+                        RaisedButton(
+                            child: Text("Registrate"),
+                            onPressed: () {
+                              launch(
+                                  "http://gestionaproyecto.com/proyecto/crearcuenta.php");
+                            }),
+                        if (existe == 0)
+                          Container(
+                            color: Colors.redAccent,
+                            child: Text(
+                              "Las credenciales ingresadas\nno son correctas",
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.white),
+                              textAlign: TextAlign.center,
+                            ),
+                          )
                       ]),
                     ),
                   ),

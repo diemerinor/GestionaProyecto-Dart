@@ -229,7 +229,7 @@ class _DatosAvanceState extends State<DatosAvance> {
     Widget cancelButton = FlatButton(
       child: Text("Cancelar"),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
       },
     );
     Widget continueButton = FlatButton(
@@ -288,10 +288,24 @@ class _DatosAvanceState extends State<DatosAvance> {
                                   padding: const EdgeInsets.only(
                                       left: 15.0, right: 15),
                                   child: Text(
+                                      "Sección: " +
+                                          widget.list[i]['nombreseccion'],
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 15.0, right: 15),
+                                  child: Text(
                                       "Descripcion: " +
                                           widget.list[i]['descripcionavance'],
-                                      style: TextStyle(fontSize: 20)),
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      )),
                                 ),
+
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 15.0, right: 15),
@@ -305,19 +319,19 @@ class _DatosAvanceState extends State<DatosAvance> {
                                           fontSize: 20,
                                           color: verde)),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15.0, right: 15),
-                                  child: Text(
-                                      "Total: " +
-                                          widget.list[i]['metrostotales'] +
-                                          " " +
-                                          widget.list[i]['nombreunidad'],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                          color: verde)),
-                                ),
+                                // Padding(
+                                //   padding: const EdgeInsets.only(
+                                //       left: 15.0, right: 15),
+                                //   child: Text(
+                                //       "Total: " +
+                                //           widget.list[i]['metrostotales'] +
+                                //           " " +
+                                //           widget.list[i]['nombreunidad'],
+                                //       style: TextStyle(
+                                //           fontWeight: FontWeight.bold,
+                                //           fontSize: 20,
+                                //           color: verde)),
+                                // ),
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 15.0, right: 15),

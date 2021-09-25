@@ -62,7 +62,7 @@ class _RegistrarIngresoState extends State<RegistrarIngreso> {
     int monto = int.parse(aux);
     DateTime fechahoyy = DateTime.now();
     String auxfecha = fechahoyy.toString();
-
+    print(variablephp);
     final response = await http.post(Uri.parse(url), body: {
       "fechahoy": auxfecha,
       "idusuario": identificadorusuario,
@@ -80,7 +80,6 @@ class _RegistrarIngresoState extends State<RegistrarIngreso> {
       child: Text("Continuar"),
       onPressed: () {
         Navigator.of(context, rootNavigator: true).pop('dialog');
-        Navigator.pop(context);
         Navigator.pop(context);
         Navigator.pop(context);
         Navigator.push(
@@ -358,7 +357,7 @@ class _RegistrarIngresoState extends State<RegistrarIngreso> {
                               showAlertDialogerror(context);
                             } else {
                               DateTime fechaaux = DateTime.now();
-                              if (fechaaux.difference(fechareporte).inDays >=
+                              if (fechaaux.difference(fechareporte).inDays <=
                                   0) {
                                 print(fechaaux.difference(fechareporte).inDays);
                                 showAlertDialog(context);

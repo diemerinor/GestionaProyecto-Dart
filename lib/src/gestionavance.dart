@@ -48,7 +48,6 @@ class _GestionAvanceState extends State<GestionAvance> {
       largo = datauser.length;
       mensaje = "";
     }
-
     double metrosseccion;
     if (datauser != null) {
       for (aux = 0; aux < datauser.length; aux++) {
@@ -62,10 +61,14 @@ class _GestionAvanceState extends State<GestionAvance> {
         double aux3 = double.parse(aux2);
         metrosavance = metrosavance + aux3;
       }
-      var metrostot = metrosseccion.toStringAsFixed(2);
+      print("estoy aca");
+      print(metrosseccion);
+      print(metrosavance);
+      var metrostot = metrosseccion.toStringAsFixed(6);
       metrostotales = double.parse(metrostot);
       porcentajeavance = (metrosavance * 100) / metrostotales;
-      var auxiliarmetrostotales = porcentajeavance.toStringAsFixed(3);
+      print(porcentajeavance);
+      var auxiliarmetrostotales = porcentajeavance.toStringAsFixed(4);
       porcentajeavance = double.parse(auxiliarmetrostotales);
       listafinal = listaavance.cast<double>();
     } else {
@@ -144,7 +147,7 @@ class _GestionAvanceState extends State<GestionAvance> {
                         padding: const EdgeInsets.only(top: 20.0),
                         child: Column(
                           children: [
-                            Text(mensaje ?? ''),
+                            Text(mensaje ?? '', style: TextStyle(fontSize: 25)),
                             RaisedButton(
                               child: new Text(
                                 "Crear reporte de avance",
@@ -246,7 +249,7 @@ class _DatosAvanceState extends State<DatosAvance> {
                     return ListView.builder(
                         itemCount: widget.list == null ? 0 : 1,
                         itemBuilder: (context, i) {
-                          if (widget.list[i]['idreporteavance'] != null) {
+                          if (widget.list != null) {
                             return Column(
                               children: [
                                 if (largo > 0)
@@ -276,81 +279,76 @@ class _DatosAvanceState extends State<DatosAvance> {
                                                   .width,
                                               child: Column(
                                                 children: <Widget>[
-                                                  if (porcentajeavance != 0)
-                                                    Column(
-                                                      children: [
-                                                        Text(
-                                                          "Porcentaje de avance",
-                                                          style: TextStyle(
-                                                              fontSize: 20),
-                                                        ),
-                                                        Center(
-                                                            child: Text(
-                                                          "$porcentajeavance%",
-                                                          style: TextStyle(
-                                                              fontSize: 40,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )),
-                                                        Card(
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                          margin:
-                                                              EdgeInsets.all(
-                                                                  10),
-                                                          elevation: 4,
-                                                          child:
-                                                              Stack(children: [
-                                                            Container(
-                                                              color:
-                                                                  Colors.black,
-                                                              height: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .height *
-                                                                  0.017,
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  0.5,
-                                                            ),
-                                                            Container(
-                                                              color:
-                                                                  colorappbar2,
-                                                              height: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .height *
-                                                                  0.017,
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  porcentaje *
-                                                                  0.5,
-                                                            )
-                                                          ]),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 8.0),
+                                                  Column(
+                                                    children: [
+                                                      Text(
+                                                        "Porcentaje de avance",
+                                                        style: TextStyle(
+                                                            fontSize: 20),
+                                                      ),
+                                                      Center(
                                                           child: Text(
-                                                            "Haz click para más detalles",
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                                fontSize: 17),
+                                                        "$porcentajeavance%",
+                                                        style: TextStyle(
+                                                            fontSize: 40,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      )),
+                                                      Card(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)),
+                                                        margin:
+                                                            EdgeInsets.all(10),
+                                                        elevation: 4,
+                                                        child: Stack(children: [
+                                                          Container(
+                                                            color: Colors.black,
+                                                            height: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.017,
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.5,
                                                           ),
+                                                          Container(
+                                                            color: colorappbar2,
+                                                            height: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .height *
+                                                                0.017,
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                porcentaje *
+                                                                0.5,
+                                                          )
+                                                        ]),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                bottom: 8.0),
+                                                        child: Text(
+                                                          "Haz click para más detalles",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 17),
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ],
                                               )),
                                         ),

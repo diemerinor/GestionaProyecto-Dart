@@ -73,6 +73,24 @@ class _GestionarMaterialesState extends State<GestionarMateriales> {
         title: new Text("Materiales"),
         backgroundColor: colorappbar,
         elevation: 0,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: IconButton(
+              icon: const Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 40,
+              ),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CrearMaterial(
+                            idproyecto: widget.idproyecto,
+                          ))),
+            ),
+          )
+        ],
       ),
       body: Column(
         children: [
@@ -91,41 +109,14 @@ class _GestionarMaterialesState extends State<GestionarMateriales> {
                       return Center(
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.1,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.7,
-                                  child: Expanded(
-                                    child: Container(
-                                      child: TextField(
-                                        controller: Controller1,
-                                        onChanged: (value) async {},
-                                        decoration: InputDecoration(
-                                            hintText: "Buscador de materiales"),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.add,
-                                    color: Colors.black,
-                                    size: 40,
-                                  ),
-                                  onPressed: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => CrearMaterial(
-                                                idproyecto: widget.idproyecto,
-                                              ))),
-                                ),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Text(
+                                mensajemat ?? '',
+                                style: TextStyle(fontSize: 25),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                            Text(mensajemat ?? ''),
                           ],
                         ),
                       );
@@ -166,7 +157,7 @@ class _listarmaterialesState extends State<listarmateriales> {
     Widget cancelButton = FlatButton(
       child: Text("Cancelar"),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
       },
     );
     Widget continueButton = FlatButton(
@@ -213,41 +204,9 @@ class _listarmaterialesState extends State<listarmateriales> {
     } else {
       return Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.1,
-                width: MediaQuery.of(context).size.width * 0.7,
-                child: Expanded(
-                  child: Container(
-                    child: TextField(
-                      controller: Controller1,
-                      onChanged: (value) async {},
-                      decoration:
-                          InputDecoration(hintText: "Buscador de materiales"),
-                    ),
-                  ),
-                ),
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.add,
-                  color: Colors.black,
-                  size: 40,
-                ),
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CrearMaterial(
-                              idproyecto: widget.idproyecto,
-                            ))),
-              ),
-            ],
-          ),
           Container(
             width: MediaQuery.of(context).size.width,
-            color: colorappbar2,
+            color: colorappbar,
             child: Row(
               children: [
                 Expanded(
@@ -307,97 +266,85 @@ class _listarmaterialesState extends State<listarmateriales> {
                 itemBuilder: (context, i) {
                   return new Container(
                       padding: const EdgeInsets.all(4.0),
-                      child: new GestureDetector(
-                        onTap: () => Navigator.of(context).push(
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) => new Detalle(
-                                    list: widget.list,
-                                    index: i,
-                                  )),
-                        ),
-                        child: Column(children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, right: 10, top: 5, bottom: 5),
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: new Text(
-                                      widget.list[i]['nombrerecurso'],
-                                      style: TextStyle(
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                      child: Column(children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10, top: 5, bottom: 5),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: new Text(
+                                    widget.list[i]['nombrerecurso'],
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, right: 10, top: 5, bottom: 5),
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: new Text(
-                                      widget.list[i]['stock'],
-                                      style: TextStyle(
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10, top: 5, bottom: 5),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: new Text(
+                                    widget.list[i]['stock'],
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, right: 10, top: 5, bottom: 5),
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Row(
-                                      children: [
-                                        IconButton(
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10, top: 5, bottom: 5),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(
+                                          Icons.edit,
+                                          color: Color.fromRGBO(17, 97, 73, 4),
+                                          size: 40,
+                                        ),
+                                        onPressed: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EditarMaterial(
+                                                      idmaterial: widget.list[i]
+                                                          ["idrecursomat"],
+                                                      idproyecto:
+                                                          widget.idproyecto,
+                                                    ))),
+                                      ),
+                                      IconButton(
                                           icon: const Icon(
-                                            Icons.edit,
-                                            color:
-                                                Color.fromRGBO(17, 97, 73, 4),
+                                            Icons.delete,
+                                            color: Colors.red,
                                             size: 40,
                                           ),
-                                          onPressed: () => Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EditarMaterial(
-                                                        idmaterial: widget
-                                                                .list[i]
-                                                            ["idrecursomat"],
-                                                        idproyecto:
-                                                            widget.idproyecto,
-                                                      ))),
-                                        ),
-                                        IconButton(
-                                            icon: const Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
-                                              size: 40,
-                                            ),
-                                            onPressed: () => {
-                                                  setState(() {
-                                                    materialaeliminar =
-                                                        widget.list[i]
-                                                            ['idrecursomat'];
-                                                  }),
-                                                  showAlertDialog(context)
+                                          onPressed: () => {
+                                                setState(() {
+                                                  materialaeliminar = widget
+                                                      .list[i]['idrecursomat'];
                                                 }),
-                                      ],
-                                    ),
+                                                showAlertDialog(context)
+                                              }),
+                                    ],
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ]),
-                      ));
+                            ),
+                          ],
+                        ),
+                      ]));
                 }),
           ),
         ],

@@ -27,13 +27,14 @@ class _ListarUsCargoState extends State<ListarUsCargo> {
   List info = [];
   List nombresfiltrados = [];
   List info2 = [];
+  int cantidad;
 
   Future<List> getTrabajadores() async {
     print(widget.idcargo);
     final response =
         await http.post(Uri.parse(url2), body: {"idcargo": widget.idcargo});
     var datauser = json.decode(response.body);
-    int cantidad = datauser.length;
+    cantidad = datauser.length;
 
     return datauser;
   }
@@ -67,14 +68,27 @@ class _ListarUsCargoState extends State<ListarUsCargo> {
                   future: getTrabajadores(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print(snapshot.error);
-                    return snapshot.hasData
-                        ? new listatrabaj(
-                            list: snapshot.data,
-                            idcargo: widget.idcargo,
-                          )
-                        : new Center(
-                            child: new CircularProgressIndicator(),
-                          );
+                    if (snapshot.hasData) {
+                      if (cantidad != 0) {
+                        return new listatrabaj(
+                          list: snapshot.data,
+                          idcargo: widget.idcargo,
+                        );
+                      } else {
+                        return Center(
+                          child: Text(
+                            "No existen usuarios con este cargo",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }
+                    } else {
+                      return new Center(
+                        child: new CircularProgressIndicator(),
+                      );
+                    }
                   }),
             ),
           ],

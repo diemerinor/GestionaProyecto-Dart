@@ -114,6 +114,8 @@ class _EditarMovimientoState extends State<EditarMovimiento> {
     Widget continueButton = FlatButton(
       child: Text("Continuar"),
       onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+        Navigator.pop(context);
         Navigator.pop(context);
         Navigator.pop(context);
         Navigator.pop(context);
@@ -153,7 +155,7 @@ class _EditarMovimientoState extends State<EditarMovimiento> {
     Widget cancelButton = FlatButton(
       child: Text("Cancelar"),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
       },
     );
     Widget continueButton = FlatButton(

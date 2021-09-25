@@ -9,51 +9,35 @@ import 'dart:convert';
 
 import '../main.dart';
 
-class Contactos extends StatefulWidget {
+class Solicitudes extends StatefulWidget {
   final String idusuario;
 
-  const Contactos({Key key, this.idusuario}) : super(key: key);
+  const Solicitudes({Key key, this.idusuario}) : super(key: key);
   @override
-  _ContactosState createState() => _ContactosState();
+  _SolicitudesState createState() => _SolicitudesState();
 }
 
-class _ContactosState extends State<Contactos> {
-  String url2 = 'http://gestionaproyecto.com/phpproyectotitulo/getAmistad.php';
+class _SolicitudesState extends State<Solicitudes> {
+  String url2 =
+      'http://gestionaproyecto.com/phpproyectotitulo/getSolicitud.php';
   bool botonagregar = false;
   TextEditingController controllerbuscar = new TextEditingController();
+  var solicitudes = [];
 
   Future<List> getContactos() async {
-    final response =
-        await http.post(Uri.parse(url2), body: {"idusuario": widget.idusuario});
-    return json.decode(response.body);
+    final response = await http
+        .post(Uri.parse(url2), body: {"idusuario": identificadorusuario});
+    solicitudes = json.decode(response.body);
+    print(solicitudes);
+    return solicitudes;
   }
-
-  deleteContacto() {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: colorappbar,
-          title: Text("Contactos"),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: IconButton(
-                icon: Icon(
-                  Icons.group_add,
-                  color: Colors.white,
-                  size: 30,
-                ),
-                onPressed: () {
-                  setState(() {
-                    this.botonagregar = !botonagregar;
-                    print(botonagregar);
-                  });
-                },
-              ),
-            )
-          ],
+          title: Text("Solicitudes"),
         ),
         body: Column(
           children: [
@@ -91,29 +75,33 @@ class _ContactosState extends State<Contactos> {
                         }),
                   ],
                 )),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                "Mis contactos",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
-            ),
             Expanded(
               child: new FutureBuilder<List>(
                   future: getContactos(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print(snapshot.error);
-                    return snapshot.hasData
-                        ? new listarcontactos(
-                            list: snapshot.data,
-                            idusuario: widget.idusuario,
-                          )
-                        : new Center(
-                            child: new CircularProgressIndicator(),
-                          );
+                    if (snapshot.hasData) {
+                      if (solicitudes != null && !solicitudes.isEmpty) {
+                        return new listarcontactos(
+                          list: snapshot.data,
+                          idusuario: widget.idusuario,
+                        );
+                      } else {
+                        return Center(
+                            child: Text(
+                          "No existen solicitudes",
+                          style: TextStyle(fontSize: 25),
+                        ));
+                      }
+                    } else {
+                      return Center(
+                          child: Text(
+                        "Cargando solicitudes...",
+                        style: TextStyle(fontSize: 25),
+                      ));
+                    }
                   }),
-            ),
+            )
           ],
         ));
   }
@@ -131,51 +119,16 @@ class listarcontactos extends StatefulWidget {
 class _listarcontactosState extends State<listarcontactos> {
   Future<List> eliminarAmistad(idusuario1) async {
     String url3 =
-        'http://gestionaproyecto.com/phpproyectotitulo/EliminarAmistad.php';
+        'http://gestionaproyecto.com/phpproyectotitulo/RechazarSolicitud.php';
     final response = await http.post(Uri.parse(url3),
-        body: {"idusuario1": idusuario1, "idusuario2": identificadorusuario});
+        body: {"idusuario": idusuario1, "idusuario2": identificadorusuario});
   }
 
-  showAlertDialog(BuildContext context, auxiliar) {
-    // set up the buttons
-    Widget cancelButton = FlatButton(
-      child: Text("Cancelar"),
-      onPressed: () {
-        Navigator.of(context, rootNavigator: true).pop('dialog');
-      },
-    );
-    Widget continueButton = FlatButton(
-      child: Text("Continuar"),
-      onPressed: () {
-        eliminarAmistad(auxiliar);
-
-        Navigator.of(context, rootNavigator: true).pop('dialog');
-        Navigator.pop(context);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Contactos(
-                      idusuario: identificadorusuario,
-                    )));
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: Text("¿Estás seguro de eliminar a tu contacto? "),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+  Future<List> aceptarAmistad(idusuario1) async {
+    String url3 =
+        'http://gestionaproyecto.com/phpproyectotitulo/AceptarSolicitud.php';
+    final response = await http.post(Uri.parse(url3),
+        body: {"idusuario": idusuario1, "idusuario2": identificadorusuario});
   }
 
   bool botonagregar = false;
@@ -294,27 +247,44 @@ class _listarcontactosState extends State<listarcontactos> {
                                                     .width *
                                                 0.6,
                                             child: Row(children: [
-                                              // GestureDetector(
-                                              //   child: Card(
-                                              //     child: Padding(
-                                              //       padding:
-                                              //           const EdgeInsets.all(
-                                              //               8.0),
-                                              //       child: Text("Invitar"),
-                                              //     ),
-                                              //   ),
-                                              // ),
                                               GestureDetector(
                                                 onTap: () => {
-                                                  setState(() {
-                                                    this.botonagregar =
-                                                        !botonagregar;
-                                                    print(botonagregar);
-                                                  }),
-                                                  showAlertDialog(
-                                                      context,
-                                                      widget.list[i]
-                                                          ['idusuario']),
+                                                  aceptarAmistad(widget.list[i]
+                                                      ['idusuario']),
+                                                  Navigator.pop(context),
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Solicitudes(
+                                                              idusuario:
+                                                                  identificadorusuario,
+                                                            )),
+                                                  )
+                                                },
+                                                child: Card(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text("Aceptar"),
+                                                  ),
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                onTap: () => {
+                                                  eliminarAmistad(widget.list[i]
+                                                      ['idusuario']),
+                                                  Navigator.pop(context),
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Solicitudes(
+                                                              idusuario:
+                                                                  identificadorusuario,
+                                                            )),
+                                                  )
                                                 },
                                                 child: Card(
                                                   color: Colors.redAccent,
@@ -323,7 +293,7 @@ class _listarcontactosState extends State<listarcontactos> {
                                                         const EdgeInsets.all(
                                                             8.0),
                                                     child: Text(
-                                                      "Eliminar contacto",
+                                                      "Rechazar",
                                                       style: TextStyle(
                                                           color: Colors.white),
                                                     ),
@@ -342,42 +312,6 @@ class _listarcontactosState extends State<listarcontactos> {
                           ],
                         ),
                       ),
-                    // if ((widget.list[i]['idusuario'] != widget.idusuario))
-                    //   GestureDetector(
-                    //     onTap: () => Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //             builder: (context) => DetallesContacto(
-                    //                   list: widget.list,
-                    //                   index: i,
-                    //                 ))),
-                    //     child: Card(
-                    //       child: Container(
-                    //         width: MediaQuery.of(context).size.width * 0.9,
-                    //         height: MediaQuery.of(context).size.height * 0.07,
-                    //         child: Padding(
-                    //           padding: const EdgeInsets.all(8.0),
-                    //           child: Row(
-                    //             children: [
-                    //               Text(
-                    //                 widget.list[i]['nombreusuario'] +
-                    //                     " " +
-                    //                     widget.list[i]['apellidos'],
-                    //                 style: TextStyle(fontSize: 20),
-                    //               ),
-                    //               Padding(
-                    //                 padding: const EdgeInsets.only(left: 8.0),
-                    //                 child: Icon(
-                    //                   Icons.message,
-                    //                   color: Colors.red,
-                    //                 ),
-                    //               ),
-                    //             ],
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
                   ],
                 ),
               ),

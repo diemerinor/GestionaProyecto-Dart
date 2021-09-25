@@ -37,7 +37,7 @@ class _DetalleEventoState extends State<DetalleEvento> {
     Widget cancelButton = FlatButton(
       child: Text("Cancelar"),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
       },
     );
     Widget continueButton = FlatButton(
@@ -116,6 +116,8 @@ class _DetalleEventoState extends State<DetalleEvento> {
                 Text("Cargando información...")
               else
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     new Padding(
                       padding: const EdgeInsets.only(
@@ -123,18 +125,19 @@ class _DetalleEventoState extends State<DetalleEvento> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15),
+                      padding: const EdgeInsets.only(left: 25.0, right: 25),
                       child: new Text(
                         titulo,
                         style: new TextStyle(
-                            fontSize: 20.0, fontWeight: FontWeight.bold),
+                            fontSize: 30.0, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.left,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10.0, right: 10),
+                      padding: const EdgeInsets.only(left: 25.0, right: 25),
                       child: new Text(
                         descripcion,
-                        style: new TextStyle(fontSize: 20.0),
+                        style: new TextStyle(fontSize: 22.0),
                       ),
                     ),
                     Divider(),
@@ -156,7 +159,7 @@ class _DetalleEventoState extends State<DetalleEvento> {
                               "Fecha :\n" + fechaevento,
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 25,
                               ),
                             ),
                           ),
@@ -181,7 +184,7 @@ class _DetalleEventoState extends State<DetalleEvento> {
                               "Hora :\n" + hora,
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 25,
                               ),
                             ),
                           ),

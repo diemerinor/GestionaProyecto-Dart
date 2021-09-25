@@ -28,10 +28,22 @@ Color letraspropar;
 bool visibletodos;
 bool visiblemisproy;
 bool visiblepropar;
+String mensaje = "Cargando proyectos...";
 
 class MisProyectos extends StatefulWidget {
   final String idusuario;
-  MisProyectos({Key key, this.title, @required this.idusuario})
+  final bool editado;
+  final List list;
+  final int index;
+  final String idproyectoeditado;
+  MisProyectos(
+      {Key key,
+      this.title,
+      @required this.idusuario,
+      this.editado,
+      this.list,
+      this.index,
+      this.idproyectoeditado})
       : super(key: key);
 
   final String title;
@@ -59,12 +71,13 @@ class _MisProyectosState extends State<MisProyectos> {
     seleccionado = 1;
   }
 
-  String url2 =
-      'http://gestionaproyecto.com/phpproyectotitulo/getProyectousuario.php';
   String url3 =
       'http://gestionaproyecto.com/phpproyectotitulo/getProyectosCreados.php';
-      String url4 =
+  String url4 =
       'http://gestionaproyecto.com/phpproyectotitulo/getFechasProyecto.php';
+
+  String url2 =
+      'http://gestionaproyecto.com/phpproyectotitulo/getProyectousuario.php';
 
   Future<List> getTrabajadores() async {
     final response = await http.post(Uri.parse(url2), body: {
@@ -77,25 +90,31 @@ class _MisProyectosState extends State<MisProyectos> {
     });
 
     var datauser = json.decode(response2.body);
-    cantidadproyectoscreados = datauser.length;
-    var auxi = respuesta1;
-    auxi = auxi + datauser;
-    //print("laa cosita essss $auxi[1]");
+    var auxi;
+    if (datauser != null && respuesta1 != null) {
+      auxi = respuesta1 + datauser;
+    } else if (datauser == null && respuesta1 != null) {
+      auxi = respuesta1;
+    } else {
+      auxi = datauser;
+    }
 
-    //cantidadproyectoscreados = datauser.length;
-    if (rolusuario == "1") {
-      proyectosrestantes = 100;
-    } else if (rolusuario == "2") {
-      proyectosrestantes = cusuariofree - cantidadproyectoscreados;
-    } else if (rolusuario == "3") {
-      proyectosrestantes = cusuariomedium - cantidadproyectoscreados;
-    } else if (rolusuario == "4") {
-      proyectosrestantes = cusuariopro - cantidadproyectoscreados;
+    if (widget.editado == true) {
+      print("wenas");
+      print(widget.index);
+      print(widget.idproyectoeditado);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DetalleProyecto(
+                  list: auxi,
+                  index: widget.index,
+                  idusuario: identificadorusuario,
+                  idproyecto: widget.idproyectoeditado)));
     }
     return json.decode(response.body);
   }
 
-  String nombreusuario = "Diego Merino Rubilar";
   int _selectedIndex = 1;
 
   static const TextStyle optionStyle =
@@ -160,7 +179,7 @@ class _MisProyectosState extends State<MisProyectos> {
                             seleccionado: seleccionado,
                           )
                         : new Center(
-                            child: new CircularProgressIndicator(),
+                            child: new Text(mensaje),
                           );
                   }),
             ),
@@ -528,65 +547,35 @@ class _listaproyectosState extends State<listaproyectos> {
                                                                       .center,
                                                               children: <
                                                                   Widget>[
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
+                                                                Text(
+                                                                  "Cargo:",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                  textAlign:
+                                                                      TextAlign
                                                                           .center,
-                                                                  children: [
-                                                                    Icon(
-                                                                      Icons
-                                                                          .my_location_rounded,
-                                                                      color: Colors
-                                                                          .white,
-                                                                    ),
-                                                                    Text(
-                                                                      widget.list[
-                                                                              i]
-                                                                          [
-                                                                          'nombrecomuna'],
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            15,
-                                                                        color: Colors
-                                                                            .white,
-                                                                      ),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                    ),
-                                                                  ],
                                                                 ),
                                                                 Padding(
                                                                     padding: EdgeInsets.only(
                                                                         bottom:
                                                                             6)),
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Icon(
-                                                                      Icons
-                                                                          .admin_panel_settings_rounded,
+                                                                Text(
+                                                                  widget.list[i]
+                                                                      [
+                                                                      'nombrecargo'],
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
                                                                       color: Colors
-                                                                          .white,
-                                                                    ),
-                                                                    Text(
-                                                                      widget.list[
-                                                                              i]
-                                                                          [
-                                                                          'NombreRol'],
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              15,
-                                                                          color:
-                                                                              Colors.white),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                    ),
-                                                                  ],
+                                                                          .white),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
                                                                 ),
                                                               ],
                                                             ),
@@ -762,65 +751,35 @@ class _listaproyectosState extends State<listaproyectos> {
                                                                       .center,
                                                               children: <
                                                                   Widget>[
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
+                                                                Text(
+                                                                  "Cargo:",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                  textAlign:
+                                                                      TextAlign
                                                                           .center,
-                                                                  children: [
-                                                                    Icon(
-                                                                      Icons
-                                                                          .my_location_rounded,
-                                                                      color: Colors
-                                                                          .white,
-                                                                    ),
-                                                                    Text(
-                                                                      widget.list[
-                                                                              i]
-                                                                          [
-                                                                          'nombrecomuna'],
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            15,
-                                                                        color: Colors
-                                                                            .white,
-                                                                      ),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                    ),
-                                                                  ],
                                                                 ),
                                                                 Padding(
                                                                     padding: EdgeInsets.only(
                                                                         bottom:
                                                                             6)),
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Icon(
-                                                                      Icons
-                                                                          .admin_panel_settings_rounded,
+                                                                Text(
+                                                                  widget.list[i]
+                                                                      [
+                                                                      'nombrecargo'],
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
                                                                       color: Colors
-                                                                          .white,
-                                                                    ),
-                                                                    Text(
-                                                                      widget.list[
-                                                                              i]
-                                                                          [
-                                                                          'NombreRol'],
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              15,
-                                                                          color:
-                                                                              Colors.white),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                    ),
-                                                                  ],
+                                                                          .white),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
                                                                 ),
                                                               ],
                                                             ),
@@ -989,64 +948,34 @@ class _listaproyectosState extends State<listaproyectos> {
                                                                 CrossAxisAlignment
                                                                     .center,
                                                             children: <Widget>[
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
+                                                              Text(
+                                                                "Cargo:",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 15,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                                textAlign:
+                                                                    TextAlign
                                                                         .center,
-                                                                children: [
-                                                                  Icon(
-                                                                    Icons
-                                                                        .my_location_rounded,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                  Text(
-                                                                    widget.list[
-                                                                            i][
-                                                                        'nombrecomuna'],
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          15,
-                                                                      color: Colors
-                                                                          .white,
-                                                                    ),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                  ),
-                                                                ],
                                                               ),
                                                               Padding(
                                                                   padding: EdgeInsets
                                                                       .only(
                                                                           bottom:
                                                                               6)),
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  Icon(
-                                                                    Icons
-                                                                        .admin_panel_settings_rounded,
+                                                              Text(
+                                                                widget.list[i][
+                                                                    'nombrecargo'],
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15,
                                                                     color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                  Text(
-                                                                    widget.list[
-                                                                            i][
-                                                                        'NombreRol'],
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            15,
-                                                                        color: Colors
-                                                                            .white),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                  ),
-                                                                ],
+                                                                        .white),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
                                                               ),
                                                             ],
                                                           ),

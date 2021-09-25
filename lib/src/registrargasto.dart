@@ -85,7 +85,6 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
       onPressed: () {
         Navigator.pop(context);
         Navigator.pop(context);
-        Navigator.pop(context);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -122,7 +121,7 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
     Widget cancelButton = FlatButton(
       child: Text("Cancelar"),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
       },
     );
     Widget continueButton = FlatButton(
@@ -391,7 +390,7 @@ class _RegistrarGastoState extends State<RegistrarGasto> {
                                   DateTime fechaaux = DateTime.now();
                                   if (fechaaux
                                           .difference(fechareporte)
-                                          .inDays >=
+                                          .inDays <=
                                       0) {
                                     print(fechaaux
                                         .difference(fechareporte)

@@ -1,8 +1,11 @@
 import 'package:gestionaproyecto/src/Notificaciones.dart';
+import 'package:gestionaproyecto/src/buscarcontactos.dart';
+import 'package:gestionaproyecto/src/haztepremium.dart';
 import 'package:gestionaproyecto/src/misproyectos.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:gestionaproyecto/src/recomendados.dart';
+import 'package:gestionaproyecto/src/solicitudesamistad.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gestionaproyecto/main.dart';
 import 'dart:convert';
@@ -193,64 +196,64 @@ class _listareventosState extends State<listareventos> {
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(7.0),
-                                  child: Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.9,
-                                    child: GestureDetector(
-                                      onTap: () => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Notificaciones(
-                                                    idusuario:
-                                                        identificadorusuario,
-                                                  ))),
-                                      child: Card(
-                                        elevation: 2,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Card(
-                                                  color: verde,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            7.0),
-                                                    child: Icon(
-                                                      Icons.notifications,
-                                                      size: 40,
-                                                      color: Colors.white,
-                                                    ),
-                                                  )),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 5.0,
-                                                ),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "Actividad",
-                                                      style: TextStyle(
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                      textAlign: TextAlign.left,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                // Padding(
+                                //   padding: const EdgeInsets.all(7.0),
+                                //   child: Container(
+                                //     width:
+                                //         MediaQuery.of(context).size.width * 0.9,
+                                //     child: GestureDetector(
+                                //       onTap: () => Navigator.push(
+                                //           context,
+                                //           MaterialPageRoute(
+                                //               builder: (context) =>
+                                //                   Notificaciones(
+                                //                     idusuario:
+                                //                         identificadorusuario,
+                                //                   ))),
+                                //       child: Card(
+                                //         elevation: 2,
+                                //         child: Padding(
+                                //           padding: const EdgeInsets.all(5.0),
+                                //           child: Row(
+                                //             children: <Widget>[
+                                //               Card(
+                                //                   color: verde,
+                                //                   child: Padding(
+                                //                     padding:
+                                //                         const EdgeInsets.all(
+                                //                             7.0),
+                                //                     child: Icon(
+                                //                       Icons.notifications,
+                                //                       size: 40,
+                                //                       color: Colors.white,
+                                //                     ),
+                                //                   )),
+                                //               Padding(
+                                //                 padding: const EdgeInsets.only(
+                                //                   left: 5.0,
+                                //                 ),
+                                //                 child: Column(
+                                //                   crossAxisAlignment:
+                                //                       CrossAxisAlignment.start,
+                                //                   children: [
+                                //                     Text(
+                                //                       "Actividad",
+                                //                       style: TextStyle(
+                                //                           fontSize: 20,
+                                //                           fontWeight:
+                                //                               FontWeight.bold),
+                                //                       textAlign: TextAlign.left,
+                                //                     ),
+                                //                   ],
+                                //                 ),
+                                //               ),
+                                //             ],
+                                //           ),
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
                                 Padding(
                                   padding: const EdgeInsets.all(7.0),
                                   child: Container(
@@ -317,7 +320,7 @@ class _listareventosState extends State<listareventos> {
                                       onTap: () => Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => InfoPerfil(
+                                              builder: (context) => Solicitudes(
                                                     idusuario:
                                                         identificadorusuario,
                                                   ))),
@@ -329,6 +332,63 @@ class _listareventosState extends State<listareventos> {
                                             children: <Widget>[
                                               Card(
                                                   color: Colors.purple,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            7.0),
+                                                    child: Icon(
+                                                      Icons.person_add_outlined,
+                                                      size: 40,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 7.0,
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Solicitudes de amistad",
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                      textAlign: TextAlign.left,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(7.0),
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.9,
+                                    child: GestureDetector(
+                                      onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => InfoPerfil(
+                                                    idusuario:
+                                                        identificadorusuario,
+                                                  ))),
+                                      child: Card(
+                                        elevation: 2,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Row(
+                                            children: <Widget>[
+                                              Card(
+                                                  color: Colors.green,
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(
@@ -374,7 +434,8 @@ class _listareventosState extends State<listareventos> {
                                       onTap: () => Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => InfoPerfil(
+                                              builder: (context) =>
+                                                  HaztePremium(
                                                     idusuario:
                                                         identificadorusuario,
                                                   ))),
@@ -392,7 +453,7 @@ class _listareventosState extends State<listareventos> {
                                                         const EdgeInsets.all(
                                                             7.0),
                                                     child: Icon(
-                                                      Icons.settings,
+                                                      Icons.bolt_rounded,
                                                       size: 40,
                                                       color: Colors.white,
                                                     ),
@@ -406,7 +467,7 @@ class _listareventosState extends State<listareventos> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      "Configuración",
+                                                      "Hazte premium",
                                                       style: TextStyle(
                                                           fontSize: 20,
                                                           fontWeight:

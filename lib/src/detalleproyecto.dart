@@ -36,10 +36,32 @@ class DetalleProyecto extends StatefulWidget {
 class _DetalleProyectoState extends State<DetalleProyecto> {
   int indiceproyecto;
   int identusuario;
+  String gestionavance;
+  String gestionrrhh;
+  String gestionmat;
+  String gestionfin;
   SharedPreferences sharedPreferences;
   void initState() {
+    getpermisos();
     getfechas();
     super.initState();
+  }
+
+  String url5 = 'http://gestionaproyecto.com/phpproyectotitulo/getPermisos.php';
+
+  Future<List> getpermisos() async {
+    final response = await http.post(Uri.parse(url5),
+        body: {"idproyecto": widget.idproyecto, "idusuario": widget.idusuario});
+    var datauser = json.decode(response.body);
+    setState(() {
+      gestionavance = datauser[0]['permiso'];
+      gestionfin = datauser[1]['permiso'];
+      gestionrrhh = datauser[2]['permiso'];
+      gestionmat = datauser[3]['permiso'];
+    });
+    print(datauser);
+
+    return datauser;
   }
 
   String url4 =
@@ -73,7 +95,7 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
     Widget cancelButton = FlatButton(
       child: Text("Cancelar"),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
       },
     );
     Widget continueButton = FlatButton(
@@ -93,13 +115,23 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
     );
 
     // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: Text("¿Está seguro de borrar el proyecto? "),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
+    print(widget.list[widget.index]['estado_proyecto']);
+    AlertDialog alert;
+    (widget.list[widget.index]['estado_proyecto'] == "En Progreso")
+        ? alert = AlertDialog(
+            content: Text(
+                "Solo se pueden eliminar los proyectos con estado Completado "),
+            actions: [
+              cancelButton,
+            ],
+          )
+        : alert = AlertDialog(
+            content: Text("¿Está seguro de borrar el proyecto? "),
+            actions: [
+              cancelButton,
+              continueButton,
+            ],
+          );
 
     // show the dialog
     showDialog(
@@ -160,14 +192,16 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                                 child: Row(
                                   children: [
                                     Icon(
-                                      Icons.location_city,
+                                      Icons.admin_panel_settings_rounded,
                                       color: Colors.white,
                                       size: 18,
                                     ),
-                                    new Text(
-                                      widget.list[widget.index]['nombrecomuna'],
-                                      style: new TextStyle(
-                                          fontSize: 17.0, color: Colors.white),
+                                    Text(
+                                      "Rol: " +
+                                          widget.list[widget.index]
+                                              ['nombrecargo'],
+                                      style: TextStyle(
+                                          fontSize: 17, color: Colors.white),
                                     ),
                                   ],
                                 ),
@@ -178,14 +212,14 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                                 child: Row(
                                   children: [
                                     Icon(
-                                      Icons.admin_panel_settings_rounded,
+                                      Icons.settings,
                                       color: Colors.white,
                                       size: 18,
                                     ),
                                     Text(
-                                      "Rol: " +
+                                      "Estado: " +
                                           widget.list[widget.index]
-                                              ['NombreRol'],
+                                              ['estado_proyecto'],
                                       style: TextStyle(
                                           fontSize: 17, color: Colors.white),
                                     ),
@@ -233,16 +267,20 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                         ),
                         Column(
                           children: [
-                            if (widget.list[widget.index]['CodigoRol'] == "1")
+                            if (widget.list[widget.index]['nombrecargo'] ==
+                                "Administrador")
                               Container(
                                 child: Column(
                                   children: [
                                     GestureDetector(
                                       onTap: () => {
-                                        Navigator.of(context).push(
+                                        Navigator.push(
+                                          context,
                                           new MaterialPageRoute(
-                                              builder: (BuildContext context) =>
+                                              builder: (context) =>
                                                   new EditarProyecto(
+                                                    list: widget.list,
+                                                    index: widget.index,
                                                     idproyecto:
                                                         widget.idproyecto,
                                                   )),
@@ -289,8 +327,7 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                                   ],
                                 ),
                               )
-                            else if (widget.list[widget.index]['CodigoRol'] ==
-                                "2")
+                            else
                               Column(
                                 children: [
                                   Container(
@@ -321,137 +358,150 @@ class _DetalleProyectoState extends State<DetalleProyecto> {
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                GestureDetector(
-                                    onTap: () => Navigator.of(context).push(
-                                          new MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  new GestionAvance(
-                                                    idproyecto:
-                                                        widget.idproyecto,
-                                                  )),
-                                        ),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                            width: 180,
-                                            child: Card(
-                                                child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(children: <Widget>[
-                                                Icon(Icons.addchart_rounded,
-                                                    size: 40),
-                                                Text(
-                                                  'Gestión\nde Avance',
-                                                  style:
-                                                      TextStyle(fontSize: 16),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ]),
-                                            ))),
-                                      ],
-                                    )),
-                                GestureDetector(
-                                    onTap: () => Navigator.of(context).push(
-                                          new MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  new GestionRRHH(
-                                                    idproyecto:
-                                                        widget.idproyecto,
-                                                    idusuario: widget.idusuario,
-                                                  )),
-                                        ),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                            width: 180,
-                                            child: Card(
-                                                child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(children: <Widget>[
-                                                Icon(
-                                                    Icons
-                                                        .supervised_user_circle_rounded,
-                                                    size: 40),
-                                                Text(
-                                                  'Gestión\nde RRHH',
-                                                  style:
-                                                      TextStyle(fontSize: 16),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ]),
-                                            ))),
-                                      ],
-                                    ))
+                                if (gestionavance == '1')
+                                  GestureDetector(
+                                      onTap: () => Navigator.of(context).push(
+                                            new MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        new GestionAvance(
+                                                          idproyecto:
+                                                              widget.idproyecto,
+                                                        )),
+                                          ),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              width: 180,
+                                              child: Card(
+                                                  child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child:
+                                                    Column(children: <Widget>[
+                                                  Icon(Icons.addchart_rounded,
+                                                      size: 40),
+                                                  Text(
+                                                    'Gestión\nde Avance',
+                                                    style:
+                                                        TextStyle(fontSize: 16),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ]),
+                                              ))),
+                                        ],
+                                      )),
+                                if (gestionrrhh == '1')
+                                  GestureDetector(
+                                      onTap: () => Navigator.of(context).push(
+                                            new MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        new GestionRRHH(
+                                                          idproyecto:
+                                                              widget.idproyecto,
+                                                          idusuario:
+                                                              widget.idusuario,
+                                                        )),
+                                          ),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              width: 180,
+                                              child: Card(
+                                                  child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child:
+                                                    Column(children: <Widget>[
+                                                  Icon(
+                                                      Icons
+                                                          .supervised_user_circle_rounded,
+                                                      size: 40),
+                                                  Text(
+                                                    'Gestión\nde RRHH',
+                                                    style:
+                                                        TextStyle(fontSize: 16),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ]),
+                                              ))),
+                                        ],
+                                      ))
                               ])),
                       Container(
                           margin: EdgeInsets.all(6.0),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                GestureDetector(
-                                    onTap: () => Navigator.of(context).push(
-                                          new MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  new GestionarMateriales(
-                                                    idproyecto:
-                                                        widget.idproyecto,
-                                                  )),
-                                        ),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                            width: 180,
-                                            child: Card(
-                                                child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(children: <Widget>[
-                                                Icon(Icons.extension_rounded,
-                                                    size: 40),
-                                                Text(
-                                                  'Gestión\nde Materiales',
-                                                  style:
-                                                      TextStyle(fontSize: 16),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ]),
-                                            ))),
-                                      ],
-                                    )),
-                                GestureDetector(
-                                    onTap: () => Navigator.of(context).push(
-                                          new MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  new GestionFinanciera(
-                                                    idproyecto:
-                                                        widget.idproyecto,
-                                                  )),
-                                        ),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                            width: 180,
-                                            child: Card(
-                                                child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(children: <Widget>[
-                                                Icon(
-                                                    Icons
-                                                        .monetization_on_rounded,
-                                                    size: 40),
-                                                Text(
-                                                  'Gestión \n financiera',
-                                                  style:
-                                                      TextStyle(fontSize: 16),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ]),
-                                            ))),
-                                      ],
-                                    ))
+                                if (gestionmat == '1')
+                                  GestureDetector(
+                                      onTap: () => Navigator.of(context).push(
+                                            new MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        new GestionarMateriales(
+                                                          idproyecto:
+                                                              widget.idproyecto,
+                                                        )),
+                                          ),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              width: 180,
+                                              child: Card(
+                                                  child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child:
+                                                    Column(children: <Widget>[
+                                                  Icon(Icons.extension_rounded,
+                                                      size: 40),
+                                                  Text(
+                                                    'Gestión\nde Materiales',
+                                                    style:
+                                                        TextStyle(fontSize: 16),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ]),
+                                              ))),
+                                        ],
+                                      )),
+                                if (gestionfin == '1')
+                                  GestureDetector(
+                                      onTap: () => Navigator.of(context).push(
+                                            new MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        new GestionFinanciera(
+                                                          idproyecto:
+                                                              widget.idproyecto,
+                                                        )),
+                                          ),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              width: 180,
+                                              child: Card(
+                                                  child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child:
+                                                    Column(children: <Widget>[
+                                                  Icon(
+                                                      Icons
+                                                          .monetization_on_rounded,
+                                                      size: 40),
+                                                  Text(
+                                                    'Gestión \n financiera',
+                                                    style:
+                                                        TextStyle(fontSize: 16),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ]),
+                                              ))),
+                                        ],
+                                      ))
                               ])),
                       Container(
                           margin: EdgeInsets.all(6.0),

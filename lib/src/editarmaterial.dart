@@ -22,7 +22,7 @@ class EditarMaterial extends StatefulWidget {
 
 class _EditarMaterialState extends State<EditarMaterial> {
   String url =
-      'http://gestionaproyecto.com/phpproyectotitulo/InsertMaterial.php';
+      'http://gestionaproyecto.com/phpproyectotitulo/EditarMaterial.php';
   var datauser2;
 
   TextEditingController controllernombre = new TextEditingController();
@@ -65,7 +65,7 @@ class _EditarMaterialState extends State<EditarMaterial> {
 
   Future<List> insertmaterial() async {
     final response = await http.post(Uri.parse(url), body: {
-      "idproyecto": widget.idproyecto,
+      "idmaterial": widget.idmaterial,
       "nombrerecurso": controllernombre.text,
       "stockinicial": controllerstock.text,
     });
@@ -111,7 +111,7 @@ class _EditarMaterialState extends State<EditarMaterial> {
     Widget cancelButton = FlatButton(
       child: Text("Cancelar"),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
       },
     );
     Widget continueButton = FlatButton(

@@ -33,7 +33,7 @@ class _DetalleMovState extends State<DetalleMov> {
     Widget cancelButton = FlatButton(
       child: Text("Cancelar"),
       onPressed: () {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop('dialog');
       },
     );
     Widget continueButton = FlatButton(
@@ -110,21 +110,50 @@ class _DetalleMovState extends State<DetalleMov> {
                 Text("Cargando información...")
               else
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     new Padding(
                       padding: const EdgeInsets.only(
                         top: 30.0,
                       ),
                     ),
-                    new Text(
-                      titulo,
-                      style: new TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.bold),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25.0),
+                      child: new Text(
+                        titulo,
+                        style: new TextStyle(
+                            fontSize: 30.0, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                    new Text(
-                      ingreso,
-                      style: new TextStyle(fontSize: 20.0),
-                    ),
+                    (idtipomovimiento == '1')
+                        ? Padding(
+                            padding: const EdgeInsets.only(left: 25.0),
+                            child: Container(
+                                color: Colors.green,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Text(
+                                    "Ingreso",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15),
+                                  ),
+                                )),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.only(left: 25.0),
+                            child: Container(
+                                color: Colors.red,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Text(
+                                    "Gasto",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15),
+                                  ),
+                                )),
+                          ),
                     Divider(),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -147,7 +176,7 @@ class _DetalleMovState extends State<DetalleMov> {
                               "Movimiento :\n\$" + ingreso,
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 25,
                               ),
                             ),
                           ),
@@ -176,7 +205,7 @@ class _DetalleMovState extends State<DetalleMov> {
                               "Fecha movimiento :\n" + fechapublicacion,
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 25,
                               ),
                             ),
                           ),

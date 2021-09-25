@@ -62,6 +62,11 @@ class _EditarReporteState extends State<EditarReporte> {
   Future<List> editarreporte() async {
     DateTime fechahoy = DateTime.now();
     String auxfecha = fechahoy.toString();
+    print(fechafinal);
+    if (fechafinal == null) {
+      fechafinal = textofecha;
+    }
+    print(fechafinal);
     final response = await http.post(Uri.parse(url), body: {
       "fechahoy": auxfecha,
       "fechareporte": fechafinal,
@@ -139,6 +144,7 @@ class _EditarReporteState extends State<EditarReporte> {
       child: Text("Continuar"),
       onPressed: () {
         Navigator.of(context, rootNavigator: true).pop('dialog');
+        Navigator.pop(context);
         Navigator.pop(context);
         Navigator.pop(context);
         Navigator.push(
@@ -448,15 +454,17 @@ class _EditarReporteState extends State<EditarReporte> {
                                 seccionseleccionada == null) {
                               showAlertDialogerror(context);
                             } else {
+                              print("holaaaa");
                               DateTime fechaaux = DateTime.now();
-                              if (fechaaux.difference(fechareporte).inDays >=
-                                  0) {
-                                print(fechaaux.difference(fechareporte).inDays);
-                                showAlertDialog(context);
-                              } else {
-                                showAlertDialogerrorfecha(context);
-                                print(fechaaux.difference(fechareporte).inDays);
-                              }
+                              showAlertDialog(context);
+
+                              // if (fechaaux.difference(fechareporte).inDays >=
+                              //     0) {
+                              //   print(fechaaux.difference(fechareporte).inDays);
+                              // } else {
+                              //   showAlertDialogerrorfecha(context);
+                              //   print(fechaaux.difference(fechareporte).inDays);
+                              // }
                             }
 
                             //login();

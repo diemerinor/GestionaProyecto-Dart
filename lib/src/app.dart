@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:gestionaproyecto/main.dart';
 import 'package:flutter/material.dart';
+import 'package:gestionaproyecto/src/haztepremium.dart';
 import 'package:gestionaproyecto/src/homescreen.dart';
 import 'package:gestionaproyecto/src/recomendados.dart';
 import 'package:gestionaproyecto/src/Notificaciones.dart';
@@ -159,36 +160,48 @@ class _MyHomePageState extends State<MyHomePage> {
               title: Row(
                 children: [
                   Icon(
-                    Icons.settings,
+                    Icons.bolt_rounded,
                     size: 20,
                   ),
                   Padding(padding: EdgeInsets.only(right: 10)),
                   Text(
-                    'Configuración',
+                    'Hazte Premium',
                     style: TextStyle(fontSize: 20),
                   ),
                 ],
               ),
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HaztePremium(
+                              idusuario: identificadorusuario,
+                            )));
               },
             ),
             ListTile(
               title: Row(
                 children: [
                   Icon(
-                    Icons.help,
+                    Icons.mobile_friendly_sharp,
                     size: 20,
                   ),
                   Padding(padding: EdgeInsets.only(right: 10)),
                   Text(
-                    'Ayuda',
+                    'Mis Contactos',
                     style: TextStyle(fontSize: 20),
                   ),
                 ],
               ),
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Contactos(
+                              idusuario: identificadorusuario,
+                            )));
               },
             ),
             Divider(
